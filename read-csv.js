@@ -12,7 +12,7 @@ const readCsv = (src) => {
 	one.pipe(two).pipe(three)
 	one.once('error', err => two.destroy(err))
 	two.once('error', err => three.destroy(err))
-	return two
+	return three
 }
 
 module.exports = readCsv
