@@ -11,10 +11,10 @@ const filter = (stopover) => (
 )
 
 const times = computeStopoverTimes({
-	services: source('calendar.csv'),
-	serviceExceptions: source('calendar_dates.csv'),
-	trips: source('trips.csv'),
-	stopovers: source('stop_times.csv')
+	services: source('calendar.txt'),
+	serviceExceptions: source('calendar_dates.txt'),
+	trips: source('trips.txt'),
+	stopovers: source('stop_times.txt')
 }, {stopover: filter}, 'Europe/Berlin')
 
 times.on('data', console.log)

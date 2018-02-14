@@ -5,7 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
 [![build status](https://api.travis-ci.org/public-transport/gtfs-utils.svg?branch=master)](https://travis-ci.org/public-transport/gtfs-utils)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/gtfs-utils.svg)
-[![chat with me on Gitter](https://img.shields.io/badge/chat%20with%20me-on%20gitter-512e92.svg)](https://gitter.im/public-transport)
+[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
 
 
 ## Installing
@@ -27,7 +27,7 @@ readCsv('path-to-file.csv')
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) on [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) with CSV *as text*.
 
 ### `parseDate(dateStr, timezone)`
 
