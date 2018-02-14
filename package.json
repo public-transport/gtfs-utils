@@ -5,6 +5,7 @@
 	"files": [
 		"parse-date.js",
 		"parse-time.js",
+		"read-csv.js",
 		"compute-stopover-times.js",
 		"lib"
 	],
@@ -22,7 +23,8 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"luxon": "^0.4.0"
+		"luxon": "^0.4.0",
+		"strip-bom-stream": "^3.0.0"
 	},
 	"devDependencies": {
 		"tap-min": "^1.2.2",
