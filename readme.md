@@ -27,7 +27,7 @@ readCsv('path-to-file.csv')
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) with CSV *as text*.
+Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) on [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
 
 ### `parseDate(dateStr, timezone)`
 
