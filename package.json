@@ -1,0 +1,30 @@
+{
+	"name": "gtfs-utils",
+	"description": "Utilities to process GTFS data sets.",
+	"version": "0.1.0",
+	"files": [
+	],
+	"keywords": [
+		"gtfs",
+		"public transport",
+		"transit"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/gtfs-utils",
+	"repository": "derhuerst/gtfs-utils",
+	"bugs": "https://github.com/derhuerst/gtfs-utils/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"tap-min": "^1.2.2",
+		"tape": "^4.8.0"
+	},
+	"scripts": {
+		"test": "env NODE_ENV=dev node test.js | tap-min",
+		"prepublishOnly": "npm test"
+	}
+}
