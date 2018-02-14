@@ -3,6 +3,8 @@
 	"description": "Utilities to process GTFS data sets.",
 	"version": "0.1.0",
 	"files": [
+		"parse-date.js",
+		"lib"
 	],
 	"keywords": [
 		"gtfs",
@@ -18,6 +20,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
+		"luxon": "^0.4.0"
 	},
 	"devDependencies": {
 		"tap-min": "^1.2.2",
