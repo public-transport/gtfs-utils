@@ -5,6 +5,7 @@ const {DateTime} = require('luxon')
 const test = require('tape')
 
 const parseDate = require('./parse-date')
+const parseTime = require('./parse-time')
 const daysBetween = require('./lib/days-between')
 
 const utc = 'Etc/UTC'
@@ -15,6 +16,15 @@ test('parse-date', (t) => {
 	t.equal(parseDate('20190303', utc), 1551571200)
 	t.equal(parseDate('20190303', berlin), 1551567600)
 	t.equal(parseDate('20190303', 'Asia/Bangkok'), 1551546000)
+})
+
+test('parse-time', (t) => {
+	t.plan(3 + 2)
+	t.throws(() => parseTime())
+	t.throws(() => parseTime(''))
+	t.throws(() => parseTime('1:2:3'))
+	t.deepEqual(parseTime('21:30'), {hours: 21, minutes: 30, seconds: null})
+	t.deepEqual(parseTime('21:30:01'), {hours: 21, minutes: 30, seconds: 1})
 })
 
 test('lib/days-between', (t) => {
@@ -43,6 +53,7 @@ test('lib/days-between', (t) => {
 	t.equal(daysBetween('20190303', '20190313', allWeekdays, berlin).length, 11)
 
 	const many = daysBetween('20190303', '20190703', allWeekdays, berlin)
+	t.ok(Array.isArray(many))
 	for (let ts of many) {
 		const d = DateTime.fromMillis(ts * 1000, {zone: berlin})
 		if (d.hour !== 0) console.error(ts)

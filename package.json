@@ -4,6 +4,8 @@
 	"version": "0.1.0",
 	"files": [
 		"parse-date.js",
+		"parse-time.js",
+		"compute-stopover-times.js",
 		"lib"
 	],
 	"keywords": [
