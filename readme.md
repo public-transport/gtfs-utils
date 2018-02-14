@@ -1,5 +1,7 @@
 # gtfs-utils
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/public-transport/gtfs-utils.svg)](https://greenkeeper.io/)
+
 **Utilities to process [GTFS](https://developers.google.com/transit/gtfs/) data sets.**
 
 [![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
