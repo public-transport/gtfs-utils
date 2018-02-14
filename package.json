@@ -15,9 +15,9 @@
 		"transit"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/derhuerst/gtfs-utils",
-	"repository": "derhuerst/gtfs-utils",
-	"bugs": "https://github.com/derhuerst/gtfs-utils/issues",
+	"homepage": "https://github.com/public-transport/gtfs-utils",
+	"repository": "public-transport/gtfs-utils",
+	"bugs": "https://github.com/public-transport/gtfs-utils/issues",
 	"license": "ISC",
 	"engines": {
 		"node": ">=6"
