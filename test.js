@@ -1,12 +1,19 @@
 'use strict'
 
 const {DateTime} = require('luxon')
-
 const test = require('tape')
 
 const parseDate = require('./parse-date')
 const parseTime = require('./parse-time')
 const daysBetween = require('./lib/days-between')
+// const computeStopoverTimes = require('./compute-stopover-times')
+
+// const data = {
+// 	services: require('sample-gtfs-feed/json/calendar.json'),
+// 	exceptions: require('sample-gtfs-feed/json/calendar_dates.json'),
+// 	trips: require('sample-gtfs-feed/json/trips.json'),
+// 	stopovers: require('sample-gtfs-feed/json/stop_times.json')
+// }
 
 const utc = 'Etc/UTC'
 const berlin = 'Europe/Berlin'
@@ -66,6 +73,7 @@ test('lib/days-between', (t) => {
 	t.end()
 })
 
-test('compute-trip-starts', (t) => {
+test('compute-stopover-times', (t) => {
 	// todo
+	t.end()
 })
