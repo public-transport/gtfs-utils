@@ -28,7 +28,7 @@ const readTrips = (data, filter) => {
 		const acc = Object.create(null) // by ID
 		data.on('data', (t) => {
 			if (!filter(t)) return null
-			acc[t.trip_id] = t.service_id
+			acc[t.trip_id] = {serviceId: t.service_id, routeId: t.route_id}
 		})
 	})
 }
@@ -116,7 +116,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		.then(s => applyServiceExceptions(s, data.serviceExceptions, timezone)),
 		readTrips(data.trips, filters.trip)
 	])
-	.then(([services, serviceIdsByTripId]) => {
+	.then(([services, trips]) => {
 		const s = data.stopovers
 		s.once('error', (err) => {
 			s.destroy()
@@ -129,7 +129,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		s.on('data', (s) => {
 			if (!filters.stopover(s)) return null
 
-			const serviceId = serviceIdsByTripId[s.trip_id]
+			const {serviceId, routeId} = trips[s.trip_id]
 			const days = services[serviceId]
 			if (!days) return null
 
@@ -139,6 +139,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 					stop_id: s.stop_id,
 					trip_id: s.trip_id,
 					service_id: serviceId,
+					route_id: routeId,
 					sequence: s.stop_sequence,
 					start_of_trip: day,
 					arrival: d.plus(parseTime(s.arrival_time)) / 1000 | 0,

@@ -17,4 +17,5 @@ const times = computeStopoverTimes({
 	stopovers: source('stop_times.txt')
 }, {stopover: filter}, 'Europe/Berlin')
 
+times.on('error', console.error)
 times.on('data', console.log)

@@ -88,6 +88,7 @@ A single item from the stream may look like this:
 	stop_id: 'airport',
 	trip_id: 'b-downtown-on-working-days',
 	service_id: 'on-working-days',
+	route_id: 'B',
 	sequence: '1',
 	start_of_trip: 1563573600,
 	arrival: 1557486780,
