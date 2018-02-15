@@ -134,14 +134,15 @@ const computeStopoverTimes = (data, filters, timezone) => {
 			if (!days) return null
 
 			for (let day of days) {
-				day = DateTime.fromMillis(day * 1000, {zone: timezone})
+				const d = DateTime.fromMillis(day * 1000, {zone: timezone})
 				out.push({
 					stop_id: s.stop_id,
 					trip_id: s.trip_id,
 					service_id: serviceId,
 					sequence: s.stop_sequence,
-					arrival: day.plus(parseTime(s.arrival_time)) / 1000 | 0,
-					departure: day.plus(parseTime(s.departure_time)) / 1000 | 0
+					start_of_trip: day,
+					arrival: d.plus(parseTime(s.arrival_time)) / 1000 | 0,
+					departure: d.plus(parseTime(s.departure_time)) / 1000 | 0
 				})
 			}
 		})

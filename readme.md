@@ -89,6 +89,7 @@ A single item from the stream may look like this:
 	trip_id: 'b-downtown-on-working-days',
 	service_id: 'on-working-days',
 	sequence: '1',
+	start_of_trip: 1563573600,
 	arrival: 1557486780,
 	departure: 1557486840
 }
