@@ -22,7 +22,7 @@ npm install gtfs-utils
 ```js
 const readCsv = require('gtfs-utils/read-csv')
 
-readCsv('path-to-file.csv')
+readCsv('path-to-file.txt')
 .on('error', console.error)
 .on('data', console.log)
 ```
@@ -52,6 +52,48 @@ parseTime('21:30:45')
 // {hours: 21, minutes: 30, seconds: 45}
 ```
 
+### `readServicesAndExceptions(readFile, timezone, filters)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readServices = require('gtfs-utils/read-services-and-exceptions')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filters = {
+	service: s => s.monday === '1',
+	serviceException: e => e.exception_type === '2'
+}
+
+readServices(readFile, 'Europe/Berlin', filters)
+.then(console.log)
+.catch(console.error)
+```
+
+Will read `calendar.txt` and `calendar_dates.txt` and condense each service into the a list of days it is valid for. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
+
+The result might look like this:
+
+```js
+{
+	'service-1': [
+		1551394800,
+		1551481200,
+		1551567600,
+		1551654000
+		// …
+	],
+	'service-2': [
+		1551567600,
+		1552690800,
+		1555797600
+	]
+	// …
+}
+```
+
+*Note*: In order to work, `readServicesAndExceptions` will load (a reduced form of) `calendar.txt` and `calendar_dates.txt` into memory. This might fail with huge data sets.
+
 ### `computeStopoverTimes(data, filters, timezone)`
 
 ```js
@@ -64,10 +106,10 @@ const filters = {
 	stopover: s => s.stop_id === 'some-stop-id'
 }
 const stopovers = computeStopoverTimes({
-	services: readCsv('path/to/calendar.csv'),
-	serviceExceptions: readCsv('path/to/calendar_dates.csv'),
-	trips: readCsv('path/to/trips.csv'),
-	stopovers: readCsv('path/to/stop_times.csv')
+	services: readCsv('path/to/calendar.txt'),
+	serviceExceptions: readCsv('path/to/calendar_dates.txt'),
+	trips: readCsv('path/to/trips.txt'),
+	stopovers: readCsv('path/to/stop_times.txt')
 }, filters, 'Europe/Berlin')
 
 stopovers
@@ -95,6 +137,8 @@ A single item from the stream may look like this:
 	departure: 1557486840
 }
 ```
+
+*Note*: In order to work, `computeStopoverTimes` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
 
 
 ## Contributing

@@ -5,8 +5,7 @@ const {DateTime} = require('luxon')
 const pump = require('pump')
 const through = require('through2')
 
-const daysBetween = require('./lib/days-between')
-const parseDate = require('./parse-date')
+const readServicesAndExceptions = require('./read-services-and-exceptions')
 const parseTime = require('./parse-time')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
@@ -35,58 +34,6 @@ const readTrips = (data, filter) => {
 	})
 }
 
-const readServices = (data, filter, timezone) => {
-	return new Promise((resolve, reject) => {
-		data.once('error', (err) => {
-			data.destroy()
-			reject(err)
-		})
-		data.once('end', () => {
-			resolve(acc)
-		})
-
-		const acc = Object.create(null) // by ID
-		data.on('data', (s) => {
-			if (!filter(s)) return null
-			const weekdays = {
-				monday: s.monday === '1',
-				tuesday: s.tuesday === '1',
-				wednesday: s.wednesday === '1',
-				thursday: s.thursday === '1',
-				friday: s.friday === '1',
-				saturday: s.saturday === '1',
-				sunday: s.sunday === '1'
-			}
-			acc[s.service_id] = daysBetween(s.start_date, s.end_date, weekdays, timezone)
-		})
-	})
-}
-
-const applyServiceExceptions = (acc, data, timezone) => {
-	return new Promise((resolve, reject) => {
-		data.once('error', (err) => {
-			data.destroy()
-			reject(err)
-		})
-		data.once('end', () => {
-			resolve(acc)
-		})
-
-		data.on('data', (s) => {
-			const days = acc[s.service_id]
-			if (!days) return null
-
-			const day = parseDate(s.date, timezone)
-			if (s.exception_type === '2') { // service removed
-				const i = days.indexOf(day)
-				days.splice(i, 1) // delete
-			} else if (s.exception_type === '1') { // service added
-				if (!days.includes(day)) days.push(day)
-			}
-		})
-	})
-}
-
 // todo: stopover.stop_timezone
 const computeStopoverTimes = (data, filters, timezone) => {
 	if (!isObj(data)) throw new Error('data must be an object.')
@@ -96,6 +43,11 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		throw new Error('data.serviceExceptions must be a stream.')
 	}
 	if (!data.stopovers) throw new Error('data.stopovers must be a stream.')
+	const readFile = (file) => {
+		if (file === 'calendar') return data.services
+		if (file === 'calendar_dates') return data.serviceExceptions
+		throw new Error('unsupported file ' + file)
+	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
 	filters = Object.assign({}, noFilters, filters)
@@ -114,8 +66,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 	})
 
 	Promise.all([
-		readServices(data.services, filters.service, timezone)
-		.then(s => applyServiceExceptions(s, data.serviceExceptions, timezone)),
+		readServicesAndExceptions(readFile, timezone, filters),
 		readTrips(data.trips, filters.trip)
 	])
 	.then(([services, trips]) => {
