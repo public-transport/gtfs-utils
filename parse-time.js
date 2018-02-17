@@ -1,6 +1,6 @@
 'use strict'
 
-const timeFormat = /^\d{2}:\d{2}(:\d{2})?$/
+const timeFormat = /^\d{1,2}:\d{2}(:\d{2})?$/
 
 const parseTime = (str) => {
 	if ('string' !== typeof str) throw new Error('str must be a string.')

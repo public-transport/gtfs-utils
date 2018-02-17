@@ -126,25 +126,33 @@ const computeStopoverTimes = (data, filters, timezone) => {
 			out.push(null) // end
 		})
 
+		let row = 0
 		s.on('data', (s) => {
+			row++
 			if (!filters.stopover(s)) return null
 
 			const {serviceId, routeId} = trips[s.trip_id]
 			const days = services[serviceId]
 			if (!days) return null
 
-			for (let day of days) {
-				const d = DateTime.fromMillis(day * 1000, {zone: timezone})
-				out.push({
-					stop_id: s.stop_id,
-					trip_id: s.trip_id,
-					service_id: serviceId,
-					route_id: routeId,
-					sequence: s.stop_sequence,
-					start_of_trip: day,
-					arrival: d.plus(parseTime(s.arrival_time)) / 1000 | 0,
-					departure: d.plus(parseTime(s.departure_time)) / 1000 | 0
-				})
+			try {
+				for (let day of days) {
+					const d = DateTime.fromMillis(day * 1000, {zone: timezone})
+					out.push({
+						stop_id: s.stop_id,
+						trip_id: s.trip_id,
+						service_id: serviceId,
+						route_id: routeId,
+						sequence: s.stop_sequence,
+						start_of_trip: day,
+						arrival: d.plus(parseTime(s.arrival_time)) / 1000 | 0,
+						departure: d.plus(parseTime(s.departure_time)) / 1000 | 0
+					})
+				}
+			} catch (err) {
+				err.row = row
+				err.message += ' – row ' + row
+				throw err
 			}
 		})
 	})
