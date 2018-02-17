@@ -16,8 +16,9 @@ const noFilters = {
 	stopover: () => true
 }
 
-const readTrips = (data, filter) => {
+const readTrips = (readFile, filter) => {
 	return new Promise((resolve, reject) => {
+		const data = readFile('trips')
 		data.once('error', (err) => {
 			data.destroy()
 			reject(err)
@@ -35,18 +36,9 @@ const readTrips = (data, filter) => {
 }
 
 // todo: stopover.stop_timezone
-const computeStopoverTimes = (data, filters, timezone) => {
-	if (!isObj(data)) throw new Error('data must be an object.')
-	if (!data.trips) throw new Error('data.trips must be a stream.')
-	if (!data.services) throw new Error('data.services must be a stream.')
-	if (!data.serviceExceptions) {
-		throw new Error('data.serviceExceptions must be a stream.')
-	}
-	if (!data.stopovers) throw new Error('data.stopovers must be a stream.')
-	const readFile = (file) => {
-		if (file === 'calendar') return data.services
-		if (file === 'calendar_dates') return data.serviceExceptions
-		throw new Error('unsupported file ' + file)
+const computeStopoverTimes = (readFile, filters, timezone) => {
+	if ('function' !== typeof readFile) {
+		throw new Error('readFile must be a function.')
 	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
@@ -67,7 +59,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 
 	Promise.all([
 		readServicesAndExceptions(readFile, timezone, filters),
-		readTrips(data.trips, filters.trip)
+		readTrips(readFile, filters.trip)
 	])
 	.then(([services, trips]) => {
 		let row = 0
@@ -102,7 +94,7 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		}
 
 		pump(
-			data.stopovers,
+			readFile('stop_times'),
 			through.obj(onStopover),
 			out,
 			(err) => {

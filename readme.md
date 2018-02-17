@@ -94,32 +94,29 @@ The result might look like this:
 
 *Note*: In order to work, `readServicesAndExceptions` will load (a reduced form of) `calendar.txt` and `calendar_dates.txt` into memory. This might fail with huge data sets.
 
-### `computeStopoverTimes(data, filters, timezone)`
+### `computeStopoverTimes(readFile, filters, timezone)`
 
 ```js
-const computeStopoverTimes = require('gtfs-utils/compute-stopover-times')
 const readCsv = require('gtfs-utils/read-csv')
+const computeStopoverTimes = require('gtfs-utils/compute-stopover-times')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
 const filters = {
 	service: s => s.monday === '1',
 	trip: t => t.route_id === 'A',
 	stopover: s => s.stop_id === 'some-stop-id'
 }
-const stopovers = computeStopoverTimes({
-	services: readCsv('path/to/calendar.txt'),
-	serviceExceptions: readCsv('path/to/calendar_dates.txt'),
-	trips: readCsv('path/to/trips.txt'),
-	stopovers: readCsv('path/to/stop_times.txt')
-}, filters, 'Europe/Berlin')
+const stopovers = computeStopoverTimes(readFile, filters, 'Europe/Berlin')
 
 stopovers
 .on('error', console.error)
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) on [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
 
-- `data` must be an object, with four fields `services`, `serviceExceptions`, `trips`, `stopovers`, each with the respective readable stream.
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
 - `filters` must be an object; It may have the fields `service`, `trip`, `stopover`, each with a filter function.
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
 
