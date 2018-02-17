@@ -1,7 +1,9 @@
 'use strict'
 
-const {Readable} = require('stream')
+const {PassThrough} = require('stream')
 const {DateTime} = require('luxon')
+const pump = require('pump')
+const through = require('through2')
 
 const daysBetween = require('./lib/days-between')
 const parseDate = require('./parse-date')
@@ -107,8 +109,8 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		throw new Error('filters.stopover must be a function.')
 	}
 
-	const out = new Readable({
-		objectMode: true, read: () => {}
+	const out = new PassThrough({ // todo: make this more efficient
+		objectMode: true
 	})
 
 	Promise.all([
@@ -117,28 +119,19 @@ const computeStopoverTimes = (data, filters, timezone) => {
 		readTrips(data.trips, filters.trip)
 	])
 	.then(([services, trips]) => {
-		const s = data.stopovers
-		s.once('error', (err) => {
-			s.destroy()
-			out.destroy(err)
-		})
-		s.once('end', () => {
-			out.push(null) // end
-		})
-
 		let row = 0
-		s.on('data', (s) => {
+		const onStopover = function (s, _, cb) {
 			row++
-			if (!filters.stopover(s)) return null
+			if (!filters.stopover(s)) return cb()
 
 			const {serviceId, routeId} = trips[s.trip_id]
 			const days = services[serviceId]
-			if (!days) return null
+			if (!days) return cb()
 
 			try {
 				for (let day of days) {
 					const d = DateTime.fromMillis(day * 1000, {zone: timezone})
-					out.push({
+					this.push({
 						stop_id: s.stop_id,
 						trip_id: s.trip_id,
 						service_id: serviceId,
@@ -149,12 +142,22 @@ const computeStopoverTimes = (data, filters, timezone) => {
 						departure: d.plus(parseTime(s.departure_time)) / 1000 | 0
 					})
 				}
+				cb()
 			} catch (err) {
 				err.row = row
 				err.message += ' – row ' + row
-				throw err
+				return cb(err)
 			}
-		})
+		}
+
+		pump(
+			data.stopovers,
+			through.obj(onStopover),
+			out,
+			(err) => {
+				if (err) out.emit('error', err)
+			}
+		)
 	})
 	.catch((err) => {
 		out.destroy(err)
