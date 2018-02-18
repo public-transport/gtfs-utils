@@ -27,7 +27,7 @@ readCsv('path-to-file.txt')
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) on [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
 
 ### `readTrips(readFile, filter)`
 
@@ -171,11 +171,11 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 ```js
 {
 	signature: '248tGP',
-	trips: [
+	trips: {
 		// The trip `a downtown-all-day` follows this schedule and starts
 		// 55380 seconds after midnight on each day it runs.
-		{tripId: 'a-downtown-all-day', start: 55380}
-	],
+		'a-downtown-all-day': 55380
+	},
 	// Arrives at 0s at `airport`, departs 30s later.
 	// Arrives at 420s at `museum`, departs 60s later.
 	// Arrives at 720s at `center`, departs 90s later.
@@ -200,8 +200,8 @@ const filters = {
 
 computeSchedules(readFile, filters)
 .then((schedules) => {
-	const schedule = schedules[Object.keys(schedules)[0]]
-	console.log(schedule)
+	const someSchedule = schedules[Object.keys(schedules)[0]]
+	console.log(someSchedule)
 })
 .catch(console.error)
 ```
