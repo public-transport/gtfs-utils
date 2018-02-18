@@ -1,13 +1,14 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"files": [
 		"parse-date.js",
 		"parse-time.js",
 		"read-csv.js",
 		"read-services-and-exceptions.js",
 		"compute-stopover-times.js",
+		"compute-schedules.js",
 		"lib"
 	],
 	"keywords": [
