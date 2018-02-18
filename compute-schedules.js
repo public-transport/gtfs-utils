@@ -4,37 +4,11 @@ const shorthash = require('shorthash').unique
 const recordSort = require('sort-array-by-another')
 
 const parseTime = require('./parse-time')
+const readTrips = require('./read-trips')
 
 const noFilters = {
 	trip: () => true,
 	stopover: () => true
-}
-
-// todo: DRY with ./compute-stopover-times
-const readTrips = (readFile, filter) => {
-	return new Promise((resolve, reject) => {
-		const data = readFile('trips')
-		data.once('error', (err) => {
-			reject(err)
-			data.destroy(err)
-		})
-		data.once('end', (err) => {
-			if (!err) setImmediate(resolve, acc)
-		})
-
-		const acc = Object.create(null) // by ID
-		data.on('data', (t) => {
-			if (!filter(t)) return null
-			acc[t.trip_id] = {
-				signature: null, // to be used later
-				trips: [t.trip_id],
-				sequence: [], // stop_times[].stop_sequence mumbers
-				stops: [], // stop IDs
-				arrivals: [], // timestamps
-				departures: [] // timestamps
-			}
-		})
-	})
 }
 
 // relative to the beginning to the day
@@ -121,6 +95,21 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 	}
 
 	return readTrips(readFile, filters.trip)
+	.then((trips) => {
+		// Reading all of trips.txt only to throw everything away is ridiculous.
+		// todo: find a more efficient way
+		for (let tripId in trips) {
+			trips[tripId] = {
+				signature: null, // to be used later
+				trips: [tripId],
+				sequence: [], // stop_times[].stop_sequence mumbers
+				stops: [], // stop IDs
+				arrivals: [], // timestamps
+				departures: [] // timestamps
+			}
+		}
+		return trips
+	})
 	.then((trips) => applyStopovers(trips, readFile, filters.stopover))
 	.then((trips) => {
 		// deduplicate by signature

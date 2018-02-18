@@ -29,6 +29,33 @@ readCsv('path-to-file.txt')
 
 Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) on [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
 
+### `readTrips(readFile, filter)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readTrips = require('gtfs-utils/read-csv')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filter = t => t.route_id === 'A'
+
+readTrips(readFile, filter)
+.then((trips) => {
+	const someTrip = trips[Object.keys(trips)[0]]
+	console.log(someTrip)
+})
+```
+
+```js
+{
+	trip_id: 'a-downtown-all-day',
+	route_id: 'A',
+	service_id: 'all-day'
+}
+```
+
+Will read `trips.txt` and reduce it into a map `tripId => trip`. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
+
 ### `parseDate(dateStr, timezone)`
 
 ```js

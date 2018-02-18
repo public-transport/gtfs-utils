@@ -6,6 +6,7 @@ const pump = require('pump')
 const through = require('through2')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
+const readTrips = require('./read-trips')
 const parseTime = require('./parse-time')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
@@ -14,26 +15,6 @@ const noFilters = {
 	service: () => true,
 	trip: () => true,
 	stopover: () => true
-}
-
-// todo: DRY with ./compute-schedules
-const readTrips = (readFile, filter) => {
-	return new Promise((resolve, reject) => {
-		const data = readFile('trips')
-		data.once('error', (err) => {
-			reject(err)
-			data.destroy(err)
-		})
-		data.once('end', (err) => {
-			if (!err) setImmediate(resolve, acc)
-		})
-
-		const acc = Object.create(null) // by ID
-		data.on('data', (t) => {
-			if (!filter(t)) return null
-			acc[t.trip_id] = {serviceId: t.service_id, routeId: t.route_id}
-		})
-	})
 }
 
 // todo: stopover.stop_timezone
@@ -63,6 +44,13 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		readTrips(readFile, filters.trip)
 	])
 	.then(([services, trips]) => {
+		for (let tripId in trips) {
+			trips[tripId] = {
+				serviceId: trips[tripId].service_id,
+				routeId: trips[tripId].route_id
+			}
+		}
+
 		let row = 0
 		const onStopover = function (s, _, cb) {
 			row++

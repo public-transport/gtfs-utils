@@ -6,6 +6,7 @@
 		"parse-date.js",
 		"parse-time.js",
 		"read-csv.js",
+		"read-trips.js",
 		"read-services-and-exceptions.js",
 		"compute-stopover-times.js",
 		"compute-schedules.js",
