@@ -14,10 +14,12 @@ const noFilters = {
 const readTrips = (readFile, filter) => {
 	return new Promise((resolve, reject) => {
 		const data = readFile('trips')
-		data.once('error', (err) => data.destroy(err))
+		data.once('error', (err) => {
+			reject(err)
+			data.destroy(err)
+		})
 		data.once('end', (err) => {
-			if (err) reject(err)
-			else resolve(acc)
+			if (!err) setImmediate(resolve, acc)
 		})
 
 		const acc = Object.create(null) // by ID
@@ -44,7 +46,10 @@ const parseTimeRelative = (str) => {
 const applyStopovers = (trips, readFile, filter) => {
 	return new Promise((resolve, reject) => {
 		const stopovers = readFile('stop_times')
-		stopovers.once('error', (err) => stopovers.destroy(err))
+		stopovers.once('error', (err) => {
+			reject(err)
+			stopovers.destroy(err)
+		})
 
 		stopovers.on('data', (s) => {
 			if (!filter(s)) return null
@@ -70,7 +75,7 @@ const applyStopovers = (trips, readFile, filter) => {
 				trip.departures = applySort(trip.departures)
 			}
 
-			resolve(trips)
+			setImmediate(resolve, trips)
 		})
 	})
 }
