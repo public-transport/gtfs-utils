@@ -1,7 +1,7 @@
 'use strict'
 
-const readCsv = require('./read-csv')
-const computeStopoverTimes = require('./compute-stopover-times')
+const readCsv = require('../read-csv')
+const computeStopoverTimes = require('../compute-stopover-times')
 
 const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))

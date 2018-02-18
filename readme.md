@@ -137,6 +137,52 @@ A single item from the stream may look like this:
 
 *Note*: In order to work, `computeStopoverTimes` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
 
+### `computeSchedules(readFile, filters, [computeSignature])`
+
+This utility computes what we called *schedules*, "patterns" by which vehicles visit stops. An example schedule:
+
+```js
+{
+	signature: '248tGP',
+	trips: [
+		// The trip `a downtown-all-day` follows this schedule and starts
+		// 55380 seconds after midnight on each day it runs.
+		{tripId: 'a-downtown-all-day', start: 55380}
+	],
+	// Arrives at 0s at `airport`, departs 30s later.
+	// Arrives at 420s at `museum`, departs 60s later.
+	// Arrives at 720s at `center`, departs 90s later.
+	stops: ['airport', 'museum', 'center'],
+	arrivals: [0, 420, 720],
+	departures: [30, 480, 810]
+}
+```
+
+*Schedules* reduce the implicit complexity of GTFS data sets a lot, because a schedule will contain *every* trip with its "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptionsreadfile-timezone-filters), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSchedules = require('gtfs-utils/compute-schedules')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filters = {
+	service: s => s.monday === '1',
+	serviceException: e => e.exception_type === '2'
+}
+
+computeSchedules(readFile, filters)
+.then((schedules) => {
+	const schedule = schedules[Object.keys(schedules)[0]]
+	console.log(schedule)
+})
+.catch(console.error)
+```
+
+Will read `trips.txt` and `stop_times.txt` and compute schedules from it. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
+
+*Note*: In order to work, `computeSchedules` will load (a reduced form of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
+
 
 ## Contributing
 

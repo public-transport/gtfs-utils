@@ -98,7 +98,7 @@ const applyStopovers = (trips, readFile, filter) => {
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-const defTripSig = (trip) => {
+const defComputeSig = (trip) => {
 	return shorthash(JSON.stringify([
 		trip.stops,
 		trip.arrivals,
@@ -106,7 +106,7 @@ const defTripSig = (trip) => {
 	]))
 }
 
-const computeSchedules = (readFile, filters = {}, tripSig = defTripSig) => {
+const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) => {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
 	}
@@ -128,7 +128,7 @@ const computeSchedules = (readFile, filters = {}, tripSig = defTripSig) => {
 
 		for (let tripId in trips) {
 			const trip = trips[tripId]
-			const signature = tripSig(trip)
+			const signature = computeSig(trip)
 			const trip2 = schedules[signature]
 
 			if (trip2) {
