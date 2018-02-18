@@ -171,11 +171,11 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 ```js
 {
 	signature: '248tGP',
-	trips: {
+	trips: [
 		// The trip `a downtown-all-day` follows this schedule and starts
 		// 55380 seconds after midnight on each day it runs.
-		'a-downtown-all-day': 55380
-	},
+		{tripId: 'a-downtown-all-day', start: 55380}
+	],
 	// Arrives at 0s at `airport`, departs 30s later.
 	// Arrives at 420s at `museum`, departs 60s later.
 	// Arrives at 720s at `center`, departs 90s later.

@@ -61,7 +61,7 @@ const applyStopovers = (trips, readFile, filter) => {
 
 				// store the start time per trip
 				for (let i = 0; i < trip.trips.length; i++) {
-					trip.trips[trip.trips[i]] = start
+					trip.trips[i] = {tripId: trip.trips[i], start}
 				}
 			}
 
