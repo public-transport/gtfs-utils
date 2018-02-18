@@ -27,7 +27,7 @@ const readTrips = (readFile, filter) => {
 			if (!filter(t)) return null
 			acc[t.trip_id] = {
 				signature: null, // to be used later
-				tripIds: [t.trip_id],
+				trips: [t.trip_id],
 				sequence: [], // stop_times[].stop_sequence mumbers
 				stops: [], // stop IDs
 				arrivals: [], // timestamps
@@ -58,8 +58,11 @@ const applyStopovers = (trips, readFile, filter) => {
 
 			trip.sequence.push(parseInt(s.stop_sequence))
 			trip.stops.push(s.stop_id)
-			trip.arrivals.push(parseTimeRelative(s.arrival_time))
-			trip.departures.push(parseTimeRelative(s.departure_time))
+
+			const arr = s.arrival_time ? parseTimeRelative(s.arrival_time) : null
+			const dep = s.departure_time ? parseTimeRelative(s.departure_time) : null
+			trip.arrivals.push(arr)
+			trip.departures.push(dep)
 		})
 
 		stopovers.once('end', (err) => {
@@ -73,6 +76,19 @@ const applyStopovers = (trips, readFile, filter) => {
 				trip.stops = applySort(trip.stops)
 				trip.arrivals = applySort(trip.arrivals)
 				trip.departures = applySort(trip.departures)
+
+				// make arrivals and departures relative to the first arrival
+				const start = trip.arrivals[0]
+				const l = trip.arrivals.length
+				for (let i = 0; i < l; i++) {
+					if (trip.arrivals[i] !== null) trip.arrivals[i] -= start
+					if (trip.departures[i] !== null) trip.departures[i] -= start
+				}
+
+				// store the start time per trip
+				for (let i = 0; i < trip.trips.length; i++) {
+					trip.trips[i] = {tripId: trip.trips[i], start}
+				}
 			}
 
 			setImmediate(resolve, trips)
@@ -116,7 +132,7 @@ const computeSchedules = (readFile, filters = {}, tripSig = defTripSig) => {
 			const trip2 = schedules[signature]
 
 			if (trip2) {
-				trip2.tripIds = trip2.tripIds.concat(trip.tripIds)
+				trip2.trips = trip2.trips.concat(trip.trips)
 			} else {
 				trip.signature = signature
 				schedules[signature] = trip
