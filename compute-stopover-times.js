@@ -16,6 +16,7 @@ const noFilters = {
 	stopover: () => true
 }
 
+// todo: DRY with ./compute-schedules
 const readTrips = (readFile, filter) => {
 	return new Promise((resolve, reject) => {
 		const data = readFile('trips')
