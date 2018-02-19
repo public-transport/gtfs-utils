@@ -35,67 +35,69 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		throw new Error('filters.stopover must be a function.')
 	}
 
-	const out = new PassThrough({ // todo: make this more efficient
-		objectMode: true
-	})
+	let services, trips
+
+	let row = 0
+	const onStopover = function (s, _, cb) {
+		row++
+		if (!filters.stopover(s)) return cb()
+
+		const {serviceId, routeId} = trips[s.trip_id]
+		const days = services[serviceId]
+		if (!days) return cb()
+
+		const arr = parseTime(s.arrival_time)
+		const dep = parseTime(s.departure_time)
+
+		try {
+			for (let day of days) {
+				const d = DateTime.fromMillis(day * 1000, {zone: timezone})
+				this.push({
+					stop_id: s.stop_id,
+					trip_id: s.trip_id,
+					service_id: serviceId,
+					route_id: routeId,
+					sequence: s.stop_sequence,
+					start_of_trip: day,
+					arrival: d.plus(arr) / 1000 | 0,
+					departure: d.plus(dep) / 1000 | 0
+				})
+			}
+			cb()
+		} catch (err) {
+			err.row = row
+			err.message += ' – row ' + row
+			return cb(err)
+		}
+	}
+
+	const parser = through.obj(onStopover)
 
 	Promise.all([
 		readServicesAndExceptions(readFile, timezone, filters),
 		readTrips(readFile, filters.trip)
 	])
-	.then(([services, trips]) => {
-		for (let tripId in trips) {
-			trips[tripId] = {
-				serviceId: trips[tripId].service_id,
-				routeId: trips[tripId].route_id
+	.then(([_services, _trips]) => {
+		services = _services
+		for (let tripId in _trips) {
+			_trips[tripId] = {
+				serviceId: _trips[tripId].service_id,
+				routeId: _trips[tripId].route_id
 			}
 		}
-
-		let row = 0
-		const onStopover = function (s, _, cb) {
-			row++
-			if (!filters.stopover(s)) return cb()
-
-			const {serviceId, routeId} = trips[s.trip_id]
-			const days = services[serviceId]
-			if (!days) return cb()
-
-			try {
-				for (let day of days) {
-					const d = DateTime.fromMillis(day * 1000, {zone: timezone})
-					this.push({
-						stop_id: s.stop_id,
-						trip_id: s.trip_id,
-						service_id: serviceId,
-						route_id: routeId,
-						sequence: s.stop_sequence,
-						start_of_trip: day,
-						arrival: d.plus(parseTime(s.arrival_time)) / 1000 | 0,
-						departure: d.plus(parseTime(s.departure_time)) / 1000 | 0
-					})
-				}
-				cb()
-			} catch (err) {
-				err.row = row
-				err.message += ' – row ' + row
-				return cb(err)
-			}
-		}
+		trips = _trips
 
 		pump(
 			readFile('stop_times'),
-			through.obj(onStopover),
-			out,
-			(err) => {
-				if (err) out.emit('error', err)
-			}
+			parser,
+			() => {}
 		)
 	})
 	.catch((err) => {
-		out.destroy(err)
+		parser.destroy(err)
 	})
 
-	return out
+	return parser
 }
 
 module.exports = computeStopoverTimes
