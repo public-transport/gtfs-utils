@@ -100,7 +100,7 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 		// todo: find a more efficient way
 		for (let tripId in trips) {
 			trips[tripId] = {
-				signature: null, // to be used later
+				id: null, // to be used later
 				trips: [tripId],
 				sequence: [], // stop_times[].stop_sequence mumbers
 				stops: [], // stop IDs
@@ -123,7 +123,7 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 			if (trip2) {
 				trip2.trips = trip2.trips.concat(trip.trips)
 			} else {
-				trip.signature = signature
+				trip.id = signature
 				schedules[signature] = trip
 			}
 		}

@@ -170,7 +170,7 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 
 ```js
 {
-	signature: '248tGP',
+	id: '248tGP', // signature
 	trips: [
 		// The trip `a downtown-all-day` follows this schedule and starts
 		// 55380 seconds after midnight on each day it runs.
