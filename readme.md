@@ -164,6 +164,42 @@ A single item from the stream may look like this:
 
 *Note*: In order to work, `computeStopoverTimes` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
 
+### `computeConnections(readFile, timezone, filter)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeConnections = require('gtfs-utils/compute-connections')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filter = stopover => stopover.stop_id === 'some-stop-id'
+
+computeConnections(readFile, 'Europe/Berlin', filter)
+.then((connectionSets) => {
+	for (let connections of connectionSets) {
+		for (let connection of connections) {
+			console.log(connection)
+		}
+		break
+	}
+})
+.catch(console.error)
+```
+
+```js
+{
+	trip_Id: 'b-outbound-on-working-days',
+	from_stop: 'center',
+	to_stop: 'lake',
+	departure: 65640,
+	arrival: 66000
+}
+```
+
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols).
+
+*Note*: In order to work, `computeConnections` will load (a reduced form of) `stop_times.txt` into memory. This might fail with huge data sets.
+
 ### `computeSchedules(readFile, filters, [computeSignature])`
 
 This utility computes what we called *schedules*, "patterns" by which vehicles visit stops. An example schedule:
