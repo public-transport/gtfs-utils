@@ -48,6 +48,10 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 		} // todo: else emit error
 	}
 
+	const sortServices = () => {
+		for (let id in acc) acc[id] = acc[id].sort()
+	}
+
 	return new Promise((resolve, reject) => {
 		const services = read('calendar')
 		services.on('data', onService)
@@ -59,8 +63,9 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 			exceptions.on('data', onException)
 			exceptions.once('error', () => exceptions.destroy(err))
 			exceptions.once('end', (err) => {
-				if (err) reject(err)
-				else resolve(acc)
+				if (err) return reject(err)
+				sortServices()
+				resolve(acc)
 			})
 		})
 	})
