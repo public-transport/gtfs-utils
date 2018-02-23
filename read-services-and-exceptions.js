@@ -55,13 +55,13 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 	return new Promise((resolve, reject) => {
 		const services = read('calendar')
 		services.on('data', onService)
-		services.once('error', () => services.destroy(err))
+		services.once('error', err => services.destroy(err))
 		services.once('end', (err) => {
 			if (err) return reject(err)
 
 			const exceptions = read('calendar_dates')
 			exceptions.on('data', onException)
-			exceptions.once('error', () => exceptions.destroy(err))
+			exceptions.once('error', err => exceptions.destroy(err))
 			exceptions.once('end', (err) => {
 				if (err) return reject(err)
 				sortServices()
