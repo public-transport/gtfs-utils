@@ -77,3 +77,8 @@ test('compute-stopover-times', (t) => {
 	// todo
 	t.end()
 })
+
+test('compute-sorted-connections', (t) => {
+	// todo
+	t.end()
+})

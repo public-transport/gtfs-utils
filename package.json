@@ -11,6 +11,7 @@
 		"compute-stopover-times.js",
 		"compute-schedules.js",
 		"compute-connections.js",
+		"compute-sorted-connections.js",
 		"lib"
 	],
 	"keywords": [
@@ -27,6 +28,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
+		"avl": "^1.4.3",
 		"csv-parser": "^1.12.0",
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",
