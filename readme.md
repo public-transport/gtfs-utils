@@ -33,7 +33,7 @@ Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_s
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
-const readTrips = require('gtfs-utils/read-csv')
+const readTrips = require('gtfs-utils/read-trips')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
