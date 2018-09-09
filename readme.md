@@ -246,6 +246,46 @@ Will read `trips.txt` and `stop_times.txt` and compute schedules from it. Return
 
 *Note*: In order to work, `computeSchedules` will load (a reduced form of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
 
+### `computeSortedConnections(readFile, filters, timezone)`
+
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [`avl` tree](https://www.npmjs.com/package/avl#api) of connections.
+
+*Note*: `computeSortedConnections` will load (reduced forms of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+computeSortedConnections(readFile, {}, 'Europe/Berlin')
+.then((sortedConnections) => {
+	const from = 1552324800 // UNIX timestamp
+	const to = 1552393800 // UNIX timestamp
+	sortedConnections.range(from, to, node => console.log(node.data))
+})
+.catch(console.error)
+```
+
+```js
+{
+	fromStop: 'lake',
+	departure: 1552324920,
+	toStop: 'airport',
+	arrival: 1552325400,
+	routeId: 'B',
+	serviceId: 'on-working-days'
+}
+{
+	fromStop: 'airport',
+	departure: 1552392840,
+	toStop: 'lake',
+	arrival: 1552393200,
+	routeId: 'B',
+	serviceId: 'on-working-days'
+}
+```
+
 
 ## Contributing
 
