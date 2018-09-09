@@ -262,7 +262,10 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 .then((sortedConnections) => {
 	const from = 1552324800 // UNIX timestamp
 	const to = 1552393800 // UNIX timestamp
-	sortedConnections.range(from, to, node => console.log(node.data))
+	sortedConnections.range(from, to, node => {
+		console.log(node.data)
+		return false // continue walking the build
+	})
 })
 .catch(console.error)
 ```

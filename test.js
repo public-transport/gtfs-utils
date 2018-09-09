@@ -3,10 +3,12 @@
 const {DateTime} = require('luxon')
 const test = require('tape')
 
+const readCsv = require('./read-csv')
 const parseDate = require('./parse-date')
 const parseTime = require('./parse-time')
 const daysBetween = require('./lib/days-between')
 // const computeStopoverTimes = require('./compute-stopover-times')
+const computeSortedConnections = require('./compute-sorted-connections')
 
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
@@ -14,6 +16,9 @@ const daysBetween = require('./lib/days-between')
 // 	trips: require('sample-gtfs-feed/json/trips.json'),
 // 	stopovers: require('sample-gtfs-feed/json/stop_times.json')
 // }
+const readFile = (file) => {
+	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
+}
 
 const utc = 'Etc/UTC'
 const berlin = 'Europe/Berlin'
@@ -79,6 +84,34 @@ test('compute-stopover-times', (t) => {
 })
 
 test('compute-sorted-connections', (t) => {
-	// todo
-	t.end()
+	const from = 1552324800
+	const to = 1552393000
+
+	computeSortedConnections(readFile, {}, 'Europe/Berlin')
+	.then((sortedConnections) => {
+		const connections = []
+		sortedConnections.range(from, to, node => {
+			connections.push(node.data)
+			return false // continue walking the build
+		})
+
+		t.deepEqual(connections, [{
+			fromStop: 'lake',
+			departure: 1552324920,
+			toStop: 'airport',
+			arrival: 1552325400,
+			routeId: 'B',
+			serviceId: 'on-working-days'
+		},
+		{
+			fromStop: 'airport',
+			departure: 1552392840,
+			toStop: 'lake',
+			arrival: 1552393200,
+			routeId: 'B',
+			serviceId: 'on-working-days'
+		}])
+		t.end()
+	})
+	.catch(t.ifError)
 })
