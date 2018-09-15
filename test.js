@@ -31,12 +31,13 @@ test('parse-date', (t) => {
 })
 
 test('parse-time', (t) => {
-	t.plan(3 + 2)
+	t.plan(3 + 3)
 	t.throws(() => parseTime())
 	t.throws(() => parseTime(''))
 	t.throws(() => parseTime('1:2:3'))
 	t.deepEqual(parseTime('21:30'), {hours: 21, minutes: 30, seconds: null})
 	t.deepEqual(parseTime('21:30:01'), {hours: 21, minutes: 30, seconds: 1})
+	t.deepEqual(parseTime('123:48:01'), {hours: 123, minutes: 48, seconds: 1})
 })
 
 test('lib/days-between', (t) => {
