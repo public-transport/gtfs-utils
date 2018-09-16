@@ -8,6 +8,7 @@ const through = require('through2')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const readTrips = require('./read-trips')
 const parseTime = require('./parse-time')
+const errorsWithRow = require('./lib/errors-with-row')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
@@ -37,9 +38,7 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 
 	let services, trips
 
-	let row = 0
 	const onStopover = function (s, _, cb) {
-		row++
 		if (!filters.stopover(s)) return cb()
 
 		const {serviceId, routeId} = trips[s.trip_id]
@@ -49,29 +48,23 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		const arr = parseTime(s.arrival_time)
 		const dep = parseTime(s.departure_time)
 
-		try {
-			for (let day of days) {
-				const d = DateTime.fromMillis(day * 1000, {zone: timezone})
-				this.push({
-					stop_id: s.stop_id,
-					trip_id: s.trip_id,
-					service_id: serviceId,
-					route_id: routeId,
-					sequence: s.stop_sequence,
-					start_of_trip: day,
-					arrival: d.plus(arr) / 1000 | 0,
-					departure: d.plus(dep) / 1000 | 0
-				})
-			}
-			cb()
-		} catch (err) {
-			err.row = row
-			err.message += ' – row ' + row
-			return cb(err)
+		for (let day of days) {
+			const d = DateTime.fromMillis(day * 1000, {zone: timezone})
+			this.push({
+				stop_id: s.stop_id,
+				trip_id: s.trip_id,
+				service_id: serviceId,
+				route_id: routeId,
+				sequence: s.stop_sequence,
+				start_of_trip: day,
+				arrival: d.plus(arr) / 1000 | 0,
+				departure: d.plus(dep) / 1000 | 0
+			})
 		}
+		cb()
 	}
 
-	const parser = through.obj(onStopover)
+	const parser = through.obj(errorsWithRow('stop_times', onStopover))
 
 	Promise.all([
 		readServicesAndExceptions(readFile, timezone, filters),

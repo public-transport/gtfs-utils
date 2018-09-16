@@ -2,6 +2,7 @@
 
 const daysBetween = require('./lib/days-between')
 const parseDate = require('./parse-date')
+const errorsWithRow = require('./lib/errors-with-row')
 
 const noFilters = {
 	service: () => true,
@@ -54,13 +55,13 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 
 	return new Promise((resolve, reject) => {
 		const services = read('calendar')
-		services.on('data', onService)
+		services.on('data', errorsWithRow('calendar', onService))
 		services.once('error', err => services.destroy(err))
 		services.once('end', (err) => {
 			if (err) return reject(err)
 
 			const exceptions = read('calendar_dates')
-			exceptions.on('data', onException)
+			exceptions.on('data', errorsWithRow('calendar_dates', onException))
 			exceptions.once('error', err => exceptions.destroy(err))
 			exceptions.once('end', (err) => {
 				if (err) return reject(err)

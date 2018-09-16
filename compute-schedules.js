@@ -5,6 +5,7 @@ const recordSort = require('sort-array-by-another')
 
 const parseTime = require('./parse-time')
 const readTrips = require('./read-trips')
+const errorsWithRow = require('./lib/errors-with-row')
 
 const noFilters = {
 	trip: () => true,
@@ -25,7 +26,8 @@ const applyStopovers = (trips, readFile, filter) => {
 			stopovers.destroy(err)
 		})
 
-		stopovers.on('data', (s) => {
+		stopovers.on('data', errorsWithRow('stop_times', (s) => {
+
 			if (!filter(s)) return null
 			const trip = trips[s.trip_id]
 			if (!trip) return null // todo: emit error?
@@ -37,7 +39,7 @@ const applyStopovers = (trips, readFile, filter) => {
 			const dep = s.departure_time ? parseTimeRelative(s.departure_time) : null
 			trip.arrivals.push(arr)
 			trip.departures.push(dep)
-		})
+		}))
 
 		stopovers.once('end', (err) => {
 			if (err) return reject(err)

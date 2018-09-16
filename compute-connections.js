@@ -4,6 +4,7 @@ const {DateTime} = require('luxon')
 const recordSort = require('sort-array-by-another')
 
 const parseTime = require('./parse-time')
+const errorsWithRow = require('./lib/errors-with-row')
 
 const noFilter = () => true
 
@@ -64,7 +65,7 @@ const computeConnections = (readFile, timezone, filter = noFilter) => {
 
 	const input = readFile('stop_times')
 	input.once('error', (err) => input.destroy(err))
-	input.on('data', storeStopover)
+	input.on('data', errorsWithRow('stop_times', storeStopover))
 
 	const generateConnections = function* () {
 		const tripIds = Object.keys(sequences)
