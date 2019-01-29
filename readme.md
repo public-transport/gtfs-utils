@@ -41,7 +41,8 @@ const filter = t => t.route_id === 'A'
 
 readTrips(readFile, filter)
 .then((trips) => {
-	const someTrip = trips[Object.keys(trips)[0]]
+	const someTripId = Object.keys(trips)[0]
+	const someTrip = trips[someTripId]
 	console.log(someTrip)
 })
 ```
@@ -175,9 +176,9 @@ const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 const filter = stopover => stopover.stop_id === 'some-stop-id'
 
 computeConnections(readFile, 'Europe/Berlin', filter)
-.then((connectionSets) => {
-	for (let connections of connectionSets) {
-		for (let connection of connections) {
+.then((connectionsByTrip) => {
+	for (let connectionsOfTrip of connectionsByTrip) {
+		for (let connection of connectionsOfTrip) {
 			console.log(connection)
 		}
 		break
@@ -188,7 +189,7 @@ computeConnections(readFile, 'Europe/Berlin', filter)
 
 ```js
 {
-	trip_Id: 'b-outbound-on-working-days',
+	trip_id: 'b-outbound-on-working-days',
 	from_stop: 'center',
 	to_stop: 'lake',
 	departure: 65640,
@@ -202,15 +203,15 @@ Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 
 ### `computeSchedules(readFile, filters, [computeSignature])`
 
-This utility computes what we called *schedules*, "patterns" by which vehicles visit stops. An example schedule:
+This utility computes what we call *schedules*, "patterns" by which vehicles visit stops. An example schedule:
 
 ```js
 {
 	id: '248tGP', // signature
 	trips: [
-		// The trip `a downtown-all-day` follows this schedule and starts
+		// The trip `a downtown-all-day-1` follows this schedule and starts
 		// 55380 seconds after midnight on each day it runs.
-		{tripId: 'a-downtown-all-day', start: 55380}
+		{tripId: 'a-downtown-all-day-1', start: 55380}
 	],
 	// Arrives at 0s at `airport`, departs 30s later.
 	// Arrives at 420s at `museum`, departs 60s later.
@@ -221,7 +222,7 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 }
 ```
 
-*Schedules* reduce the implicit complexity of GTFS data sets a lot, because a schedule will contain *every* trip with its "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptionsreadfile-timezone-filters), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
+*Schedules* reduce the implicit complexity of GTFS data sets a lot, because one schedule summarizes many trips with a certain "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptionsreadfile-timezone-filters), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
@@ -236,7 +237,8 @@ const filters = {
 
 computeSchedules(readFile, filters)
 .then((schedules) => {
-	const someSchedule = schedules[Object.keys(schedules)[0]]
+	const someScheduleId = Object.keys(schedules)[0]
+	const someSchedule = schedules[someScheduleId]
 	console.log(someSchedule)
 })
 .catch(console.error)

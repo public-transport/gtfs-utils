@@ -67,7 +67,7 @@ const computeConnections = (readFile, timezone, filter = noFilter) => {
 	input.once('error', (err) => input.destroy(err))
 	input.on('data', errorsWithRow('stop_times', storeStopover))
 
-	const generateConnections = function* () {
+	const generateConnectionsByTripId = function* () {
 		const tripIds = Object.keys(sequences)
 		const i = tripIds[Symbol.iterator]()
 
@@ -95,7 +95,7 @@ const computeConnections = (readFile, timezone, filter = noFilter) => {
 	}
 
 	const connections = {}
-	connections[Symbol.iterator] = generateConnections
+	connections[Symbol.iterator] = generateConnectionsByTripId
 
 	return new Promise((resolve, reject) => {
 		input.once('end', (err) => {
