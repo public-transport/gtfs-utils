@@ -5,6 +5,7 @@ const test = require('tape')
 
 const readCsv = require('./read-csv')
 const parseDate = require('./parse-date')
+const formatDate = require('./format-date')
 const parseTime = require('./parse-time')
 const daysBetween = require('./lib/days-between')
 const errorsWithRow = require('./lib/errors-with-row')
@@ -29,6 +30,13 @@ test('parse-date', (t) => {
 	t.equal(parseDate('20190303', utc), 1551571200)
 	t.equal(parseDate('20190303', berlin), 1551567600)
 	t.equal(parseDate('20190303', 'Asia/Bangkok'), 1551546000)
+})
+
+test('format-date', (t) => {
+	t.plan(3)
+	t.equal(formatDate(1551571200, utc), '20190303')
+	t.equal(formatDate(1551567600, berlin), '20190303')
+	t.equal(formatDate(1551546000, 'Asia/Bangkok'), '20190303')
 })
 
 test('parse-time', (t) => {

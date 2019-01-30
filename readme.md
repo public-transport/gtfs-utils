@@ -69,6 +69,18 @@ parseDate('20190303', 'Europe/Berlin')
 - `dateStr` must be in the `YYYYMMDD` format, as specific in [GTFS](https://developers.google.com/transit/gtfs/).
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
 
+### `formatDate(t, timezone)`
+
+```js
+const formatDate = require('gtfs-utils/format-date')
+
+formatDate(1551567600, 'Europe/Berlin')
+// '20190303'
+```
+
+- `t` must be a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time).
+- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
+
 ### `parseTime(timeStr)`
 
 ```js
