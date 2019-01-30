@@ -303,6 +303,73 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 }
 ```
 
+### `findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr) => []`
+
+```
+           fromId  --time window-->  toId
+departure at tDep                    arrival at tArr
+```
+
+For a time window `(tDep, tArr)` to get from stop `fromId` to stop `toId`, `findAlternativeTrips` will return a list of all trips that run from `fromId` to `toId` equally fast or faster.
+
+`trips` must be in the format returned by `readTrips`, `services` in the format of `readServicesAndExceptions`, and `schedules` in the format of `computeSchedules`.
+
+*Note*: The purpose of this function is to identify *functionally alternative* trips to a given trip; It *is not* a replacement for a proper routing engine. (There might be a faster way from `fromId` to `toId` via transfer, and `findAlternativeTrips` won't return it.)
+
+As an example, we're gonna use [`sample-gtfs-feed`](https://npmjs.com/package/sample-gtfs-feed):
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readTrips = require('gtfs-utils/read-trips')
+const readServices = require('gtfs-utils/read-services-and-exceptions')
+const computeSchedules = require('gtfs-utils/compute-schedules')
+const createFindAlternativeTrips = require('gtfs-utils/find-alternative-trips')
+
+const readFile = (file) => {
+	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
+}
+
+const timezone = 'Europe/Berlin'
+const noFilter = () => true
+const noFilters = {}
+
+// prerequisites
+Promise.all([
+	readTrips(readFile, noFilter),
+	readServices(readFile, timezone, noFilters),
+	computeSchedules(readFile, noFilters)
+])
+.then(([trips, services, schedules]) => {
+	const findAltTrips = createFindAlternativeTrips(trips, services, schedules)
+
+	// travel times of a downtown trip of the A line
+	const fromId = 'airport'
+	const tDep = new Date('2019-03-05T15:24:00+01:00') / 1000
+	const toId = 'center'
+	const tArr = new Date('2019-03-05T15:35:00+01:00') / 1000
+
+	// find an alternative trip of the C line
+	console.log(findAltTrips(fromId, tDep, toId, tArr))
+})
+.catch(console.error)
+```
+
+```js
+[ { // This is the trip we were using as query.
+	tripId: 'a-downtown-all-day',
+	routeId: 'A',
+	serviceId: 'all-day',
+	departure: 1551795840, // 2019-03-05T15:24:00+01:00
+	arrival: 1551796500 // 2019-03-05T15:35:00+01:00
+}, { // This is an alternative trip.
+	tripId: 'c-downtown-all-day',
+	routeId: 'C',
+	serviceId: 'all-day',
+	departure: 1551796080, // 2019-03-05T15:28:00+01:00
+	arrival: 1551796380 // 2019-03-05T15:33:00+01:00
+} ]
+```
+
 
 ## Contributing
 
