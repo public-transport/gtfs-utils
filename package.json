@@ -38,7 +38,7 @@
 		"through2": "^2.0.3"
 	},
 	"devDependencies": {
-		"sample-gtfs-feed": "^0.2.3",
+		"sample-gtfs-feed": "~0.3.1",
 		"tap-min": "^1.2.2",
 		"tape": "^4.8.0"
 	},
