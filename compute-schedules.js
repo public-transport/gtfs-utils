@@ -103,6 +103,7 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 		for (let tripId in trips) {
 			trips[tripId] = {
 				id: null, // to be used later
+          		route_id: trips[tripId].route_id,
 				trips: [tripId],
 				sequence: [], // stop_times[].stop_sequence mumbers
 				stops: [], // stop IDs
