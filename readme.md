@@ -207,6 +207,7 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 ```js
 {
 	id: '248tGP', // signature
+	route_id: "XXB-LYS" // useful for alternative signature function,
 	trips: [
 		// The trip `a downtown-all-day` follows this schedule and starts
 		// 55380 seconds after midnight on each day it runs.
@@ -215,6 +216,7 @@ This utility computes what we called *schedules*, "patterns" by which vehicles v
 	// Arrives at 0s at `airport`, departs 30s later.
 	// Arrives at 420s at `museum`, departs 60s later.
 	// Arrives at 720s at `center`, departs 90s later.
+	sequence: [1, 2, 3],
 	stops: ['airport', 'museum', 'center'],
 	arrivals: [0, 420, 720],
 	departures: [30, 480, 810]
