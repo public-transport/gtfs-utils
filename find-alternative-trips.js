@@ -76,8 +76,8 @@ const createFindAlternativeTrips = (trips, services, schedules) => {
 						tripId,
 						routeId: trip.route_id,
 						serviceId: trip.service_id,
-						departure: tAltDep,
-						arrival: tAltArr
+						arrival: tAltArr,
+						departure: tAltDep
 					})
 				}
 			}
