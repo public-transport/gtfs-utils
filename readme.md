@@ -370,6 +370,30 @@ Promise.all([
 } ]
 ```
 
+### `computeServiceBreaks(sortedConnections)`
+
+Most public transport networks don't run 24/7, but instead have regular scheduled "service breaks", e.g. at night or on Sundays.
+
+It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be bus/train every hour, with a break of 8 hours at night.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
+const computeServiceBreaks = require('gtfs-utils/compute-service-breaks')
+
+const serviceBreakMinLength = 30 * 60 // 30 minutes
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+computeSortedConnections(readFile, {}, 'Europe/Berlin')
+.then((connections) => {
+	const {findBetween} = computeServiceBreaks(connections, serviceBreakMinLength)
+	const start = '2019-05-08T12:00:00Z'
+	const end = '2019-05-10T15:00:00Z'
+	console.log(findBetween('airport', 'center', start, end))
+})
+.catch(console.error)
+```
+
 
 ## Contributing
 
