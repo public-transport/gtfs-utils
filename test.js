@@ -11,6 +11,7 @@ const daysBetween = require('./lib/days-between')
 const errorsWithRow = require('./lib/errors-with-row')
 // const computeStopoverTimes = require('./compute-stopover-times')
 const computeSortedConnections = require('./compute-sorted-connections')
+const computeServiceBreaks = require('./compute-service-breaks')
 
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
@@ -142,6 +143,33 @@ test('compute-sorted-connections', (t) => {
 			departure: 1552392840,
 			toStop: 'lake',
 			arrival: 1552393200,
+			routeId: 'B',
+			serviceId: 'on-working-days'
+		}])
+		t.end()
+	})
+	.catch(t.ifError)
+})
+
+test('compute-service-breaks', (t) => {
+	const from = '2019-05-08T12:00:00+02:00'
+	const to = '2019-05-10T15:00:00+02:00'
+
+	computeSortedConnections(readFile, {}, 'Europe/Berlin')
+	.then((connections) => {
+		const {findBetween, data} = computeServiceBreaks(connections)
+
+		const breaks = findBetween('airport', 'lake', from, to)
+		t.deepEqual(breaks, [{
+			start: new Date('2019-05-08T13:14:00+02:00'),
+			end: new Date('2019-05-09T13:14:00+02:00'),
+			duration: 86400,
+			routeId: 'B',
+			serviceId: 'on-working-days'
+		}, {
+			start: new Date('2019-05-09T13:14:00+02:00'),
+			end: new Date('2019-05-10T13:14:00+02:00'),
+			duration: 86400,
 			routeId: 'B',
 			serviceId: 'on-working-days'
 		}])
