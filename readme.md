@@ -2,6 +2,19 @@
 
 **Utilities to process [GTFS](https://developers.google.com/transit/gtfs/) data sets.**
 
+- [`readCsv(path)`](#readcsvpath)
+- [`readTrips(readFile, filter)`](#readtripsreadfile-filter)
+- [`parseDate(dateStr, timezone)`](#parsedatedatestr-timezone)
+- [`formatDate(t, timezone)`](#formatdatet-timezone)
+- [`parseTime(timeStr)`](#parsetimetimestr)
+- [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters)
+- [`computeStopoverTimes(readFile, filters, timezone)`](#computestopovertimesreadfile-filters-timezone)
+- [`computeConnections(readFile, timezone, filter)`](#computeconnectionsreadfile-timezone-filter)
+- [`computeSchedules(readFile, filters, [computeSignature])`](#computeschedulesreadfile-filters-computesignature)
+- [`computeSortedConnections(readFile, filters, timezone)`](#computesortedconnectionsreadfile-filters-timezone)
+- [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetripstrips-services-schedules--fromid-tdep-toid-tarr)
+- [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
+
 [![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
 [![build status](https://api.travis-ci.org/public-transport/gtfs-utils.svg?branch=master)](https://travis-ci.org/public-transport/gtfs-utils)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/gtfs-utils.svg)
@@ -303,7 +316,7 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 }
 ```
 
-### `findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr) => []`
+### `findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`
 
 ```
            fromId  --time window-->  toId
