@@ -387,7 +387,9 @@ Promise.all([
 
 Most public transport networks don't run 24/7, but instead have regular scheduled "service breaks", e.g. at night or on Sundays.
 
-It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be bus/train every hour, with a break of 8 hours at night.
+Given [sorted connections](computesortedconnectionsreadfile-filters-timezone), `computeServiceBreaks` finds periods of time without service between two stations.
+
+It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be bus/train every hour, with a break of 8 hours at night. This is why `computeServiceBreaks` optionally takes a second parameter `minLength` in seconds.
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
