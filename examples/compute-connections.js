@@ -8,10 +8,10 @@ const readFile = (file) => {
 }
 
 computeConnections(readFile, 'Europe/Berlin')
-.then((connectionSets) => {
-	for (let connections of connectionSets) {
+.then((connectionsByTripId) => {
+	for (let connectionsOfTrip of connectionsByTripId) {
 		console.log('')
-		for (let connection of connections) console.log(connection)
+		for (let connection of connectionsOfTrip) console.log(connection)
 	}
 })
 .catch((err) => {
