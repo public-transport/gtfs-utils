@@ -63,7 +63,11 @@ const applyStopovers = (trips, readFile, filter) => {
 
 				// store the start time per trip
 				for (let i = 0; i < trip.trips.length; i++) {
-					trip.trips[i] = {tripId: trip.trips[i], start}
+					trip.trips[i] = {
+						tripId: trip.trips[i].tripId,
+						routeId: trip.trips[i].routeId,
+						start
+					}
 				}
 			}
 
@@ -103,7 +107,6 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 		for (let tripId in trips) {
 			trips[tripId] = {
 				id: null, // to be used later
-          		route_id: trips[tripId].route_id,
 				trips: [tripId],
 				sequence: [], // stop_times[].stop_sequence mumbers
 				stops: [], // stop IDs
