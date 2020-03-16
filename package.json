@@ -34,7 +34,7 @@
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",
 		"shorthash": "0.0.2",
-		"sort-array-by-another": "^0.1.0",
+		"sort-array-by-another": "^1.0.0",
 		"sorted-array-functions": "^1.2.0",
 		"strip-bom-stream": "^3.0.0",
 		"through2": "^3.0.0"
