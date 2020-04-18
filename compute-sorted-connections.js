@@ -1,5 +1,6 @@
 'use strict'
 
+const debug = require('debug')('gtfs-utils:compute-sorted-connections')
 const pump = require('pump')
 const {Writable} = require('stream')
 const {DateTime} = require('luxon')
@@ -32,9 +33,15 @@ const computeStopoversByTrip = (readFile, filters, timezone) => {
 			if (!stopoverFilter(s)) return;
 
 			const trip = trips[s.trip_id]
-			if (!trip) throw new Error(`unknown trip ${s.trip_id}`)
+			if (!trip) {
+				debug('unknown trip', s.trip_id)
+				return;
+			}
 			const days = services[trip.serviceId]
-			if (!days) throw new Error(`unknown service ${trip.serviceId}`)
+			if (!days) {
+				debug('unknown service', trip.serviceId)
+				return;
+			}
 
 			s.service_id = trip.serviceId
 			s.route_id = trip.routeId
