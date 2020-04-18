@@ -5,6 +5,7 @@
 	"files": [
 		"parse-date.js",
 		"parse-time.js",
+		"format-date.js",
 		"read-csv.js",
 		"read-trips.js",
 		"read-services-and-exceptions.js",
@@ -12,8 +13,10 @@
 		"compute-schedules.js",
 		"compute-connections.js",
 		"compute-sorted-connections.js",
+		"find-alternative-trips.js",
 		"compute-service-breaks.js",
-		"lib"
+		"lib",
+		"examples"
 	],
 	"keywords": [
 		"gtfs",
