@@ -5,6 +5,7 @@ const path = require('path')
 const stripBomStream = require('strip-bom-stream')
 const parseCsv = require('csv-parser')
 
+// todo: use pump
 const readCsv = (src) => {
 	const one = fs.createReadStream(src)
 	const two = stripBomStream()
