@@ -7,6 +7,7 @@
 		"parse-time.js",
 		"format-date.js",
 		"read-csv.js",
+		"read-stops.js",
 		"read-trips.js",
 		"read-services-and-exceptions.js",
 		"compute-stopover-times.js",
@@ -33,6 +34,7 @@
 	},
 	"dependencies": {
 		"csv-parser": "^2.0.0",
+		"debug": "^4.1.1",
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",
 		"shorthash": "0.0.2",
@@ -42,7 +44,7 @@
 		"through2": "^3.0.0"
 	},
 	"devDependencies": {
-		"sample-gtfs-feed": "~0.3.1",
+		"sample-gtfs-feed": "^0.3.2",
 		"tap-min": "^2.0.0",
 		"tape": "^4.8.0"
 	},

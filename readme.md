@@ -9,6 +9,7 @@
 [![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
 
 - [`readCsv(path)`](#readcsvpath)
+- [`readStops(readFile, filter)`](#readstopsreadfile-filter)
 - [`readTrips(readFile, filter)`](#readtripsreadfile-filter)
 - [`parseDate(dateStr, timezone)`](#parsedatedatestr-timezone)
 - [`formatDate(t, timezone)`](#formatdatet-timezone)
@@ -42,6 +43,43 @@ readCsv('path-to-file.txt')
 ```
 
 Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+
+### `readStops(readFile, filter)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readStops = require('gtfs-utils/read-stops')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filter = t => t.route_id === 'A'
+
+readStops(readFile, filter)
+.then((stops) => {
+	const someStopId = Object.keys(stops)[0]
+	const someTrip = stops[someStopId]
+	console.log(someTrip)
+})
+```
+
+```js
+{
+	stop_id: 'airport',
+	stop_name: 'International Airport (ABC)',
+	stop_lat: '52',
+	stop_lon: '14',
+	stop_code: '🛫',
+	stop_desc: 'train station at the Internationl Airport (ABC)',
+	stop_url: 'https://fta.example.org/stations/airport.html',
+	location_type: '1',
+	stop_timezone: 'Europe/Berlin',
+	wheelchair_boardings: '1',
+	parent_station: '',
+	child_stops: ['airport-1', 'airport-2'],
+}
+```
+
+Will read `stops.txt`, reduce it into a map `stop_id => stop`, and add stop IDs of a station as `station.child_stops`. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
 
 ### `readTrips(readFile, filter)`
 
