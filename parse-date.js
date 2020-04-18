@@ -1,6 +1,6 @@
 'use strict'
 
-const {DateTime} = require('luxon')
+const {zonedTimeToUtc} = require('date-fns-tz')
 
 const dateFormat = /^\d{8}$/
 
@@ -11,14 +11,12 @@ const parseDate = (str, timezone) => {
 		throw new Error('timezone must be a non-empty string.')
 	}
 
-	const iso = [
+	const isoDate = [
 		str.substr(0, 4),
 		str.substr(4, 2),
 		str.substr(6, 2)
 	].join('-')
-	const millis = DateTime.fromISO(iso, {
-		zone: timezone
-	}).valueOf()
+	const millis = +zonedTimeToUtc(isoDate + ' 00:00', timezone)
 	return millis / 1000 | 0 // make UNIX timestamp
 }
 

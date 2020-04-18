@@ -35,6 +35,8 @@
 	},
 	"dependencies": {
 		"csv-parser": "^2.0.0",
+		"date-fns": "^2.12.0",
+		"date-fns-tz": "^1.0.10",
 		"debug": "^4.1.1",
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",
@@ -45,12 +47,14 @@
 		"through2": "^3.0.0"
 	},
 	"devDependencies": {
+		"benchmark": "^2.1.4",
 		"sample-gtfs-feed": "^0.3.2",
 		"tap-min": "^2.0.0",
 		"tape": "^4.8.0"
 	},
 	"scripts": {
 		"test": "env NODE_ENV=dev node test.js | tap-min",
+		"benchmark": "env NODE_ENV=production node benchmark.js",
 		"prepublishOnly": "npm test"
 	}
 }
