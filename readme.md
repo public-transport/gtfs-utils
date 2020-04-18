@@ -289,10 +289,11 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 .then((sortedConnections) => {
 	const from = 1552324800 // UNIX timestamp
 	const to = 1552393800 // UNIX timestamp
-	sortedConnections.range(from, to, node => {
-		console.log(node.data)
-		return false // continue walking the range
-	})
+	const fromI = sortedConnections.findIndex(c => c.departure >= from)
+	const endI = sortedConnections.findIndex(c => c.departure > to)
+	for (let i = 0; i < endI; i++) {
+		console.log(sortedConnections[i])
+	}
 })
 .catch(console.error)
 ```
@@ -316,7 +317,7 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 }
 ```
 
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [`avl` tree](https://www.npmjs.com/package/avl#api) of connections.
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of connections.
 
 *Note*: `computeSortedConnections` will load (reduced forms of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
 

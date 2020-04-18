@@ -32,7 +32,6 @@
 		"node": ">=10"
 	},
 	"dependencies": {
-		"avl": "^1.4.3",
 		"csv-parser": "^2.0.0",
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",

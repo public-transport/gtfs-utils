@@ -124,11 +124,9 @@ test('compute-sorted-connections', (t) => {
 
 	computeSortedConnections(readFile, {}, 'Europe/Berlin')
 	.then((sortedConnections) => {
-		const connections = []
-		sortedConnections.range(from, to, node => {
-			connections.push(node.data)
-			return false // continue walking the build
-		})
+		const fromI = sortedConnections.findIndex(c => c.departure >= from)
+		const toI = sortedConnections.findIndex(c => c.departure > to)
+		const connections = sortedConnections.slice(fromI, toI)
 
 		t.deepEqual(connections, [{
 			fromStop: 'lake',

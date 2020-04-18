@@ -9,6 +9,6 @@ const readFile = (file) => {
 
 computeSortedConnections(readFile, {}, 'Europe/Berlin')
 .then((sortedConnections) => {
-	console.log(sortedConnections.values())
+	console.log(sortedConnections)
 })
 .catch(console.error)

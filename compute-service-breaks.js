@@ -8,7 +8,9 @@ const computeServiceBreaks = (connections, minLength = 10 * 60) => {
 	const breaks = Object.create(null)
 	const prevDeps = Object.create(null)
 
-	connections.forEach(({data}) => {
+	for (let i = 0; i < connections.length; i++) {
+		const data = connections[i]
+
 		const sig = data.fromStop + '-' + data.toStop
 		const prevDep = sig in prevDeps ? prevDeps[sig] : data.departure
 
@@ -23,7 +25,7 @@ const computeServiceBreaks = (connections, minLength = 10 * 60) => {
 			breaks[sig].push(brk)
 		}
 		prevDeps[sig] = data.departure
-	})
+	}
 
 	const formatBreak = ([from, duration, routeId, serviceId]) => ({
 		start: new Date(from * 1000),

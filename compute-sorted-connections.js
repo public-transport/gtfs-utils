@@ -2,7 +2,6 @@
 
 const pump = require('pump')
 const {Writable} = require('stream')
-const AVLTree = require('avl')
 const {DateTime} = require('luxon')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
@@ -113,7 +112,7 @@ const computeSortedConnections = (readFile, filters, timezone) => {
 
 	return computeStopoversByTrip(readFile, filters, timezone)
 	.then(({stopovers: allStopovers, trips, services}) => {
-		const byDeparture = new AVLTree()
+		const byDeparture = []
 
 		for (const tripId in allStopovers) {
 			const stopovers = allStopovers[tripId].sort(sortStopovers)
@@ -131,18 +130,22 @@ const computeSortedConnections = (readFile, filters, timezone) => {
 					const s2 = stopovers[j + 1]
 
 					const dep = day.plus(parseTime(s1.departure_time)) / 1000 | 0
-					byDeparture.insert(dep, {
+					byDeparture.push([dep, {
 						fromStop: s1.stop_id,
 						departure: dep,
 						toStop: s2.stop_id,
 						arrival: day.plus(parseTime(s2.arrival_time)) / 1000 | 0,
 						routeId,
 						serviceId
-					})
+					}])
 				}
 			}
 		}
 
+		byDeparture.sort((a, b) => a[0] - b[0])
+		for (let i = 0; i < byDeparture.length; i++) {
+			byDeparture[i] = byDeparture[i][1]
+		}
 		return byDeparture
 	})
 }
