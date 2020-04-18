@@ -131,6 +131,7 @@ const computeSortedConnections = (readFile, filters, timezone) => {
 
 					const dep = day.plus(parseTime(s1.departure_time)) / 1000 | 0
 					byDeparture.push([dep, {
+						tripId,
 						fromStop: s1.stop_id,
 						departure: dep,
 						toStop: s2.stop_id,

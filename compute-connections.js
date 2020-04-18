@@ -1,6 +1,5 @@
 'use strict'
 
-const {DateTime} = require('luxon')
 const recordSort = require('sort-array-by-another')
 
 const parseTime = require('./parse-time')
@@ -83,11 +82,11 @@ const computeConnections = (readFile, timezone, filter = noFilter) => {
 			const connections = []
 			for (let i = 1; i < _stops.length; i++) {
 				connections.push({
-					trip_id: tripId,
-					from_stop: _stops[i - 1],
-					to_stop: _stops[i],
+					tripId,
+					fromStop: _stops[i - 1],
 					departure: _departures[i - 1],
-					arrival: _arrivals[i]
+					toStop: _stops[i],
+					arrival: _arrivals[i],
 				})
 			}
 			yield connections

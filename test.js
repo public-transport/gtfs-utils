@@ -129,6 +129,7 @@ test('compute-sorted-connections', (t) => {
 		const connections = sortedConnections.slice(fromI, toI)
 
 		t.deepEqual(connections, [{
+			tripId: 'b-outbound-on-working-days',
 			fromStop: 'lake',
 			departure: 1552324920,
 			toStop: 'airport',
@@ -137,6 +138,7 @@ test('compute-sorted-connections', (t) => {
 			serviceId: 'on-working-days'
 		},
 		{
+			tripId: 'b-downtown-on-working-days',
 			fromStop: 'airport',
 			departure: 1552392840,
 			toStop: 'lake',
