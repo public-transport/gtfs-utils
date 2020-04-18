@@ -2,6 +2,12 @@
 
 **Utilities to process [GTFS](https://developers.google.com/transit/gtfs/) data sets.**
 
+[![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
+[![build status](https://api.travis-ci.org/public-transport/gtfs-utils.svg?branch=master)](https://travis-ci.org/public-transport/gtfs-utils)
+![ISC-licensed](https://img.shields.io/github/license/public-transport/gtfs-utils.svg)
+[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
+[![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
+
 - [`readCsv(path)`](#readcsvpath)
 - [`readTrips(readFile, filter)`](#readtripsreadfile-filter)
 - [`parseDate(dateStr, timezone)`](#parsedatedatestr-timezone)
@@ -14,11 +20,6 @@
 - [`computeSortedConnections(readFile, filters, timezone)`](#computesortedconnectionsreadfile-filters-timezone)
 - [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetripstrips-services-schedules--fromid-tdep-toid-tarr)
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
-
-[![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
-[![build status](https://api.travis-ci.org/public-transport/gtfs-utils.svg?branch=master)](https://travis-ci.org/public-transport/gtfs-utils)
-![ISC-licensed](https://img.shields.io/github/license/public-transport/gtfs-utils.svg)
-[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
 
 
 ## Installing
@@ -40,7 +41,7 @@ readCsv('path-to-file.txt')
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 
 ### `readTrips(readFile, filter)`
 
@@ -167,9 +168,9 @@ stopovers
 .on('data', console.log)
 ```
 
-Returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 
-- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/api/stream.html#stream_object_mode).
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 - `filters` must be an object; It may have the fields `service`, `trip`, `stopover`, each with a filter function.
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
 
@@ -271,13 +272,12 @@ computeSchedules(readFile, filters)
 
 Will read `trips.txt` and `stop_times.txt` and compute schedules from it. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
 
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `filters` must be an object; It may have the fields `trip` & `stopover`, each with a filter function.
+
 *Note*: In order to work, `computeSchedules` will load (a reduced form of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
 
 ### `computeSortedConnections(readFile, filters, timezone)`
-
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [`avl` tree](https://www.npmjs.com/package/avl#api) of connections.
-
-*Note*: `computeSortedConnections` will load (reduced forms of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
@@ -291,7 +291,7 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 	const to = 1552393800 // UNIX timestamp
 	sortedConnections.range(from, to, node => {
 		console.log(node.data)
-		return false // continue walking the build
+		return false // continue walking the range
 	})
 })
 .catch(console.error)
@@ -316,6 +316,14 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 }
 ```
 
+Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [`avl` tree](https://www.npmjs.com/package/avl#api) of connections.
+
+*Note*: `computeSortedConnections` will load (reduced forms of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `filters` must be an object; It may have the fields `service`, `trip` & `stopover`, each with a filter function.
+- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
+
 ### `findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`
 
 ```
@@ -327,7 +335,7 @@ For a time window `(tDep, tArr)` to get from stop `fromId` to stop `toId`, `find
 
 `trips` must be in the format returned by `readTrips`, `services` in the format of `readServicesAndExceptions`, and `schedules` in the format of `computeSchedules`.
 
-*Note*: The purpose of this function is to identify *functionally alternative* trips to a given trip; It *is not* a replacement for a proper routing engine. (There might be a faster way from `fromId` to `toId` via transfer, and `findAlternativeTrips` won't return it.)
+*Note*: The purpose of this function is to identify *direct* alternative trips to a given trip; It *is not* a replacement for a proper routing engine. (There might be a faster way from `fromId` to `toId` via transfer, and `findAlternativeTrips` won't return it.)
 
 As an example, we're gonna use [`sample-gtfs-feed`](https://npmjs.com/package/sample-gtfs-feed):
 
@@ -387,7 +395,7 @@ Promise.all([
 
 Most public transport networks don't run 24/7, but instead have regular scheduled "service breaks", e.g. at night or on Sundays.
 
-Given [sorted connections](computesortedconnectionsreadfile-filters-timezone), `computeServiceBreaks` finds periods of time without service between two stations.
+Given [sorted connections](#computesortedconnectionsreadfile-filters-timezone), `computeServiceBreaks` finds periods of time without service between two stations.
 
 It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be bus/train every hour, with a break of 8 hours at night. This is why `computeServiceBreaks` optionally takes a second parameter `minLength` in seconds.
 
