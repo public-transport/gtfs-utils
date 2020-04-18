@@ -21,6 +21,7 @@
 - [`computeSortedConnections(readFile, filters, timezone)`](#computesortedconnectionsreadfile-filters-timezone)
 - [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetripstrips-services-schedules--fromid-tdep-toid-tarr)
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
+- [`routeTypes`](#routetypes)
 
 
 ## Installing
@@ -455,6 +456,17 @@ computeSortedConnections(readFile, {}, 'Europe/Berlin')
 })
 .catch(console.error)
 ```
+
+### `routeTypes`
+
+```js
+const routeTypes = require('gtfs-utils/route-types')
+
+console.log(routeTypes.basic.find(type => type.gtfs === 3))
+// { gtfs: 3, fptf: 'bus' }
+```
+
+`fptf` contains the [*Friendly Public Transport Format (FPTF)* mode](https://github.com/public-transport/friendly-public-transport-format/tree/1.2.1/spec#modes).
 
 
 ## Contributing

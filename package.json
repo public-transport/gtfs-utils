@@ -16,6 +16,7 @@
 		"compute-sorted-connections.js",
 		"find-alternative-trips.js",
 		"compute-service-breaks.js",
+		"route-types.js",
 		"lib",
 		"examples"
 	],
