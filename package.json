@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"files": [
 		"parse-date.js",
 		"parse-time.js",
@@ -24,7 +24,7 @@
 		"transit"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
-	"homepage": "https://github.com/public-transport/gtfs-utils",
+	"homepage": "https://github.com/public-transport/gtfs-utils/tree/1",
 	"repository": "public-transport/gtfs-utils",
 	"bugs": "https://github.com/public-transport/gtfs-utils/issues",
 	"license": "ISC",
