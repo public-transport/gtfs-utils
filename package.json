@@ -26,7 +26,7 @@
 	"bugs": "https://github.com/public-transport/gtfs-utils/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=6"
+		"node": ">=10"
 	},
 	"dependencies": {
 		"avl": "^1.4.3",
@@ -34,14 +34,14 @@
 		"luxon": "^1.0.0",
 		"pump": "^3.0.0",
 		"shorthash": "0.0.2",
-		"sort-array-by-another": "^0.1.0",
+		"sort-array-by-another": "^1.0.0",
 		"sorted-array-functions": "^1.2.0",
-		"strip-bom-stream": "^3.0.0",
+		"strip-bom-stream": "^4.0.0",
 		"through2": "^3.0.0"
 	},
 	"devDependencies": {
 		"sample-gtfs-feed": "~0.3.1",
-		"tap-min": "^1.2.2",
+		"tap-min": "^2.0.0",
 		"tape": "^4.8.0"
 	},
 	"scripts": {
