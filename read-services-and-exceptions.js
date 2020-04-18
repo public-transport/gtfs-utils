@@ -4,22 +4,24 @@ const daysBetween = require('./lib/days-between')
 const parseDate = require('./parse-date')
 const errorsWithRow = require('./lib/errors-with-row')
 
-const noFilters = {
-	service: () => true,
-	serviceException: () => true
-}
-
 const REMOVED = '2'
 const ADDED = '1'
 
 const readServicesAndExceptions = (read, timezone, filters = {}) => {
 	// todo: validate args
-	filters = Object.assign({}, noFilters, filters)
+	const {
+		service: serviceFilter,
+		serviceException: serviceExceptionFilter,
+	} = {
+		service: () => true,
+		serviceException: () => true,
+		...filters
+	}
 
 	const acc = Object.create(null)
 
 	const onService = (s) => {
-		if (!filters.service(s)) return null
+		if (!serviceFilter(s)) return null
 
 		const weekdays = {
 			monday: s.monday === '1',
@@ -35,7 +37,7 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 	}
 
 	const onException = (e) => {
-		if (!filters.serviceException(e)) return null
+		if (!serviceExceptionFilter(e)) return null
 
 		const days = acc[e.service_id]
 		if (!days) return null

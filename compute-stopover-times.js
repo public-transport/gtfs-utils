@@ -12,12 +12,6 @@ const errorsWithRow = require('./lib/errors-with-row')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-const noFilters = {
-	service: () => true,
-	trip: () => true,
-	stopover: () => true
-}
-
 // todo: stopover.stop_timezone
 const computeStopoverTimes = (readFile, filters, timezone) => {
 	if ('function' !== typeof readFile) {
@@ -25,9 +19,10 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
-	filters = Object.assign({}, noFilters, filters)
-	if ('function' !== typeof filters.service) {
-		throw new Error('filters.service must be a function.')
+	filters = {
+		trip: () => true,
+		stopover: () => true,
+		...filters,
 	}
 	if ('function' !== typeof filters.trip) {
 		throw new Error('filters.trip must be a function.')
@@ -35,11 +30,14 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 	if ('function' !== typeof filters.stopover) {
 		throw new Error('filters.stopover must be a function.')
 	}
+	const {
+		stopover: stopoverFilter,
+	} = filters
 
 	let services, trips
 
 	const onStopover = function (s, _, cb) {
-		if (!filters.stopover(s)) return cb()
+		if (!stopoverFilter(s)) return cb()
 
 		const {serviceId, routeId} = trips[s.trip_id]
 		const days = services[serviceId]

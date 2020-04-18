@@ -88,7 +88,11 @@ const computeSchedules = (readFile, filters = {}, computeSig = defComputeSig) =>
 	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
-	filters = Object.assign({}, noFilters, filters)
+	filters = {
+		trip: () => true,
+		stopover: () => true,
+		...filters,
+	}
 	if ('function' !== typeof filters.trip) {
 		throw new Error('filters.trip must be a function.')
 	}

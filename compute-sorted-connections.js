@@ -11,13 +11,11 @@ const parseTime = require('./parse-time')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-const noFilters = {
-	service: () => true,
-	trip: () => true,
-	stopover: () => true
-}
-
 const computeStopoversByTrip = (readFile, filters, timezone) => {
+	const {
+		stopover: stopoverFilter,
+	} = filters
+
 	return Promise.all([
 		readServicesAndExceptions(readFile, timezone, filters),
 		readTrips(readFile, filters.trip)
@@ -32,7 +30,7 @@ const computeStopoversByTrip = (readFile, filters, timezone) => {
 
 		const stopovers = Object.create(null) // by trip ID
 		const onStopover = (s) => {
-			if (!filters.stopover(s)) return;
+			if (!stopoverFilter(s)) return;
 
 			const trip = trips[s.trip_id]
 			if (!trip) throw new Error(`unknown trip ${s.trip_id}`)
@@ -97,7 +95,12 @@ const computeSortedConnections = (readFile, filters, timezone) => {
 	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
-	filters = Object.assign({}, noFilters, filters)
+	filters = {
+		service: () => true,
+		trip: () => true,
+		stopover: () => true,
+		...filters,
+	}
 	if ('function' !== typeof filters.service) {
 		throw new Error('filters.service must be a function.')
 	}
