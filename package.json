@@ -48,7 +48,7 @@
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.4",
-		"sample-gtfs-feed": "^0.3.2",
+		"sample-gtfs-feed": "^0.4.0",
 		"tap-min": "^2.0.0",
 		"tape": "^4.8.0"
 	},
