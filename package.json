@@ -43,8 +43,7 @@
 		"shorthash": "0.0.2",
 		"sort-array-by-another": "^1.0.0",
 		"sorted-array-functions": "^1.2.0",
-		"strip-bom-stream": "^4.0.0",
-		"through2": "^3.0.0"
+		"strip-bom-stream": "^4.0.0"
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.4",

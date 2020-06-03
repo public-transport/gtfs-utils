@@ -1,9 +1,8 @@
 'use strict'
 
-const {PassThrough} = require('stream')
+const {Transform} = require('stream')
 const {DateTime} = require('luxon')
 const pump = require('pump')
-const through = require('through2')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const readTrips = require('./read-trips')
@@ -62,7 +61,10 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		cb()
 	}
 
-	const parser = through.obj(errorsWithRow('stop_times', onStopover))
+	const parser = new Transform({
+		objectMode: true,
+		write: errorsWithRow('stop_times', onStopover),
+	})
 
 	Promise.all([
 		readServicesAndExceptions(readFile, timezone, filters),
