@@ -97,7 +97,7 @@ test('lib/errors-with-row', (t) => {
 	})
 
 	t.equal(typeof onData, 'function')
-	t.equal(onData.length, 1)
+	t.equal(onData.length, 3)
 	t.doesNotThrow(() => {
 		onData(); onData()
 	}, 'does not throw on 1st/2nd call')
