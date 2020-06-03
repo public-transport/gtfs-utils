@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"files": [
 		"parse-date.js",
 		"parse-time.js",

@@ -58,8 +58,8 @@ const filter = t => t.route_id === 'A'
 readStops(readFile, filter)
 .then((stops) => {
 	const someStopId = Object.keys(stops)[0]
-	const someTrip = stops[someStopId]
-	console.log(someTrip)
+	const someStop = stops[someStopId]
+	console.log(someStop)
 })
 ```
 

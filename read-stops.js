@@ -19,6 +19,7 @@ const readStops = (readFile, filter = noFilter) => {
 			if (s.location_type === '3' || s.location_type === '4') return;
 
 			if (s.location_type === '1') {
+				// todo [breaking]: rename to `platforms`
 				s = {...s, child_stops: []}
 			}
 			stops[s.stop_id] = s
