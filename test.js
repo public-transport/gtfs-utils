@@ -12,6 +12,7 @@ const errorsWithRow = require('./lib/errors-with-row')
 // const computeStopoverTimes = require('./compute-stopover-times')
 const computeSortedConnections = require('./compute-sorted-connections')
 const computeServiceBreaks = require('./compute-service-breaks')
+const {extendedToBasic} = require('./route-types')
 
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
@@ -176,4 +177,10 @@ test('compute-service-breaks', (t) => {
 		t.end()
 	})
 	.catch(t.ifError)
+})
+
+test('extendedToBasic', (t) => {
+	t.plan(2)
+	t.equal(extendedToBasic(110), 0)
+	t.equal(extendedToBasic(706), 3)
 })

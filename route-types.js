@@ -181,6 +181,13 @@ const all = [
 	...extendedRouteTypes,
 ]
 
+const extendedToBasic = (extended) => {
+	const {fptf} = extendedRouteTypes.find(m => m.gtfs === extended) || {}
+	if (!fptf) throw new Error('unknown/invalid extended type')
+	const {gtfs} = basicRouteTypes.find(m => m.fptf === fptf) || {}
+	return Number.isInteger(gtfs) ? gtfs : null
+}
+
 const gtfsToFptf = (gtfsType) => {
 	const match = all.find(m => m.gtfs === gtfsType)
 	return match ? match.fptf : null
@@ -194,5 +201,6 @@ module.exports = {
 	basic: basicRouteTypes,
 	extended: extendedRouteTypes,
 	all,
+	extendedToBasic,
 	gtfsToFptf, fptfToGtfs,
 }
