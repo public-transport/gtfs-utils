@@ -61,8 +61,9 @@ const computeStopoversByTrip = (readFile, filters, timezone) => {
 				}
 				cb()
 			},
-			writev: function parseStopovers (stopovers, _, cb) {
-				for (const i = 0; i < stopovers.length; i++) {
+			writev: function parseStopovers (chunks, _, cb) {
+				for (let i = 0; i < chunks.length; i++) {
+					const s = chunks[i].chunk
 					row++
 					try {
 						onStopover(s)
