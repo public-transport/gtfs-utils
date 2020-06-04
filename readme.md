@@ -473,6 +473,12 @@ console.log(routeTypes.basic.find(type => type.gtfs === 3))
 `fptf` contains the [*Friendly Public Transport Format (FPTF)* mode](https://github.com/public-transport/friendly-public-transport-format/tree/1.2.1/spec#modes).
 
 
+## Related
+
+- [gtfs-stream](https://github.com/staeco/gtfs-stream) – Streaming GTFS and GTFS-RT parser for node
+- [mapzen-gtfs](https://github.com/transitland/mapzen-gtfs) – Python library for reading and writing GTFS feeds. (Python)
+
+
 ## Contributing
 
 If you have a question or have difficulties using `gtfs-utils`, please double-check your code and setup first. If you think you have found a bug or want to propose a feature, refer to [the issues page](https://github.com/public-transport/gtfs-utils/issues).
