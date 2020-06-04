@@ -45,6 +45,8 @@ readCsv('path-to-file.txt')
 
 Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 
+`path` can also be a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) like [`process.stdin`](https://nodejs.org/api/process.html#process_process_stdin).
+
 ### `readStops(readFile, filter)`
 
 ```js

@@ -2,6 +2,7 @@
 
 const {DateTime} = require('luxon')
 const test = require('tape')
+const {createReadStream} = require('fs')
 
 const readCsv = require('./read-csv')
 const parseDate = require('./parse-date')
@@ -26,6 +27,18 @@ const readFile = (file) => {
 
 const utc = 'Etc/UTC'
 const berlin = 'Europe/Berlin'
+
+test('read-csv: accept a readable stream as input', (t) => {
+	const readable = createReadStream(require.resolve('sample-gtfs-feed/gtfs/stops.txt'))
+	const src = readCsv(readable)
+
+	src.once('data', (stop) => {
+		t.ok(stop)
+		t.ok(stop.stop_id)
+		src.destroy()
+		t.end()
+	})
+})
 
 test('parse-date', (t) => {
 	t.plan(3)
