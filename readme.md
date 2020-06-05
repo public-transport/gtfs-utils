@@ -163,7 +163,11 @@ const filters = {
 }
 
 readServices(readFile, 'Europe/Berlin', filters)
-.then(console.log)
+.then(async (services) => {
+	for await (const [id, days] of services) {
+		console.log(id, days)
+	}
+})
 .catch(console.error)
 ```
 
@@ -171,22 +175,20 @@ Will read `calendar.txt` and `calendar_dates.txt` and condense each service into
 
 The result might look like this:
 
-```js
-{
-	'service-1': [
-		1551394800,
-		1551481200,
-		1551567600,
-		1551654000
-		// …
-	],
-	'service-2': [
-		1551567600,
-		1552690800,
-		1555797600
-	]
-	// …
-}
+```
+service-1 [
+	1551394800,
+	1551481200,
+	1551567600,
+	1551654000,
+	…
+]
+service-2 [
+	1551567600,
+	1552690800,
+	1555797600
+]
+…
 ```
 
 *Note*: In order to work, `readServicesAndExceptions` will load (a reduced form of) `calendar.txt` and `calendar_dates.txt` into memory. This might fail with huge data sets.

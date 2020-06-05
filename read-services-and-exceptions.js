@@ -1,13 +1,14 @@
 'use strict'
 
+const inMemoryStore = require('./lib/in-memory-store')
 const daysBetween = require('./lib/days-between')
+const reduce = require('./lib/reduce')
 const parseDate = require('./parse-date')
-const errorsWithRow = require('./lib/errors-with-row')
 
 const REMOVED = '2'
 const ADDED = '1'
 
-const readServicesAndExceptions = (read, timezone, filters = {}) => {
+const readServicesAndExceptions = async (readFile, timezone, filters = {}, opt = {}) => {
 	// todo: validate args
 	const {
 		service: serviceFilter,
@@ -17,11 +18,17 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 		serviceException: () => true,
 		...filters
 	}
+	const {
+		createStore,
+	} = {
+		createStore: inMemoryStore,
+		...opt,
+	}
 
-	const acc = Object.create(null)
+	const services = createStore()
 
-	const onService = (s) => {
-		if (!serviceFilter(s)) return null
+	const processService = async (s) => {
+		if (!serviceFilter(s)) return;
 
 		const weekdays = {
 			monday: s.monday === '1',
@@ -33,14 +40,14 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 			sunday: s.sunday === '1'
 		}
 		const days = daysBetween(s.start_date, s.end_date, weekdays, timezone)
-		acc[s.service_id] = days
+		await services.set(s.service_id, days)
 	}
 
-	const onException = (e) => {
-		if (!serviceExceptionFilter(e)) return null
+	const processException = async (e) => {
+		if (!serviceExceptionFilter(e)) return;
 
-		const days = acc[e.service_id]
-		if (!days) return null
+		const days = await services.get(e.service_id)
+		if (!days) return;
 
 		const day = parseDate(e.date, timezone)
 		if (e.exception_type === REMOVED) {
@@ -49,29 +56,22 @@ const readServicesAndExceptions = (read, timezone, filters = {}) => {
 		} else if (e.exception_type === ADDED) {
 			if (!days.includes(day)) days.push(day)
 		} // todo: else emit error
+
+		await services.set(e.service_id, days)
 	}
 
-	const sortServices = () => {
-		for (let id in acc) acc[id] = acc[id].sort()
+	const calendar = readFile('calendar')
+	await reduce('calendar', calendar, services, processService)
+	const calendarDates = readFile('calendar_dates')
+	await reduce('calendar_dates', calendarDates, services, processException)
+
+	// sort days in services
+	for await (const [id, days] of services) {
+		days.sort()
+		await services.set(id, days)
 	}
 
-	return new Promise((resolve, reject) => {
-		const services = read('calendar')
-		services.on('data', errorsWithRow('calendar', onService))
-		services.once('error', err => services.destroy(err))
-		services.once('end', (err) => {
-			if (err) return reject(err)
-
-			const exceptions = read('calendar_dates')
-			exceptions.on('data', errorsWithRow('calendar_dates', onException))
-			exceptions.once('error', err => exceptions.destroy(err))
-			exceptions.once('end', (err) => {
-				if (err) return reject(err)
-				sortServices()
-				resolve(acc)
-			})
-		})
-	})
+	return services
 }
 
 module.exports = readServicesAndExceptions
