@@ -1,22 +1,28 @@
 'use strict'
 
-const readTrips = (readFile, filter) => {
-	return new Promise((resolve, reject) => {
-		const data = readFile('trips')
-		data.once('error', (err) => {
-			reject(err)
-			data.destroy(err)
-		})
-		data.once('end', (err) => {
-			if (!err) setImmediate(resolve, acc)
-		})
+const inMemoryStore = require('./lib/in-memory-store')
+const reduce = require('./lib/reduce')
 
-		const acc = Object.create(null) // by ID
-		data.on('data', (t) => {
-			if (!filter(t)) return null
-			acc[t.trip_id] = t
-		})
-	})
+const noFilter = () => true
+
+const readTrips = async (readFile, filter = noFilter, opt = {}) => {
+	const {
+		createStore,
+	} = {
+		createStore: inMemoryStore,
+		...opt,
+	}
+
+	const trips = createStore()
+	const processTrip = async (t) => {
+		if (!filter(t)) return;
+		await trips.set(t.trip_id, t)
+	}
+
+	const file = readFile('trips')
+	await reduce('trips', file, trips, processTrip)
+
+	return trips
 }
 
 module.exports = readTrips

@@ -96,10 +96,11 @@ const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 const filter = t => t.route_id === 'A'
 
 readTrips(readFile, filter)
-.then((trips) => {
-	const someTripId = Object.keys(trips)[0]
-	const someTrip = trips[someTripId]
-	console.log(someTrip)
+.then(async (trips) => {
+	for await (const trip of trips.values()) {
+		console.log(trip)
+		break
+	}
 })
 ```
 
