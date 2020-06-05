@@ -1,7 +1,7 @@
 'use strict'
 
 const inMemoryStore = require('./lib/in-memory-store')
-const reduce = require('./lib/reduce')
+const processFile = require('./lib/process-file')
 
 const noFilter = () => true
 
@@ -18,9 +18,7 @@ const readTrips = async (readFile, filter = noFilter, opt = {}) => {
 		if (!filter(t)) return;
 		await trips.set(t.trip_id, t)
 	}
-
-	const file = readFile('trips')
-	await reduce('trips', file, trips, processTrip)
+	await processFile('trips', readFile('trips'), processTrip)
 
 	return trips
 }

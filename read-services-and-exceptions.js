@@ -2,7 +2,7 @@
 
 const inMemoryStore = require('./lib/in-memory-store')
 const daysBetween = require('./lib/days-between')
-const reduce = require('./lib/reduce')
+const processFile = require('./lib/process-file')
 const parseDate = require('./parse-date')
 
 const REMOVED = '2'
@@ -60,10 +60,8 @@ const readServicesAndExceptions = async (readFile, timezone, filters = {}, opt =
 		await services.set(e.service_id, days)
 	}
 
-	const calendar = readFile('calendar')
-	await reduce('calendar', calendar, services, processService)
-	const calendarDates = readFile('calendar_dates')
-	await reduce('calendar_dates', calendarDates, services, processException)
+	await processFile('calendar', readFile('calendar'), processService)
+	await processFile('calendar_dates', readFile('calendar_dates'), processException)
 
 	// sort days in services
 	for await (const [id, days] of services) {

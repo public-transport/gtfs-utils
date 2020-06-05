@@ -2,18 +2,12 @@
 
 const recordSort = require('sort-array-by-another')
 
-const parseTime = require('./parse-time')
+const parseRelativeTime = require('./lib/parse-relative-time')
 const errorsWithRow = require('./lib/errors-with-row')
 
 const noFilter = () => true
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
-
-// relative to the beginning to the day
-const parseTimeRelative = (str) => {
-	const t = parseTime(str)
-	return t.hours * 3600 + t.minutes * 60 + (t.seconds || 0)
-}
 
 const computeConnections = (readFile, timezone, filter = noFilter) => {
 	if ('function' !== typeof readFile) {
@@ -35,8 +29,8 @@ const computeConnections = (readFile, timezone, filter = noFilter) => {
 		if (!filter(s)) return null
 
 		const seq = parseInt(s.stop_sequence)
-		const arr = parseTimeRelative(s.arrival_time)
-		const dep = parseTimeRelative(s.departure_time)
+		const arr = parseRelativeTime(s.arrival_time)
+		const dep = parseRelativeTime(s.departure_time)
 
 		if (!sequences[s.trip_id]) {
 			sequences[s.trip_id] = [seq]

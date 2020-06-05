@@ -1,7 +1,7 @@
 'use strict'
 
 const inMemoryStore = require('./lib/in-memory-store')
-const reduce = require('./lib/reduce')
+const processFile = require('./lib/process-file')
 
 const noFilter = () => true
 
@@ -14,6 +14,7 @@ const readStops = async (readFile, filter = noFilter, opt = {}) => {
 	}
 
 	const stops = createStore()
+
 	const processStop = async (s) => {
 		if (!filter(s)) return;
 		// todo: support these
@@ -24,9 +25,7 @@ const readStops = async (readFile, filter = noFilter, opt = {}) => {
 		}
 		await stops.set(s.stop_id, s)
 	}
-
-	const file = readFile('stops')
-	await reduce('stops', file, stops, processStop)
+	await processFile('stops', readFile('stops'), processStop)
 
 	for await (const [id, stop] of stops.entries()) {
 		// continue if it's not a stop

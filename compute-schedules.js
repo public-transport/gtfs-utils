@@ -3,19 +3,13 @@
 const shorthash = require('shorthash').unique
 const recordSort = require('sort-array-by-another')
 
-const parseTime = require('./parse-time')
+const parseRelativeTime = require('./lib/parse-relative-time')
 const readTrips = require('./read-trips')
 const errorsWithRow = require('./lib/errors-with-row')
 
 const noFilters = {
 	trip: () => true,
 	stopover: () => true
-}
-
-// relative to the beginning to the day
-const parseTimeRelative = (str) => {
-	const t = parseTime(str)
-	return t.hours * 3600 + t.minutes * 60 + (t.seconds || 0)
 }
 
 const applyStopovers = (trips, readFile, filter) => {
@@ -35,8 +29,8 @@ const applyStopovers = (trips, readFile, filter) => {
 			trip.sequence.push(parseInt(s.stop_sequence))
 			trip.stops.push(s.stop_id)
 
-			const arr = s.arrival_time ? parseTimeRelative(s.arrival_time) : null
-			const dep = s.departure_time ? parseTimeRelative(s.departure_time) : null
+			const arr = s.arrival_time ? parseRelativeTime(s.arrival_time) : null
+			const dep = s.departure_time ? parseRelativeTime(s.departure_time) : null
 			trip.arrivals.push(arr)
 			trip.departures.push(dep)
 		}))
