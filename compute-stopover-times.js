@@ -4,6 +4,7 @@ const {Transform} = require('stream')
 const {DateTime} = require('luxon')
 const pump = require('pump')
 
+const inMemoryStore = require('./lib/in-memory-store')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const readTrips = require('./read-trips')
 const parseTime = require('./parse-time')
@@ -12,11 +13,10 @@ const errorsWithRow = require('./lib/errors-with-row')
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
 // todo: stopover.stop_timezone
-const computeStopoverTimes = (readFile, filters, timezone) => {
+const computeStopoverTimes = (readFile, filters, timezone, opt = {}) => {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
 	}
-
 	if (!isObj(filters)) throw new Error('filters must be an object.')
 	filters = {
 		trip: () => true,
@@ -32,65 +32,73 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 	const {
 		stopover: stopoverFilter,
 	} = filters
+	const {
+		createStore,
+	} = {
+		createStore: inMemoryStore,
+		...opt,
+	}
 
 	let services, trips
 
-	const onStopover = function (s, _, cb) {
-		if (!stopoverFilter(s)) return cb()
+	const processStopover = (s, _, cb) => {
+		;(async () => {
+			if (!stopoverFilter(s)) return;
 
-		const {serviceId, routeId} = trips[s.trip_id]
-		const days = services[serviceId]
-		if (!days) return cb()
+			const t = await trips.get(s.trip_id)
+			if (!t) return;
+			const [serviceId, routeId] = t
+			const days = await services.get(serviceId)
+			if (!days) return;
 
-		const arr = parseTime(s.arrival_time)
-		const dep = parseTime(s.departure_time)
+			const arr = parseTime(s.arrival_time)
+			const dep = parseTime(s.departure_time)
 
-		for (let day of days) {
-			const d = DateTime.fromMillis(day * 1000, {zone: timezone})
-			this.push({
-				stop_id: s.stop_id,
-				trip_id: s.trip_id,
-				service_id: serviceId,
-				route_id: routeId,
-				sequence: s.stop_sequence,
-				start_of_trip: day,
-				arrival: d.plus(arr) / 1000 | 0,
-				departure: d.plus(dep) / 1000 | 0
-			})
-		}
-		cb()
+			for (let day of days) {
+				const d = DateTime.fromMillis(day * 1000, {zone: timezone})
+				out.push({
+					stop_id: s.stop_id,
+					trip_id: s.trip_id,
+					service_id: serviceId,
+					route_id: routeId,
+					sequence: s.stop_sequence,
+					start_of_trip: day,
+					arrival: d.plus(arr) / 1000 | 0,
+					departure: d.plus(dep) / 1000 | 0
+				})
+			}
+		})()
+		.then(() => cb(), cb)
 	}
 
-	const parser = new Transform({
+	const out = new Transform({
 		objectMode: true,
-		write: errorsWithRow('stop_times', onStopover),
+		write: errorsWithRow('stop_times', processStopover),
 	})
 
-	Promise.all([
-		readServicesAndExceptions(readFile, timezone, filters),
-		readTrips(readFile, filters.trip)
-	])
-	.then(([_services, _trips]) => {
+	;(async () => {
+		const [_services, _trips] = await Promise.all([
+			readServicesAndExceptions(readFile, timezone, filters),
+			readTrips(readFile, filters.trip),
+		])
 		services = _services
-		for (let tripId in _trips) {
-			_trips[tripId] = {
-				serviceId: _trips[tripId].service_id,
-				routeId: _trips[tripId].route_id
-			}
+		for await (const [id, trip] of _trips) {
+			await _trips.set(id, [trip.service_id, trip.route_id])
 		}
 		trips = _trips
 
 		pump(
 			readFile('stop_times'),
-			parser,
-			() => {}
+			out,
+			(err) => {
+				if (err) out.destroy(err)
+			},
 		)
-	})
+	})()
 	.catch((err) => {
-		parser.destroy(err)
+		out.destroy(err)
 	})
-
-	return parser
+	return out
 }
 
 module.exports = computeStopoverTimes
