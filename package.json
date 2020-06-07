@@ -50,7 +50,7 @@
 	"devDependencies": {
 		"benchmark": "^2.1.4",
 		"eslint": "^7.1.0",
-		"sample-gtfs-feed": "^0.5.1",
+		"sample-gtfs-feed": "0.5.1",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
 	},

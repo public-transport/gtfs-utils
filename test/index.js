@@ -127,6 +127,8 @@ test('lib/errors-with-row', (t) => {
 	t.end()
 })
 
+require('./read-and-sort-stop-times')
+
 test('compute-stopover-times', (t) => {
 	// todo
 	t.end()
