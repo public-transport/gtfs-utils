@@ -18,6 +18,7 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 	filters = {
 		trip: () => true,
 		stopover: () => true,
+		frequenciesRow: () => true,
 		...filters,
 	}
 	if ('function' !== typeof filters.trip) {
@@ -35,25 +36,32 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 	}
 
 	const {
-		sequencesByTripId,
 		stopsByTripId,
 		arrivalsByTripId,
 		departuresByTripId,
+		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
 	} = await readAndSortStopTimes(readFile, filters, {createStore})
 
 	const generateConnectionsByTripId = async function* () {
-		for await (const tripId of sequencesByTripId.keys()) {
+		for await (const tripId of stopsByTripId.keys()) {
 			const [
 				stops,
 				arrivals,
 				departures,
+				hwStarts,
+				hwEnds,
+				hwHeadways,
 			] = await Promise.all([
 				stopsByTripId.get(tripId),
 				arrivalsByTripId.get(tripId),
 				departuresByTripId.get(tripId),
+				headwayBasedStarts.get(tripId),
+				headwayBasedEnds.get(tripId),
+				headwayBasedHeadways.get(tripId),
 			])
-
 			const connections = []
+
+			// scheduled connections
 			for (let i = 1; i < stops.length; i++) {
 				connections.push({
 					tripId,
@@ -63,6 +71,26 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 					arrival: arrivals[i],
 				})
 			}
+
+			// headway-based connections
+			if (hwStarts) {
+				const t0 = arrivals[0]
+				for (let i = 0; i < hwStarts.length; i++) {
+					for (let t = hwStarts[i]; t < hwEnds[i]; t += hwHeadways[i]) {
+						for (let j = 1; j < stops.length; j++) {
+							connections.push({
+								tripId,
+								fromStop: stops[j - 1],
+								departure: t + departures[j - 1] - t0,
+								toStop: stops[j],
+								arrival: t + arrivals[j] - t0,
+								headwayBased: true, // todo: pick a more helpful flag?
+							})
+						}
+					}
+				}
+			}
+
 			yield connections
 		}
 	}
