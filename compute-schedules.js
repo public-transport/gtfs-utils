@@ -23,6 +23,7 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 	filters = {
 		trip: () => true,
 		stopover: () => true,
+		frequenciesRow: () => true,
 		...filters,
 	}
 	if ('function' !== typeof filters.trip) {
@@ -42,21 +43,31 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 	}
 
 	const {
-		sequencesByTripId,
 		stopsByTripId,
 		arrivalsByTripId,
 		departuresByTripId,
+		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
 	} = await readAndSortStopTimes(readFile, filters, {createStore})
 
 	const schedules = createStore() // by signature
 
 	// make arrivals and departures relative to the first arrival,
 	// deduplicate/merge all schedules by signature
-	for await (const tripId of sequencesByTripId.keys()) {
-		const [stops, absArrs, absDeps] = await Promise.all([
+	for await (const tripId of stopsByTripId.keys()) {
+		const [
+			stops,
+			absArrs,
+			absDeps,
+			hwStarts,
+			hwEnds,
+			hwHeadways,
+		] = await Promise.all([
 			stopsByTripId.get(tripId),
 			arrivalsByTripId.get(tripId),
 			departuresByTripId.get(tripId),
+			headwayBasedStarts.get(tripId),
+			headwayBasedEnds.get(tripId),
+			headwayBasedHeadways.get(tripId),
 		])
 
 		const t0 = absArrs[0]
@@ -67,7 +78,12 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 			deps[i] = absDeps[i] === null ? absDeps[i] : absDeps[i] - t0
 		}
 
-		const signature = computeSig([stops, arrs, deps])
+		const signature = computeSig([
+			stops, arrs, deps,
+			hwStarts || [],
+			hwEnds || [],
+			hwHeadways || [],
+		])
 		const schedule = await schedules.get(signature)
 
 		if (schedule) { // merge into existing schedule
@@ -80,6 +96,9 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 				stops,
 				arrivals: arrs,
 				departures: deps,
+				headwayBasedStarts: hwStarts || [],
+				headwayBasedEnds: hwEnds || [],
+				headwayBasedHeadways: hwHeadways || [],
 			})
 		}
 	}
