@@ -128,6 +128,7 @@ test('lib/errors-with-row', (t) => {
 })
 
 require('./read-and-sort-stop-times')
+require('./resolve-time')
 
 test('compute-stopover-times', (t) => {
 	// todo
