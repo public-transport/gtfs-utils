@@ -2,6 +2,7 @@
 
 const test = require('tape')
 const {createReadStream} = require('fs')
+const fromArr = require('from2-array')
 
 const inMemoryStore = require('../lib/in-memory-store')
 const readCsv = require('../read-csv')
@@ -11,7 +12,7 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-test('read-csv: accept a readable stream as input', async (t) => {
+test('read-and-sort-stop-times: accepts a readable stream as input', async (t) => {
 	const {
 		stopsByTripId,
 		arrivalsByTripId,
@@ -25,7 +26,7 @@ test('read-csv: accept a readable stream as input', async (t) => {
 		createStore: inMemoryStore,
 	})
 
-	t.deepEqual(Array.from(stopsByTripId.map.entries()), [
+	t.deepEqual(Array.from(stopsByTripId.raw.entries()), [
 		['a-downtown-all-day', ['airport', 'museum', 'center']],
 		['a-outbound-all-day', ['center', 'museum', 'airport']],
 		['b-downtown-on-working-days', ['airport', 'lake', 'center', 'airport', 'lake', 'center']],
@@ -34,7 +35,7 @@ test('read-csv: accept a readable stream as input', async (t) => {
 		['b-outbound-on-weekends', ['center', 'lake', 'airport']],
 		['c-downtown-all-day', ['airport', 'center']],
 	])
-	t.deepEqual(Array.from(arrivalsByTripId.map.entries()), [
+	t.deepEqual(Array.from(arrivalsByTripId.raw.entries()), [
 		['a-downtown-all-day', [55380, 55800, 56100]],
 		['a-outbound-all-day', [61980, 62400, 62700]],
 		['b-downtown-on-working-days', [32100, 32520, 33120, 47580, 48000, 48600]],
@@ -43,7 +44,7 @@ test('read-csv: accept a readable stream as input', async (t) => {
 		['b-outbound-on-weekends', [65580, 66120, 66600]],
 		['c-downtown-all-day', [55620, 55980]],
 	])
-	t.deepEqual(Array.from(departuresByTripId.map.entries()), [
+	t.deepEqual(Array.from(departuresByTripId.raw.entries()), [
 		['a-downtown-all-day', [55440, 55860, 56160]],
 		['a-outbound-all-day', [62040, 62460, 62760]],
 		['b-downtown-on-working-days', [32160, 32640, 33180, 47640, 48120, 48660]],
@@ -52,13 +53,13 @@ test('read-csv: accept a readable stream as input', async (t) => {
 		['b-outbound-on-weekends', [65640, 66240, 66660]],
 		['c-downtown-all-day', [55680, 56100]],
 	])
-	t.deepEqual(Array.from(headwayBasedStarts.map.entries()), [
+	t.deepEqual(Array.from(headwayBasedStarts.raw.entries()), [
 		['b-outbound-on-working-days', [54000]],
 	])
-	t.deepEqual(Array.from(headwayBasedEnds.map.entries()), [
+	t.deepEqual(Array.from(headwayBasedEnds.raw.entries()), [
 		['b-outbound-on-working-days', [57600]],
 	])
-	t.deepEqual(Array.from(headwayBasedHeadways.map.entries()), [
+	t.deepEqual(Array.from(headwayBasedHeadways.raw.entries()), [
 		['b-outbound-on-working-days', [600]],
 	])
 })
