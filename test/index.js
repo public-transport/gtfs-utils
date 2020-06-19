@@ -130,12 +130,12 @@ test('lib/errors-with-row', (t) => {
 require('./read-and-sort-stop-times')
 require('./resolve-time')
 
-test('compute-stopover-times', (t) => {
+test.skip('compute-stopover-times', (t) => {
 	// todo
 	t.end()
 })
 
-test('compute-sorted-connections', (t) => {
+test.skip('compute-sorted-connections', (t) => {
 	const from = 1552324800
 	const to = 1552393000
 
@@ -168,7 +168,7 @@ test('compute-sorted-connections', (t) => {
 	.catch(t.ifError)
 })
 
-test('compute-service-breaks', (t) => {
+test.skip('compute-service-breaks', (t) => {
 	const from = '2019-05-08T12:00:00+02:00'
 	const to = '2019-05-10T15:00:00+02:00'
 

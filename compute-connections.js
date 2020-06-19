@@ -74,6 +74,7 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 			}
 
 			// headway-based connections
+			// todo: DRY with compute-stopover-times
 			if (hwStarts) {
 				const t0 = arrivals[0]
 				for (let i = 0; i < hwStarts.length; i++) {

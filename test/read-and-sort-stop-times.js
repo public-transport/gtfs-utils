@@ -63,3 +63,51 @@ test('read-and-sort-stop-times: accepts a readable stream as input', async (t) =
 		['b-outbound-on-working-days', [600]],
 	])
 })
+
+test.skip('handles DST properly', async (t) => {
+	const files = new Map([
+		['trips', [{
+			route_id: 'A',
+			service_id: 'sA',
+			trip_id: 'A1',
+		}]],
+		['stop_times', [{
+			// during DST -> standard time switch
+			trip_id: 'A1',
+			arrival_time: '2:59',
+			departure_time: '2:01',
+			stop_id: '1',
+			stop_sequence: '3',
+		}, {
+			// within standard time
+			trip_id: 'A1',
+			arrival_time: '2:59',
+			departure_time: '3:01',
+			stop_id: '2',
+			stop_sequence: '5',
+		}]],
+		// ['calendar', [{
+		// 	service_id: 'sA',
+		// 	monday: '1',
+		// 	tuesday: '1',
+		// 	wednesday: '1',
+		// 	thursday: '1',
+		// 	friday: '1',
+		// 	saturday: '1',
+		// 	sunday: '1',
+		// 	// date of DST -> standard time switch
+		// 	start_date: '2019-10-27',
+		// 	end_date: '2019-10-27',
+		// }]],
+	])
+	const readFile = (filename) => {
+		if (!files.has(filename)) {
+			throw Object.assign(new Error('not found'), {
+				code: 'ENOENT'
+			})
+		}
+		return fromArr(files.get(filename))
+	}
+
+	// todo
+})
