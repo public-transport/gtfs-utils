@@ -40,6 +40,7 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 		arrivalsByTripId,
 		departuresByTripId,
 		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
+		closeStores,
 	} = await readAndSortStopTimes(readFile, filters, {createStore})
 
 	const generateConnectionsByTripId = async function* () {
@@ -93,10 +94,13 @@ const computeConnections = async (readFile, timezone, filters = {}, opt = {}) =>
 
 			yield connections
 		}
+
+		await closeStores()
 	}
 
 	const out = {}
 	out[Symbol.asyncIterator] = generateConnectionsByTripId
+	out.closeStores = closeStores
 	return out
 }
 

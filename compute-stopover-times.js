@@ -52,6 +52,7 @@ const computeStopoverTimes = async function* (readFile, timezone, filters = {}, 
 		arrivalsByTripId,
 		departuresByTripId,
 		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
+		closeStores,
 	} = await readAndSortStopTimes(readFile, filters, {createStore})
 
 	const services = await readServicesAndExceptions(readFile, timezone, filters)
@@ -120,6 +121,8 @@ const computeStopoverTimes = async function* (readFile, timezone, filters = {}, 
 			}
 		}
 	}
+
+	await closeStores()
 }
 
 module.exports = computeStopoverTimes
