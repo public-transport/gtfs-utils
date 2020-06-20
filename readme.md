@@ -47,7 +47,7 @@ Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html
 
 `path` can also be a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) like [`process.stdin`](https://nodejs.org/api/process.html#process_process_stdin).
 
-### `readStops(readFile, filter)`
+### `readStops(readFile, filters = {})`
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
@@ -55,9 +55,9 @@ const readStops = require('gtfs-utils/read-stops')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
-const filter = t => t.route_id === 'A'
-
-readStops(readFile, filter)
+readStops(readFile, {
+	stop: s => s.stop_id[0] === 'a',
+})
 .then(async (stops) => {
 	for await (const stop of stops.values()) {
 		console.log(stop)
@@ -83,7 +83,7 @@ readStops(readFile, filter)
 }
 ```
 
-Will read `stops.txt`, reduce it into a map `stop_id => stop`, and add stop IDs of a station as `station.child_stops`. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
+Will read `stops.txt`, reduce it into a map `stop_id => stop`, and add platform IDs of a station as `station.platforms`. Returns a [store instance](#stores).
 
 ### `readTrips(readFile, filter)`
 

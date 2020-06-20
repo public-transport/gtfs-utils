@@ -17,6 +17,7 @@
 		"find-alternative-trips.js",
 		"compute-service-breaks.js",
 		"route-types.js",
+		"read-stops.js",
 		"lib",
 		"examples",
 		"test"
