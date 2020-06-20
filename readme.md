@@ -114,6 +114,36 @@ readTrips(readFile, filter)
 
 Will read `trips.txt` and reduce it into a map `tripId => trip`. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
 
+### `readTrips(readFile, filters = {})`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readTrips = require('gtfs-utils/read-trips')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const trips = readTrips(readFile, {
+	trip: s => s.trip_id === '1234',
+})
+for await (const trip of trips) console.log(trip)
+```
+
+```js
+{
+	route_id: 'A',
+	service_id: 'all-day',
+	trip_id: 'a-downtown-all-day',
+	trip_headsign: '',
+	trip_short_name: '',
+	direction_id: '',
+	wheelchair_accessible: '',
+	bikes_allowed: '',
+}
+
+```
+
+`readTrips` is an [async generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
+
 ### `parseDate(dateStr, timezone)`
 
 ```js

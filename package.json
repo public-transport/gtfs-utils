@@ -18,6 +18,7 @@
 		"compute-service-breaks.js",
 		"route-types.js",
 		"read-stops.js",
+		"read-trips.js",
 		"lib",
 		"examples",
 		"test"
