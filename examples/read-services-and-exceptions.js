@@ -8,12 +8,12 @@ const readFile = (file) => {
 }
 
 ;(async () => {
-	const services = await readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
 	for await (const [id, days] of services) {
 		console.log(id, days)
 	}
 })()
 .catch((err) => {
 	console.error(err)
-	process.exitCode = 1
+	process.exit(1)
 })

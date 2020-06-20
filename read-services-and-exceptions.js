@@ -1,15 +1,23 @@
 'use strict'
 
-const inMemoryStore = require('./lib/in-memory-store')
+const {has: arrHas, add: arrInsert} = require('sorted-array-functions')
+const expectSorting = require('./lib/expect-sorting')
+const iterateMatching = require('./lib/iterate-matching')
 const daysBetween = require('./lib/days-between')
-const processFile = require('./lib/process-file')
 const parseDate = require('./parse-date')
 
 const REMOVED = '2'
 const ADDED = '1'
 
-const readServicesAndExceptions = async (readFile, timezone, filters = {}, opt = {}) => {
-	// todo: validate args
+const readServicesAndExceptions = async function* (readFile, timezone, filters = {}, opt = {}) {
+	if (typeof readFile !== 'function') {
+		throw new TypeError('readFile must be a function')
+	}
+
+	if ('string' !== typeof timezone || !timezone) {
+		throw new Error('timezone must be a non-empty string.')
+	}
+
 	const {
 		service: serviceFilter,
 		serviceException: serviceExceptionFilter,
@@ -18,58 +26,61 @@ const readServicesAndExceptions = async (readFile, timezone, filters = {}, opt =
 		serviceException: () => true,
 		...filters
 	}
-	const {
-		createStore,
-	} = {
-		createStore: inMemoryStore,
-		...opt,
+	if (typeof serviceFilter !== 'function') {
+		throw new TypeError('filters.service must be a function')
+	}
+	if (typeof serviceExceptionFilter !== 'function') {
+		throw new TypeError('filters.serviceException must be a function')
 	}
 
-	const services = createStore()
+	const services = readFile('calendar')
+	const checkServicesSorting = expectSorting('calendar', (a, b) => {
+		if (a.service_id === b.service_id) return 0
+		return a.service_id < b.service_id ? -1 : 1
+	})
 
-	const processService = async (s) => {
-		if (!serviceFilter(s)) return;
+	const exceptions = readFile('calendar_dates')
+	const compareException = (svc, ex) => {
+		if (svc.service_id === ex.service_id) return 0
+		return svc.service_id < ex.service_id ? -1 : 1
+	}
+	const matchingExceptions = iterateMatching(compareException, exceptions)
+	const checkExceptionsSorting = expectSorting('calendar_dates', (a, b) => {
+		if (a.service_id < b.service_id) return -1
+		if (a.service_id > b.service_id) return 1
+		if (a.date > b.date) return 1
+		return a.date < b.date ? -1 : 1
+	})
 
-		const weekdays = {
+	for await (const s of services) {
+		if (!serviceFilter(s)) continue
+		checkServicesSorting(s)
+
+		const days = daysBetween(s.start_date, s.end_date, {
 			monday: s.monday === '1',
 			tuesday: s.tuesday === '1',
 			wednesday: s.wednesday === '1',
 			thursday: s.thursday === '1',
 			friday: s.friday === '1',
 			saturday: s.saturday === '1',
-			sunday: s.sunday === '1'
+			sunday: s.sunday === '1',
+		}, timezone)
+
+		for await (const ex of matchingExceptions(s)) {
+			if (!serviceExceptionFilter(ex)) continue
+			checkExceptionsSorting(ex)
+
+			const day = parseDate(ex.date, timezone)
+			if (ex.exception_type === REMOVED) {
+				const i = days.indexOf(day)
+				days.splice(i, 1) // delete
+			} else if (ex.exception_type === ADDED) {
+				if (!arrHas(days, day)) arrInsert(days, day)
+			} // todo: else emit error
 		}
-		const days = daysBetween(s.start_date, s.end_date, weekdays, timezone)
-		await services.set(s.service_id, days)
+
+		yield [s.service_id, days]
 	}
-
-	const processException = async (e) => {
-		if (!serviceExceptionFilter(e)) return;
-
-		const days = await services.get(e.service_id)
-		if (!days) return;
-
-		const day = parseDate(e.date, timezone)
-		if (e.exception_type === REMOVED) {
-			const i = days.indexOf(day)
-			days.splice(i, 1) // delete
-		} else if (e.exception_type === ADDED) {
-			if (!days.includes(day)) days.push(day)
-		} // todo: else emit error
-
-		await services.set(e.service_id, days)
-	}
-
-	await processFile('calendar', readFile('calendar'), processService)
-	await processFile('calendar_dates', readFile('calendar_dates'), processException)
-
-	// sort days in services
-	for await (const [id, days] of services) {
-		days.sort()
-		await services.set(id, days)
-	}
-
-	return services
 }
 
 module.exports = readServicesAndExceptions
