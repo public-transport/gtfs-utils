@@ -1,11 +1,22 @@
 'use strict'
 
 const inMemoryStore = require('./lib/in-memory-store')
-const processFile = require('./lib/process-file')
+const expectSorting = require('./lib/expect-sorting')
 
-const noFilter = () => true
+const readTrips = async (readFile, filters = {}, opt = {}) => {
+	if (typeof readFile !== 'function') {
+		throw new TypeError('readFile must be a function')
+	}
+	const {
+		trip: tripFilter,
+	} = {
+		trip: () => true,
+		...filters,
+	}
+	if (typeof tripFilter !== 'function') {
+		throw new TypeError('filters.trip must be a function')
+	}
 
-const readTrips = async (readFile, filter = noFilter, opt = {}) => {
 	const {
 		createStore,
 	} = {
@@ -13,12 +24,17 @@ const readTrips = async (readFile, filter = noFilter, opt = {}) => {
 		...opt,
 	}
 
-	const trips = createStore()
-	const processTrip = async (t) => {
-		if (!filter(t)) return;
+	const checkSorting = expectSorting('trips', (a, b) => {
+		if (a.trip_id === b.trip_id) return 0
+		return a.trip_id < b.trip_id ? -1 : 1
+	})
+
+	const trips = createStore() // by ID
+	for await (const t of readFile('trips')) {
+		if (!tripFilter(t)) continue
+		checkSorting(t)
 		await trips.set(t.trip_id, t)
 	}
-	await processFile('trips', readFile('trips'), processTrip)
 
 	return trips
 }
