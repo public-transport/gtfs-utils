@@ -52,7 +52,6 @@
 	"devDependencies": {
 		"benchmark": "^2.1.4",
 		"eslint": "^7.1.0",
-		"from2-array": "0.0.4",
 		"sample-gtfs-feed": "^0.6.0",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
