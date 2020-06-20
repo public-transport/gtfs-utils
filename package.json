@@ -41,7 +41,6 @@
 		"debug": "^4.1.1",
 		"is-stream": "^2.0.0",
 		"luxon": "^1.0.0",
-		"pump": "^3.0.0",
 		"shorthash": "0.0.2",
 		"sort-array-by-another": "^1.0.0",
 		"sorted-array-functions": "^1.2.0",
