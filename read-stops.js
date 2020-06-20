@@ -1,11 +1,23 @@
 'use strict'
 
 const inMemoryStore = require('./lib/in-memory-store')
-const processFile = require('./lib/process-file')
 
 const noFilter = () => true
 
-const readStops = async (readFile, filter = noFilter, opt = {}) => {
+const readStops = async (readFile, filters = {}, opt = {}) => {
+	if (typeof readFile !== 'function') {
+		throw new TypeError('readFile must be a function')
+	}
+	const {
+		stop: stopFilter,
+	} = {
+		stop: () => true,
+		...filters,
+	}
+	if (typeof stopFilter !== 'function') {
+		throw new TypeError('filters.stop must be a function')
+	}
+
 	const {
 		createStore,
 	} = {
@@ -13,25 +25,26 @@ const readStops = async (readFile, filter = noFilter, opt = {}) => {
 		...opt,
 	}
 
-	const stops = createStore()
+	const stops = createStore() // by ID
 
-	const processStop = async (s) => {
-		if (!filter(s)) return;
+	for await (let s of readFile('stops')) {
+		if (!stopFilter(s)) continue
 		// todo: support these
-		if (s.location_type === '3' || s.location_type === '4') return;
+		if (s.location_type === '3' || s.location_type === '4') continue
 
-		if (s.location_type === '1') {
-			s = {...s, child_stops: []}
+		if (s.location_type === '1') { // station
+			s = {...s, platforms: []}
 		}
 		await stops.set(s.stop_id, s)
 	}
-	await processFile('stops', readFile('stops'), processStop)
 
+	// todo: expect sorting by location_type, fill .platforms while reading
 	for await (const [id, stop] of stops.entries()) {
-		// continue if it's not a stop
 		// todo: add entrances to their parents
 		// todo: add boarding areas to their parents
 		// todo: add generic nodes to their parents?
+
+		// continue if it's not a stop
 		if (
 			('location_type' in stop)
 			&& stop.location_type !== '0'
@@ -39,12 +52,13 @@ const readStops = async (readFile, filter = noFilter, opt = {}) => {
 
 		// continue if if the stop doesn't have a parent station
 		if (!stop.parent_station) continue
-		const station = await stops.get(stop.parent_station)
-		if (!station) continue
 
-		// add to stop to station.child_stops
-		station.child_stops.push(id)
-		await stops.set(stop.parent_station, station)
+		// add to stop to station.platforms
+		await stops.map(stop.parent_station, (station) => {
+			if (!station) return;
+			station.platforms.push(id)
+			return station
+		})
 	}
 
 	return stops
