@@ -19,6 +19,7 @@
 		"route-types.js",
 		"read-stops.js",
 		"read-trips.js",
+		"read-services-and-exceptions.js",
 		"lib",
 		"examples",
 		"test"

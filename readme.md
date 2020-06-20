@@ -22,6 +22,7 @@
 - [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetripstrips-services-schedules--fromid-tdep-toid-tarr)
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`routeTypes`](#routetypes)
+- [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters)
 
 
 ## Installing
@@ -505,6 +506,43 @@ console.log(routeTypes.basic.find(type => type.gtfs === 3))
 ```
 
 `fptf` contains the [*Friendly Public Transport Format (FPTF)* mode](https://github.com/public-transport/friendly-public-transport-format/tree/1.2.1/spec#modes).
+
+### `readServicesAndExceptions(readFile, timezone, filters)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readServices = require('gtfs-utils/read-services-and-exceptions')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filters = {
+	service: s => s.monday === '1',
+	serviceException: e => e.exception_type === '2'
+}
+
+const services = readServices(readFile, 'Europe/Berlin', filters)
+for await (const [id, days] of services) console.log(id, days)
+```
+
+Will read `calendar.txt` and `calendar_dates.txt` and condense each service into the a list of days it is valid for. Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[serviceId, daysOfOperation]` entries.
+
+The code above will print the following:
+
+```js
+service-1 [
+	1551394800,
+	1551481200,
+	1551567600,
+	1551654000,
+	// …
+]
+service-2 [
+	1551567600,
+	1552690800,
+	1555797600
+]
+// …
+```
 
 
 ## Related
