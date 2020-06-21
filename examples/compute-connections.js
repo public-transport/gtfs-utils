@@ -2,14 +2,13 @@
 
 const readCsv = require('../read-csv')
 const computeConnections = require('../compute-connections')
-const redisStore = require('../lib/redis-store')
 
 const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
 ;(async () => {
-	const connectionsByTripId = await computeConnections(readFile, 'Europe/Berlin')
+	const connectionsByTripId = await computeConnections(readFile)
 	for await (const connectionsOfTrip of connectionsByTripId) {
 		for (const connection of connectionsOfTrip) {
 			console.log(connection)
@@ -18,5 +17,5 @@ const readFile = (file) => {
 })()
 .catch((err) => {
 	console.error(err)
-	process.exitCode = 1
+	process.exit(1)
 })
