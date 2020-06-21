@@ -21,6 +21,7 @@
 		"read-trips.js",
 		"read-services-and-exceptions.js",
 		"compute-stopovers.js",
+		"compute-connections.js",
 		"lib",
 		"examples",
 		"test"

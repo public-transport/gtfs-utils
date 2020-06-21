@@ -23,6 +23,7 @@
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`routeTypes`](#routetypes)
 - [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters)
+- [`computeConnections(readFile, filters)`](#computeconnectionsreadfile-filters)
 - [`computeStopovers(readFile, timezone, filters)`](#computestopoversreadfile-timezone-filters)
 
 
@@ -542,6 +543,52 @@ service-2 [
 	1552690800,
 	1555797600
 ]
+// …
+```
+
+### `computeConnections(readFile, filter)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeConnections = require('gtfs-utils/compute-connections')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filters = {
+	stopTime: s => s.stop_id === 'some-stop-id',
+}
+
+const connectionsByTrip = computeConnections(readFile, filters)
+for await (const connections of connectionsByTrip) {
+	for await (const connection of connections) {
+		console.log(connection)
+	}
+}
+```
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
+- `filters` must be an object; It may have the fields `trip`, `stopTime`, `frequencies`, each with a filter function.
+
+Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[{tripId, fromStop, departure, toStop, arrival}]` lists.
+
+The code above will print the following:
+
+```js
+{
+	tripId: 'a-downtown-all-day',
+	fromStop: 'airport',
+	departure: 55440,
+	toStop: 'museum',
+	arrival: 55800,
+}
+{
+	tripId: 'a-downtown-all-day',
+	fromStop: 'museum',
+	departure: 55860,
+	toStop: 'center',
+	arrival: 56100,
+}
 // …
 ```
 
