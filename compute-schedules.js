@@ -2,35 +2,28 @@
 
 const shorthash = require('shorthash').unique
 
-const processFile = require('./lib/process-file')
 const inMemoryStore = require('./lib/in-memory-store')
 const readStopTimes = require('./lib/read-stop-times')
-const parseRelativeTime = require('./lib/parse-relative-time')
-const errorsWithRow = require('./lib/errors-with-row')
-
-const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
-
-const defComputeSig = (data) => {
-	return shorthash(JSON.stringify(data))
-}
 
 const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
 	}
 
-	if (!isObj(filters)) throw new Error('filters must be an object.')
 	filters = {
 		trip: () => true,
-		stopover: () => true,
+		stopTime: () => true,
 		frequenciesRow: () => true,
 		...filters,
 	}
 	if ('function' !== typeof filters.trip) {
 		throw new Error('filters.trip must be a function.')
 	}
-	if ('function' !== typeof filters.stopover) {
-		throw new Error('filters.stopover must be a function.')
+	if ('function' !== typeof filters.stopTime) {
+		throw new Error('filters.stopTime must be a function.')
+	}
+	if ('function' !== typeof filters.frequenciesRow) {
+		throw new Error('filters.frequenciesRow must be a function.')
 	}
 
 	const {
@@ -38,37 +31,23 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 		computeSig,
 	} = {
 		createStore: inMemoryStore,
-		computeSig: defComputeSig,
+		computeSig: data => shorthash(JSON.stringify(data)),
 		...opt,
 	}
 
-	const {
-		stopsByTripId,
-		arrivalsByTripId,
-		departuresByTripId,
-		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
-	} = await readStopTimes(readFile, filters, {createStore})
-
 	const schedules = createStore() // by signature
 
-	// make arrivals and departures relative to the first arrival,
-	// deduplicate/merge all schedules by signature
-	for await (const tripId of stopsByTripId.keys()) {
-		const [
-			stops,
-			absArrs,
-			absDeps,
-			hwStarts,
-			hwEnds,
-			hwHeadways,
-		] = await Promise.all([
-			stopsByTripId.get(tripId),
-			arrivalsByTripId.get(tripId),
-			departuresByTripId.get(tripId),
-			headwayBasedStarts.get(tripId),
-			headwayBasedEnds.get(tripId),
-			headwayBasedHeadways.get(tripId),
-		])
+	for await (const _ of readStopTimes(readFile, filters)) {
+		const {
+			tripId,
+			stops, arrivals: absArrs, departures: absDeps,
+			headwayBasedStarts: hwStarts,
+			headwayBasedEnds: hwEnds,
+			headwayBasedHeadways: hwHeadways,
+		} = _
+
+		// make arrivals and departures relative to the first arrival,
+		// deduplicate/merge all schedules by signature
 
 		const t0 = absArrs[0]
 		const arrs = new Array(absArrs.length)
@@ -84,23 +63,24 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 			hwEnds || [],
 			hwHeadways || [],
 		])
-		const schedule = await schedules.get(signature)
 
-		if (schedule) { // merge into existing schedule
+		await schedules.map(signature, (schedule) => {
+			if (!schedule) { // make a new entry
+				return {
+					id: signature,
+					trips: [{tripId, start: t0}],
+					stops,
+					arrivals: arrs,
+					departures: deps,
+					headwayBasedStarts: hwStarts || [],
+					headwayBasedEnds: hwEnds || [],
+					headwayBasedHeadways: hwHeadways || [],
+				}
+			}
+			// merge into existing schedule
 			schedule.trips.push(tripId)
-			await schedules.set(signature, schedule)
-		} else { // make a new entry
-			await schedules.set(signature, {
-				id: signature,
-				trips: [tripId],
-				stops,
-				arrivals: arrs,
-				departures: deps,
-				headwayBasedStarts: hwStarts || [],
-				headwayBasedEnds: hwEnds || [],
-				headwayBasedHeadways: hwHeadways || [],
-			})
-		}
+			return schedule
+		})
 	}
 
 	return schedules

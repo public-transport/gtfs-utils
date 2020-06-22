@@ -9,8 +9,11 @@ const readFile = (file) => {
 
 ;(async () => {
 	const schedules = await computeSchedules(readFile)
-	for await (const s of schedules.values()) {
-		console.log(s)
+	for await (const schedule of schedules.values()) {
+		console.log(schedule)
 	}
 })()
-.catch(console.error)
+.catch((err) => {
+	console.error(err)
+	process.exit(1)
+})
