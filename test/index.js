@@ -4,16 +4,16 @@ const {DateTime} = require('luxon')
 const test = require('tape')
 const {createReadStream} = require('fs')
 
-const readCsv = require('./read-csv')
-const parseDate = require('./parse-date')
-const formatDate = require('./format-date')
-const parseTime = require('./parse-time')
-const daysBetween = require('./lib/days-between')
-const errorsWithRow = require('./lib/errors-with-row')
-// const computeStopoverTimes = require('./compute-stopover-times')
-const computeSortedConnections = require('./compute-sorted-connections')
-const computeServiceBreaks = require('./compute-service-breaks')
-const {extendedToBasic} = require('./route-types')
+const readCsv = require('../read-csv')
+const parseDate = require('../parse-date')
+const formatDate = require('../format-date')
+const parseTime = require('../parse-time')
+const daysBetween = require('../lib/days-between')
+const errorsWithRow = require('../lib/errors-with-row')
+// const computeStopoverTimes = require('../compute-stopover-times')
+const computeSortedConnections = require('../compute-sorted-connections')
+const computeServiceBreaks = require('../compute-service-breaks')
+const {extendedToBasic} = require('../route-types')
 
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
@@ -127,12 +127,12 @@ test('lib/errors-with-row', (t) => {
 	t.end()
 })
 
-test('compute-stopover-times', (t) => {
+test.skip('compute-stopover-times', (t) => {
 	// todo
 	t.end()
 })
 
-test('compute-sorted-connections', (t) => {
+test.skip('compute-sorted-connections', (t) => {
 	const from = 1552324800
 	const to = 1552393000
 
@@ -165,7 +165,7 @@ test('compute-sorted-connections', (t) => {
 	.catch(t.ifError)
 })
 
-test('compute-service-breaks', (t) => {
+test.skip('compute-service-breaks', (t) => {
 	const from = '2019-05-08T12:00:00+02:00'
 	const to = '2019-05-10T15:00:00+02:00'
 

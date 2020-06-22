@@ -18,7 +18,8 @@
 		"compute-service-breaks.js",
 		"route-types.js",
 		"lib",
-		"examples"
+		"examples",
+		"test"
 	],
 	"keywords": [
 		"gtfs",
@@ -49,12 +50,12 @@
 	"devDependencies": {
 		"benchmark": "^2.1.4",
 		"eslint": "^7.1.0",
-		"sample-gtfs-feed": "^0.4.0",
+		"sample-gtfs-feed": "^0.6.0",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
 	},
 	"scripts": {
-		"test": "env NODE_ENV=dev node test.js | tap-min",
+		"test": "env NODE_ENV=dev node test/index.js | tap-min",
 		"lint": "eslint .",
 		"benchmark": "env NODE_ENV=production node benchmark.js",
 		"prepublishOnly": "npm test && npm run lint"
