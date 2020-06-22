@@ -15,7 +15,7 @@
 - [`formatDate(t, timezone)`](#formatdatet-timezone)
 - [`parseTime(timeStr)`](#parsetimetimestr)
 - [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters)
-- [`computeStopoverTimes(readFile, filters, timezone)`](#computestopovertimesreadfile-filters-timezone)
+- [`computeStopovers(readFile, filters, timezone)`](#computestopoversreadfile-filters-timezone)
 - [`computeConnections(readFile, timezone, filter)`](#computeconnectionsreadfile-timezone-filter)
 - [`computeSchedules(readFile, filters, [computeSignature])`](#computeschedulesreadfile-filters-computesignature)
 - [`computeSortedConnections(readFile, filters, timezone)`](#computesortedconnectionsreadfile-filters-timezone)
@@ -23,6 +23,7 @@
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`routeTypes`](#routetypes)
 - [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters)
+- [`computeStopovers(readFile, timezone, filters)`](#computestopoversreadfile-timezone-filters)
 
 
 ## Installing
@@ -224,11 +225,11 @@ service-2 [
 
 *Note*: In order to work, `readServicesAndExceptions` will load (a reduced form of) `calendar.txt` and `calendar_dates.txt` into memory. This might fail with huge data sets.
 
-### `computeStopoverTimes(readFile, filters, timezone)`
+### `computeStopovers(readFile, filters, timezone)`
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
-const computeStopoverTimes = require('gtfs-utils/compute-stopover-times')
+const computeStopovers = require('gtfs-utils/compute-stopovers')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
@@ -237,7 +238,7 @@ const filters = {
 	trip: t => t.route_id === 'A',
 	stopover: s => s.stop_id === 'some-stop-id'
 }
-const stopovers = computeStopoverTimes(readFile, filters, 'Europe/Berlin')
+const stopovers = computeStopovers(readFile, filters, 'Europe/Berlin')
 
 stopovers
 .on('error', console.error)
@@ -265,7 +266,7 @@ A single item from the stream may look like this:
 }
 ```
 
-*Note*: In order to work, `computeStopoverTimes` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
+*Note*: In order to work, `computeStopovers` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
 
 ### `computeConnections(readFile, timezone, filter)`
 
@@ -543,6 +544,57 @@ service-2 [
 ]
 // …
 ```
+
+### `computeStopovers(readFile, filters, timezone)`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeStopovers = require('gtfs-utils/compute-stopover-times')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const filters = {
+	trip: t => t.route_id === 'A',
+	stopTime: s => s.stop_id === 'some-stop-id',
+}
+
+const stopovers = computeStopovers(readFile, filters, 'Europe/Berlin')
+for await (const stopover of stopovers) console.log(stopover)
+```
+
+Will read *per-day* stop times from `trips.txt`, `stop_times.txt` and `frequencies.txt`, and apply them to the days of operation returned by [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters), in order to compute *absolute* stop times.
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
+- `filters` must be an object; It may have the fields `trip`, `service`, `serviceException`, `stopTime`, `frequencies`, each with a filter function.
+
+Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `{stop_id, trip_id, service_id, route_id, start_of_trip, arrival, departure}` entries.
+
+The code above will print the following:
+
+```js
+{
+	stop_id: 'airport',
+	trip_id: 'a-downtown-all-day',
+	service_id: 'all-day',
+	route_id: 'A',
+	start_of_trip: 1551394800, // 2019-03-01T00:00:00+01:00
+	arrival: 1551450180, // 2019-03-01T15:23:00+01:00
+	departure: 1551450240, // 2019-03-01T15:24:00+01:00
+}
+{
+	stop_id: 'museum',
+	trip_id: 'a-downtown-all-day',
+	service_id: 'all-day',
+	route_id: 'A',
+	start_of_trip: 1551394800, // 2019-03-01T00:00:00+01:00
+	arrival: 1551450600, // 2019-03-01T15:30:00+01:00
+	departure: 1551450660, // 2019-03-01T15:31:00+01:00
+}
+// …
+```
+
+*Note*: In order to work, `computeStopovers` must load reduced forms of `trips.txt`, `calendar.txt` and `calendar_dates.txt` into memory. See [memory consumption](#memory-consumption) for more details.
 
 
 ## Related

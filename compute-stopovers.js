@@ -1,19 +1,15 @@
 'use strict'
 
-const {Transform} = require('stream')
-const pump = require('pump')
+const debug = require('debug')('gtfs-utils:compute-stopover-times')
 
 const inMemoryStore = require('./lib/in-memory-store')
+const expectSorting = require('./lib/expect-sorting')
 const readStopTimes = require('./lib/read-stop-times')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
-const processFile = require('./lib/process-file')
-const parseTime = require('./parse-time')
 const resolveTime = require('./lib/resolve-time')
 
-const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
-
 // todo: respect stopover.stop_timezone & agency.agency_timezone
-const computeStopoverTimes = async function* (readFile, timezone, filters = {}, opt = {}) {
+const computeStopovers = async function* (readFile, timezone, filters = {}, opt = {}) {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
 	}
@@ -22,18 +18,25 @@ const computeStopoverTimes = async function* (readFile, timezone, filters = {}, 
 		throw new Error('timezone must be a non-empty string.')
 	}
 
-	if (!isObj(filters)) throw new Error('filters must be an object.')
 	filters = {
 		trip: () => true,
-		stopover: () => true,
+		service: () => true,
+		serviceException: () => true,
+		stopTime: () => true,
 		frequenciesRow: () => true,
 		...filters,
 	}
 	if ('function' !== typeof filters.trip) {
 		throw new Error('filters.trip must be a function.')
 	}
-	if ('function' !== typeof filters.stopover) {
-		throw new Error('filters.stopover must be a function.')
+	if ('function' !== typeof filters.service) {
+		throw new Error('filters.service must be a function.')
+	}
+	if ('function' !== typeof filters.serviceException) {
+		throw new Error('filters.serviceException must be a function.')
+	}
+	if ('function' !== typeof filters.stopTime) {
+		throw new Error('filters.stopTime must be a function.')
 	}
 	if ('function' !== typeof filters.frequenciesRow) {
 		throw new Error('filters.frequenciesRow must be a function.')
@@ -46,41 +49,48 @@ const computeStopoverTimes = async function* (readFile, timezone, filters = {}, 
 		...opt,
 	}
 
-	const {
-		stopsByTripId,
-		arrivalsByTripId,
-		departuresByTripId,
-		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
-		closeStores,
-	} = await readStopTimes(readFile, filters, {createStore})
+	const svcIdsByTripId = createStore()
+	const routeIdsByTripId = createStore()
 
-	const services = await readServicesAndExceptions(readFile, timezone, filters)
-
-	const trips = createStore()
-	const processTrip = async (t) => {
-		if (!filters.trip(t)) return;
-		await trips.set(t.trip_id, [t.service_id, t.route_id])
+	debug('reading trips')
+	// todo: DRY with read-trips.js
+	const checkSorting = expectSorting('trips', (a, b) => {
+		if (a.trip_id === b.trip_id) return 0
+		return a.trip_id < b.trip_id ? -1 : 1
+	})
+	for await (const t of readFile('trips')) {
+		if (!filters.trip(t)) continue
+		checkSorting(t)
+		await Promise.all([
+			svcIdsByTripId.set(t.trip_id, t.service_id),
+			routeIdsByTripId.set(t.trip_id, t.route_id),
+		])
 	}
-	await processFile('trips', readFile('trips'), processTrip)
 
-	for await (const tripId of stopsByTripId.keys()) {
-		const t = await trips.get(tripId)
-		if (!t) continue
-		const [serviceId, routeId] = t
+	debug('reading services & exceptions')
+	const _services = readServicesAndExceptions(readFile, timezone, filters)
+	const services = createStore() // by service ID
+	for await (const [id, days] of _services) {
+		await services.set(id, days)
+	}
+
+	debug('reading stop times')
+	for await (const _ of readStopTimes(readFile, filters)) {
+		const {
+			tripId,
+			stops, arrivals: arrs, departures: deps,
+			headwayBasedStarts: hwStarts,
+			headwayBasedEnds: hwEnds,
+			headwayBasedHeadways: hwHeadways,
+		} = _
+
+		// todo: log errors?
+		const serviceId = await svcIdsByTripId.get(tripId)
+		if (!serviceId) continue
+		const routeId = await routeIdsByTripId.get(tripId)
+		if (!routeId) continue
 		const days = await services.get(serviceId)
 		if (!days) continue
-
-		const [
-			stops, arrs, deps,
-			hwStarts, hwEnds, hwHeadways,
-		] = await Promise.all([
-			stopsByTripId.get(tripId),
-			arrivalsByTripId.get(tripId),
-			departuresByTripId.get(tripId),
-			headwayBasedStarts.get(tripId),
-			headwayBasedEnds.get(tripId),
-			headwayBasedHeadways.get(tripId),
-		])
 
 		for (const day of days) {
 			// schedule-based
@@ -120,8 +130,6 @@ const computeStopoverTimes = async function* (readFile, timezone, filters = {}, 
 			}
 		}
 	}
-
-	await closeStores()
 }
 
-module.exports = computeStopoverTimes
+module.exports = computeStopovers
