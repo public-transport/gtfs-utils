@@ -43,13 +43,14 @@
 		"is-stream": "^2.0.0",
 		"luxon": "^1.0.0",
 		"shorthash": "0.0.2",
-		"sort-array-by-another": "^1.0.0",
+		"sort-array-by-another": "^1.1.0",
 		"sorted-array-functions": "^1.2.0",
 		"strip-bom-stream": "^4.0.0"
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.4",
 		"eslint": "^7.1.0",
+		"from2-array": "0.0.4",
 		"sample-gtfs-feed": "^0.6.0",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
