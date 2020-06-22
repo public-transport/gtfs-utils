@@ -2,107 +2,107 @@
 
 const recordSort = require('sort-array-by-another')
 
-const parseTime = require('./parse-time')
+const inMemoryStore = require('./lib/in-memory-store')
+const readStopTimes = require('./lib/read-stop-times')
+const parseRelativeTime = require('./lib/parse-relative-time')
 const errorsWithRow = require('./lib/errors-with-row')
-
-const noFilter = () => true
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-// relative to the beginning to the day
-const parseTimeRelative = (str) => {
-	const t = parseTime(str)
-	return t.hours * 3600 + t.minutes * 60 + (t.seconds || 0)
-}
-
-const computeConnections = (readFile, timezone, filter = noFilter) => {
+const computeConnections = async (readFile, timezone, filters = {}, opt = {}) => {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
 	}
-	if ('string' !== typeof timezone || !timezone) {
-		throw new Error('timezone must be a non-empty string.')
+
+	if (!isObj(filters)) throw new Error('filters must be an object.')
+	filters = {
+		trip: () => true,
+		stopover: () => true,
+		frequenciesRow: () => true,
+		...filters,
 	}
-	if ('function' !== typeof filter) {
-		throw new Error('filter must be a function.')
+	if ('function' !== typeof filters.trip) {
+		throw new Error('filters.trip must be a function.')
 	}
-
-	const sequences = Object.create(null) // by trip ID
-	const stops = Object.create(null) // by trip ID
-	const arrivals = Object.create(null) // by trip ID
-	const departures = Object.create(null) // by trip ID
-
-	const storeStopover = (s) => {
-		if (!filter(s)) return null
-
-		const seq = parseInt(s.stop_sequence)
-		const arr = parseTimeRelative(s.arrival_time)
-		const dep = parseTimeRelative(s.departure_time)
-
-		if (!sequences[s.trip_id]) {
-			sequences[s.trip_id] = [seq]
-			stops[s.trip_id] = [s.stop_id]
-			arrivals[s.trip_id] = [arr]
-			departures[s.trip_id] = [dep]
-		} else {
-			sequences[s.trip_id].push(seq)
-			stops[s.trip_id].push(s.stop_id)
-			arrivals[s.trip_id].push(arr)
-			departures[s.trip_id].push(dep)
-		}
+	if ('function' !== typeof filters.stopover) {
+		throw new Error('filters.stopover must be a function.')
 	}
 
-	const sortStopovers = () => {
-		for (let t in sequences) {
-			const applySort = recordSort(sequences[t])
-			sequences[t] = null // allow GC
-
-			stops[t] = applySort(stops[t])
-			arrivals[t] = applySort(arrivals[t])
-			departures[t] = applySort(departures[t])
-		}
+	const {
+		createStore,
+	} = {
+		createStore: inMemoryStore,
+		...opt,
 	}
 
-	const input = readFile('stop_times')
-	input.once('error', (err) => input.destroy(err))
-	input.on('data', errorsWithRow('stop_times', storeStopover))
+	const {
+		stopsByTripId,
+		arrivalsByTripId,
+		departuresByTripId,
+		headwayBasedStarts, headwayBasedEnds, headwayBasedHeadways,
+		closeStores,
+	} = await readStopTimes(readFile, filters, {createStore})
 
-	const generateConnectionsByTripId = function* () {
-		const tripIds = Object.keys(sequences)
-		const i = tripIds[Symbol.iterator]()
-
-		while (true) {
-			const res = i.next()
-			if (res.done) return
-			const tripId = res.value
-
-			const _stops = stops[tripId]
-			const _arrivals = arrivals[tripId]
-			const _departures = departures[tripId]
-
+	const generateConnectionsByTripId = async function* () {
+		for await (const tripId of stopsByTripId.keys()) {
+			const [
+				stops,
+				arrivals,
+				departures,
+				hwStarts,
+				hwEnds,
+				hwHeadways,
+			] = await Promise.all([
+				stopsByTripId.get(tripId),
+				arrivalsByTripId.get(tripId),
+				departuresByTripId.get(tripId),
+				headwayBasedStarts.get(tripId),
+				headwayBasedEnds.get(tripId),
+				headwayBasedHeadways.get(tripId),
+			])
 			const connections = []
-			for (let i = 1; i < _stops.length; i++) {
+
+			// scheduled connections
+			for (let i = 1; i < stops.length; i++) {
 				connections.push({
 					tripId,
-					fromStop: _stops[i - 1],
-					departure: _departures[i - 1],
-					toStop: _stops[i],
-					arrival: _arrivals[i],
+					fromStop: stops[i - 1],
+					departure: departures[i - 1],
+					toStop: stops[i],
+					arrival: arrivals[i],
 				})
 			}
+
+			// headway-based connections
+			// todo: DRY with compute-stopover-times
+			if (hwStarts) {
+				const t0 = arrivals[0]
+				for (let i = 0; i < hwStarts.length; i++) {
+					for (let t = hwStarts[i]; t < hwEnds[i]; t += hwHeadways[i]) {
+						for (let j = 1; j < stops.length; j++) {
+							connections.push({
+								tripId,
+								fromStop: stops[j - 1],
+								departure: t + departures[j - 1] - t0,
+								toStop: stops[j],
+								arrival: t + arrivals[j] - t0,
+								headwayBased: true, // todo: pick a more helpful flag?
+							})
+						}
+					}
+				}
+			}
+
 			yield connections
 		}
+
+		await closeStores()
 	}
 
-	const connections = {}
-	connections[Symbol.iterator] = generateConnectionsByTripId
-
-	return new Promise((resolve, reject) => {
-		input.once('end', (err) => {
-			if (err) return reject(err)
-			sortStopovers()
-			setImmediate(resolve, connections)
-		})
-	})
+	const out = {}
+	out[Symbol.asyncIterator] = generateConnectionsByTripId
+	out.closeStores = closeStores
+	return out
 }
 
 module.exports = computeConnections
