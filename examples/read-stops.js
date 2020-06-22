@@ -7,12 +7,12 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-readStops(readFile)
-.then((stops) => {
-	for (const stop of Object.values(stops)) {
+;(async () => {
+	const stops = await readStops(readFile)
+	for await (const stop of stops.values()) {
 		console.log(stop)
 	}
-})
+})()
 .catch((err) => {
 	console.error(err)
 	process.exitCode = 1
