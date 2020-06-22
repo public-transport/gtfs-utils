@@ -127,6 +127,8 @@ test('lib/errors-with-row', (t) => {
 	t.end()
 })
 
+require('./resolve-time')
+
 test.skip('compute-stopover-times', (t) => {
 	// todo
 	t.end()
