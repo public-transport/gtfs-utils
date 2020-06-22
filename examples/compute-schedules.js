@@ -7,8 +7,10 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-computeSchedules(readFile)
-.then((schedules) => {
-	console.log(schedules)
-})
+;(async () => {
+	const schedules = await computeSchedules(readFile)
+	for await (const s of schedules.values()) {
+		console.log(s)
+	}
+})()
 .catch(console.error)
