@@ -7,12 +7,17 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-const filter = (stopover) => (
-	stopover.trip_id === 'b-downtown-on-working-days' &&
-	stopover.stop_id === 'airport'
-)
+const filters = {
+	stopover: s => s.stop_id === 'airport',
+}
 
-const times = computeStopoverTimes(readFile, {stopover: filter}, 'Europe/Berlin')
-
-times.on('error', console.error)
-times.on('data', console.log)
+;(async () => {
+	const times = await computeStopoverTimes(readFile, 'Europe/Berlin', filters)
+	for await (const stopover of times) {
+		console.log(stopover)
+	}
+})()
+.catch((err) => {
+	console.error(err)
+	process.exit(1)
+})
