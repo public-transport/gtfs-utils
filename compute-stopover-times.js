@@ -1,20 +1,24 @@
 'use strict'
 
 const {Transform} = require('stream')
-const {DateTime} = require('luxon')
 const pump = require('pump')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const readTrips = require('./read-trips')
 const parseTime = require('./parse-time')
 const errorsWithRow = require('./lib/errors-with-row')
+const resolveTime = require('./lib/resolve-time')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-// todo: stopover.stop_timezone
 const computeStopoverTimes = (readFile, filters, timezone) => {
+// todo: respect stopover.stop_timezone & agency.agency_timezone
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
+	}
+
+	if ('string' !== typeof timezone || !timezone) {
+		throw new Error('timezone must be a non-empty string.')
 	}
 
 	if (!isObj(filters)) throw new Error('filters must be an object.')
@@ -46,7 +50,6 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		const dep = parseTime(s.departure_time)
 
 		for (let day of days) {
-			const d = DateTime.fromMillis(day * 1000, {zone: timezone})
 			this.push({
 				stop_id: s.stop_id,
 				trip_id: s.trip_id,
@@ -54,8 +57,8 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 				route_id: routeId,
 				sequence: s.stop_sequence,
 				start_of_trip: day,
-				arrival: d.plus(arr) / 1000 | 0,
-				departure: d.plus(dep) / 1000 | 0
+				arrival: resolveTime(timezone, day, arr),
+				departure: resolveTime(timezone, day, dep),
 			})
 		}
 		cb()
