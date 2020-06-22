@@ -10,7 +10,7 @@ const formatDate = require('../format-date')
 const parseTime = require('../parse-time')
 const daysBetween = require('../lib/days-between')
 const errorsWithRow = require('../lib/errors-with-row')
-// const computeStopoverTimes = require('../compute-stopover-times')
+// const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
 const {extendedToBasic} = require('../route-types')
@@ -130,7 +130,7 @@ test('lib/errors-with-row', (t) => {
 require('./read-stop-times')
 require('./resolve-time')
 
-test.skip('compute-stopover-times', (t) => {
+test.skip('compute-stopovers', (t) => {
 	// todo
 	t.end()
 })

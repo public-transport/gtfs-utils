@@ -1,19 +1,17 @@
 'use strict'
 
 const readCsv = require('../read-csv')
-const computeStopoverTimes = require('../compute-stopover-times')
+const computeStopovers = require('../compute-stopovers')
 
 const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-const filters = {
-	stopover: s => s.stop_id === 'airport',
-}
-
 ;(async () => {
-	const times = await computeStopoverTimes(readFile, 'Europe/Berlin', filters)
-	for await (const stopover of times) {
+	const stopovers = await computeStopovers(readFile, 'Europe/Berlin', {
+		stopTime: s => s.stop_id === 'airport',
+	})
+	for await (const stopover of stopovers) {
 		console.log(stopover)
 	}
 })()

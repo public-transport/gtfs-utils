@@ -10,7 +10,7 @@
 		"read-stops.js",
 		"read-trips.js",
 		"read-services-and-exceptions.js",
-		"compute-stopover-times.js",
+		"compute-stopovers.js",
 		"compute-schedules.js",
 		"compute-connections.js",
 		"compute-sorted-connections.js",
@@ -20,6 +20,7 @@
 		"read-stops.js",
 		"read-trips.js",
 		"read-services-and-exceptions.js",
+		"compute-stopovers.js",
 		"lib",
 		"examples",
 		"test"
