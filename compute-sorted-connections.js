@@ -23,9 +23,9 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 	}
 
 	debug('reading trips')
-	const svcIdsByTrip = await readTrips(readFile, filters, {
+	const svcIdsRouteIdsByTrip = await readTrips(readFile, filters, {
 		...opt,
-		formatTrip: t => t.service_id,
+		formatTrip: t => [t.service_id, t.route_id],
 	})
 
 	debug('reading services & exceptions')
@@ -44,8 +44,9 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 	for await (const connections of connectionsByTrip) {
 		if (connections.length === 0) continue
 
-		const serviceId = await svcIdsByTrip.get(connections[0].tripId)
-		if (!serviceId) continue
+		const _ = await svcIdsRouteIdsByTrip.get(connections[0].tripId)
+		if (!_) continue
+		const [serviceId, routeId] = _
 		const days = await services.get(serviceId)
 		if (!days) continue // todo: log error?
 
@@ -54,6 +55,7 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 				const dep = resolveTime(timezone, days[i], c.departure)
 				const newCon = {
 					tripId: c.tripId,
+					serviceId, routeId,
 					fromStop: c.fromStop,
 					departure: dep,
 					toStop: c.toStop,

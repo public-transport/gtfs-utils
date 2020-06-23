@@ -1,39 +1,37 @@
 # gtfs-utils API
 
+- [store API](#store-api)
 - [`readCsv(path)`](#readcsv)
 - [`readStops(readFile, filter)`](#readstops)
 - [`readTrips(readFile, filter)`](#readtrips)
 - [`parseDate(dateStr, timezone)`](#parsedate)
-- [`formatDate(t, timezone)`](#formatdatet-timezone)
-- [`parseTime(timeStr)`](#parsetimetimestr)
+- [`formatDate(t, timezone)`](#formatdate)
+- [`parseTime(timeStr)`](#parsetime)
+- [`routeTypes`](#routetypes)
 - [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptions)
-- [`computeStopovers(readFile, filters, timezone)`](#computestopovers)
 - [`computeConnections(readFile, timezone, filter)`](#computeconnections)
 - [`computeSchedules(readFile, filters, [computeSignature])`](#computeschedules)
 - [`computeSortedConnections(readFile, filters, timezone)`](#computesortedconnections)
 - [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetrips)
-- [`computeServiceBreaks(sortedConnections)`](#computeservicebreaks)
-- [`routeTypes`](#routetypes)
-- [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptions)
-- [`computeConnections(readFile, filters)`](#computeconnections)
+- [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`computeStopovers(readFile, timezone, filters)`](#computestopovers)
 
 
 ## `readCsv`
 
 ```js
-readCsv(path)
-```
-
-```js
 const readCsv = require('gtfs-utils/read-csv')
 
 readCsv('path-to-file.txt')
 .on('error', console.error)
-.on('data', console.log)
+.on('data', row => console.log(row))
+// or
+for await (const row of readCsv('path-to-file.txt')) {
+	console.log(row)
+}
 ```
 
-Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+`readCsv(path)` returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 
 `path` can also be a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) like [`process.stdin`](https://nodejs.org/api/process.html#process_process_stdin).
 
@@ -41,24 +39,18 @@ Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html
 ## `readStops`
 
 ```js
-readStops(readFile, filters = {})
-```
-
-```js
 const readCsv = require('gtfs-utils/read-csv')
 const readStops = require('gtfs-utils/read-stops')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
-readStops(readFile, {
+const stops = await readStops(readFile, {
 	stop: s => s.stop_id[0] === 'a',
 })
-.then(async (stops) => {
-	for await (const stop of stops.values()) {
-		console.log(stop)
-		break
-	}
-})
+for await (const stop of stops.values()) {
+	console.log(stop)
+	break
+}
 ```
 
 ```js
@@ -78,14 +70,10 @@ readStops(readFile, {
 }
 ```
 
-Will read `stops.txt`, reduce it into a map `stop_id => stop`, and add platform IDs of a station as `station.platforms`. Returns a [store instance](#stores).
+`readStops(readFile, filters = {}, opt = {})` reads `stops.txt`, reduces it into a map `stop_id => stop`, and adds platform IDs of a station as `station.platforms`. Returns a [store](#store-api).
 
 
 ## `readTrips`
-
-```js
-readTrips(readFile, filter)
-```
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
@@ -93,15 +81,13 @@ const readTrips = require('gtfs-utils/read-trips')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
-const filter = t => t.route_id === 'A'
-
-readTrips(readFile, filter)
-.then(async (trips) => {
-	for await (const trip of trips.values()) {
-		console.log(trip)
-		break
-	}
+const trips = await readTrips(readFile, {
+	trip: t => t.route_id === 'A',
 })
+for await (const trip of trips.values()) {
+	console.log(trip)
+	break
+}
 ```
 
 ```js
@@ -112,49 +98,10 @@ readTrips(readFile, filter)
 }
 ```
 
-Will read `trips.txt` and reduce it into a map `tripId => trip`. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
-
-
-## `readTrips`
-
-```js
-readTrips(readFile, filters = {})
-```
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const readTrips = require('gtfs-utils/read-trips')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-const trips = readTrips(readFile, {
-	trip: s => s.trip_id === '1234',
-})
-for await (const trip of trips) console.log(trip)
-```
-
-```js
-{
-	route_id: 'A',
-	service_id: 'all-day',
-	trip_id: 'a-downtown-all-day',
-	trip_headsign: '',
-	trip_short_name: '',
-	direction_id: '',
-	wheelchair_accessible: '',
-	bikes_allowed: '',
-}
-
-```
-
-`readTrips` is an [async generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
+`readTrips(readFile, filters = {}, opt = {})` reads `trips.txt` and reduces it into a map `tripId => trip`. Returns a [store](#store-api).
 
 
 ## `parseDate`
-
-```js
-parseDate(dateStr, timezone)
-```
 
 ```js
 const parseDate = require('gtfs-utils/parse-date')
@@ -163,15 +110,13 @@ parseDate('20190303', 'Europe/Berlin')
 // 1551567600
 ```
 
+`parseDate(dateStr, timezone)` parses a GTFS Date value.
+
 - `dateStr` must be in the `YYYYMMDD` format, as specific in [GTFS](https://developers.google.com/transit/gtfs/).
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
 
 
-## `formatDate`
-
-```js
-formatDate(t, timezone)
-```
+## `formatDate(t, timezone)`
 
 ```js
 const formatDate = require('gtfs-utils/format-date')
@@ -180,15 +125,13 @@ formatDate(1551567600, 'Europe/Berlin')
 // '20190303'
 ```
 
+`formatDate(t, timezone)` formats a timestamp as a GTFS Date value.
+
 - `t` must be a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time).
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
 
 
 ## `parseTime`
-
-```js
-parseTime(timeStr)
-```
 
 ```js
 const parseTime = require('gtfs-utils/parse-date')
@@ -199,355 +142,7 @@ parseTime('21:30:45')
 // {hours: 21, minutes: 30, seconds: 45}
 ```
 
-
-## `readServicesAndExceptions`
-
-```js
-readServicesAndExceptions(readFile, timezone, filters)
-```
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const readServices = require('gtfs-utils/read-services-and-exceptions')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-const filters = {
-	service: s => s.monday === '1',
-	serviceException: e => e.exception_type === '2'
-}
-
-readServices(readFile, 'Europe/Berlin', filters)
-.then(async (services) => {
-	for await (const [id, days] of services) {
-		console.log(id, days)
-	}
-})
-.catch(console.error)
-```
-
-Will read `calendar.txt` and `calendar_dates.txt` and condense each service into the a list of days it is valid for. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
-
-The result might look like this:
-
-```
-service-1 [
-	1551394800,
-	1551481200,
-	1551567600,
-	1551654000,
-	…
-]
-service-2 [
-	1551567600,
-	1552690800,
-	1555797600
-]
-…
-```
-
-*Note*: In order to work, `readServicesAndExceptions` will load (a reduced form of) `calendar.txt` and `calendar_dates.txt` into memory. This might fail with huge data sets.
-
-
-## `computeStopovers`
-
-```js
-computeStopovers(readFile, filters, timezone)
-```
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const computeStopovers = require('gtfs-utils/compute-stopovers')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-const filters = {
-	service: s => s.monday === '1',
-	trip: t => t.route_id === 'A',
-	stopover: s => s.stop_id === 'some-stop-id'
-}
-const stopovers = computeStopovers(readFile, filters, 'Europe/Berlin')
-
-stopovers
-.on('error', console.error)
-.on('data', console.log)
-```
-
-Returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
-
-- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
-- `filters` must be an object; It may have the fields `service`, `trip`, `stopover`, each with a filter function.
-- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
-
-A single item from the stream may look like this:
-
-```js
-{
-	stop_id: 'airport',
-	trip_id: 'b-downtown-on-working-days',
-	service_id: 'on-working-days',
-	route_id: 'B',
-	sequence: '1',
-	start_of_trip: 1563573600,
-	arrival: 1557486780,
-	departure: 1557486840
-}
-```
-
-*Note*: In order to work, `computeStopovers` must load all of `calendar.txt`, `calendar_dates.txt` and `trips.txt` into memory (not `stop_times.txt` however). This might fail with huge data sets.
-
-
-## `computeConnections`
-
-```js
-computeConnections(readFile, timezone, filter)
-```
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const computeConnections = require('gtfs-utils/compute-connections')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-const filter = stopover => stopover.stop_id === 'some-stop-id'
-
-computeConnections(readFile, 'Europe/Berlin', filter)
-.then((connectionsByTrip) => {
-	for (let connectionsOfTrip of connectionsByTrip) {
-		for (let connection of connectionsOfTrip) {
-			console.log(connection)
-		}
-		break
-	}
-})
-.catch(console.error)
-```
-
-```js
-{
-	tripId: 'b-outbound-on-working-days',
-	fromStop: 'center',
-	departure: 65640,
-	toStop: 'lake',
-	arrival: 66000
-}
-```
-
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols).
-
-*Note*: In order to work, `computeConnections` will load (a reduced form of) `stop_times.txt` into memory. This might fail with huge data sets.
-
-
-## `computeSchedules`
-
-```js
-computeSchedules(readFile, filters, [computeSignature])
-```
-
-This utility computes what we call *schedules*, "patterns" by which vehicles visit stops. An example schedule:
-
-```js
-{
-	id: '248tGP', // signature
-	trips: [
-		// The trip `a downtown-all-day-1` follows this schedule and starts
-		// 55380 seconds after midnight on each day it runs.
-		{tripId: 'a-downtown-all-day-1', start: 55380}
-	],
-	// Arrives at 0s at `airport`, departs 30s later.
-	// Arrives at 420s at `museum`, departs 60s later.
-	// Arrives at 720s at `center`, departs 90s later.
-	stops: ['airport', 'museum', 'center'],
-	arrivals: [0, 420, 720],
-	departures: [30, 480, 810]
-}
-```
-
-*Schedules* reduce the implicit complexity of GTFS data sets a lot, because one schedule summarizes many trips with a certain "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptionsreadfile-timezone-filters), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const computeSchedules = require('gtfs-utils/compute-schedules')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-const filters = {
-	service: s => s.monday === '1',
-	serviceException: e => e.exception_type === '2'
-}
-
-computeSchedules(readFile, filters)
-.then((schedules) => {
-	const someScheduleId = Object.keys(schedules)[0]
-	const someSchedule = schedules[someScheduleId]
-	console.log(someSchedule)
-})
-.catch(console.error)
-```
-
-Will read `trips.txt` and `stop_times.txt` and compute schedules from it. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise).
-
-- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
-- `filters` must be an object; It may have the fields `trip` & `stopover`, each with a filter function.
-
-*Note*: In order to work, `computeSchedules` will load (a reduced form of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
-
-
-## `computeSortedConnections`
-
-```js
-computeSortedConnections(readFile, filters, timezone)
-```
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
-
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-computeSortedConnections(readFile, {}, 'Europe/Berlin')
-.then((sortedConnections) => {
-	const from = 1552324800 // UNIX timestamp
-	const to = 1552393800 // UNIX timestamp
-	const fromI = sortedConnections.findIndex(c => c.departure >= from)
-	const endI = sortedConnections.findIndex(c => c.departure > to)
-	for (let i = 0; i < endI; i++) {
-		console.log(sortedConnections[i])
-	}
-})
-.catch(console.error)
-```
-
-```js
-{
-	tripId: 'b-outbound-on-working-days',
-	fromStop: 'lake',
-	departure: 1552324920,
-	toStop: 'airport',
-	arrival: 1552325400,
-	routeId: 'B',
-	serviceId: 'on-working-days'
-}
-{
-	tripId: 'b-downtown-on-working-days',
-	fromStop: 'airport',
-	departure: 1552392840,
-	toStop: 'lake',
-	arrival: 1552393200,
-	routeId: 'B',
-	serviceId: 'on-working-days'
-}
-```
-
-Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of connections.
-
-*Note*: `computeSortedConnections` will load (reduced forms of) `trips.txt` and `stop_times.txt` into memory. This might fail with huge data sets.
-
-- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
-- `filters` must be an object; It may have the fields `service`, `trip` & `stopover`, each with a filter function.
-- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
-
-### `findAlternativeTrips`
-
-```js
-findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)
-```
-
-```
-           fromId  --time window-->  toId
-departure at tDep                    arrival at tArr
-```
-
-For a time window `(tDep, tArr)` to get from stop `fromId` to stop `toId`, `findAlternativeTrips` will return a list of all trips that run from `fromId` to `toId` equally fast or faster.
-
-`trips` must be in the format returned by `readTrips`, `services` in the format of `readServicesAndExceptions`, and `schedules` in the format of `computeSchedules`.
-
-*Note*: The purpose of this function is to identify *direct* alternative trips to a given trip; It *is not* a replacement for a proper routing engine. (There might be a faster way from `fromId` to `toId` via transfer, and `findAlternativeTrips` won't return it.)
-
-As an example, we're gonna use [`sample-gtfs-feed`](https://npmjs.com/package/sample-gtfs-feed):
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const readTrips = require('gtfs-utils/read-trips')
-const readServices = require('gtfs-utils/read-services-and-exceptions')
-const computeSchedules = require('gtfs-utils/compute-schedules')
-const createFindAlternativeTrips = require('gtfs-utils/find-alternative-trips')
-
-const readFile = (file) => {
-	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
-}
-
-const timezone = 'Europe/Berlin'
-const noFilter = () => true
-const noFilters = {}
-
-// prerequisites
-Promise.all([
-	readTrips(readFile, noFilter),
-	readServices(readFile, timezone, noFilters),
-	computeSchedules(readFile, noFilters)
-])
-.then(([trips, services, schedules]) => {
-	const findAltTrips = createFindAlternativeTrips(trips, services, schedules)
-
-	// travel times of a downtown trip of the A line
-	const fromId = 'airport'
-	const tDep = new Date('2019-03-05T15:24:00+01:00') / 1000
-	const toId = 'center'
-	const tArr = new Date('2019-03-05T15:35:00+01:00') / 1000
-
-	// find an alternative trip of the C line
-	console.log(findAltTrips(fromId, tDep, toId, tArr))
-})
-.catch(console.error)
-```
-
-```js
-[ { // This is the trip we were using as query.
-	tripId: 'a-downtown-all-day',
-	routeId: 'A',
-	serviceId: 'all-day',
-	departure: 1551795840, // 2019-03-05T15:24:00+01:00
-	arrival: 1551796500 // 2019-03-05T15:35:00+01:00
-}, { // This is an alternative trip.
-	tripId: 'c-downtown-all-day',
-	routeId: 'C',
-	serviceId: 'all-day',
-	departure: 1551796080, // 2019-03-05T15:28:00+01:00
-	arrival: 1551796380 // 2019-03-05T15:33:00+01:00
-} ]
-```
-
-
-## `computeServiceBreaks`
-
-```js
-computeServiceBreaks(sortedConnections)
-```
-
-Most public transport networks don't run 24/7, but instead have regular scheduled "service breaks", e.g. at night or on Sundays.
-
-Given [sorted connections](#computesortedconnectionsreadfile-filters-timezone), `computeServiceBreaks` finds periods of time without service between two stations.
-
-It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be bus/train every hour, with a break of 8 hours at night. This is why `computeServiceBreaks` optionally takes a second parameter `minLength` in seconds.
-
-```js
-const readCsv = require('gtfs-utils/read-csv')
-const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
-const computeServiceBreaks = require('gtfs-utils/compute-service-breaks')
-
-const serviceBreakMinLength = 30 * 60 // 30 minutes
-const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
-
-computeSortedConnections(readFile, {}, 'Europe/Berlin')
-.then((connections) => {
-	const {findBetween} = computeServiceBreaks(connections, serviceBreakMinLength)
-	const start = '2019-05-08T12:00:00Z'
-	const end = '2019-05-10T15:00:00Z'
-	console.log(findBetween('airport', 'center', start, end))
-})
-.catch(console.error)
-```
+`parseTime(timeStr)` parses a GTFS Time value.
 
 
 ## `routeTypes`
@@ -565,10 +160,6 @@ console.log(routeTypes.basic.find(type => type.gtfs === 3))
 ## `readServicesAndExceptions`
 
 ```js
-readServicesAndExceptions(readFile, timezone, filters)
-```
-
-```js
 const readCsv = require('gtfs-utils/read-csv')
 const readServices = require('gtfs-utils/read-services-and-exceptions')
 
@@ -583,7 +174,7 @@ const services = readServices(readFile, 'Europe/Berlin', filters)
 for await (const [id, days] of services) console.log(id, days)
 ```
 
-Will read `calendar.txt` and `calendar_dates.txt` and condense each service into the a list of days it is valid for. Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[serviceId, daysOfOperation]` entries.
+`readServicesAndExceptions(readFile, timezone, filters = {})` reads `calendar.txt` and `calendar_dates.txt` and condenses each service into the a list of days it is valid for. Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[serviceId, daysOfOperation]` entries.
 
 The code above will print the following:
 
@@ -607,76 +198,107 @@ service-2 [
 ## `computeConnections`
 
 ```js
-computeConnections(readFile, filter)
-```
-
-```js
 const readCsv = require('gtfs-utils/read-csv')
 const computeConnections = require('gtfs-utils/compute-connections')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
-const filters = {
+const connectionsByTrip = computeConnections(readFile, {
 	stopTime: s => s.stop_id === 'some-stop-id',
-}
-
-const connectionsByTrip = computeConnections(readFile, filters)
-for await (const connections of connectionsByTrip) {
-	for await (const connection of connections) {
-		console.log(connection)
-	}
+})
+for await (const connectionsOfTrip of connectionsByTrip) {
+	for (const connection of connectionsOfTrip) console.log(connection)
+	break
 }
 ```
 
-- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
-- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
-- `filters` must be an object; It may have the fields `trip`, `stopTime`, `frequencies`, each with a filter function.
-
-Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[{tripId, fromStop, departure, toStop, arrival}]` lists.
-
-The code above will print the following:
-
 ```js
+
 {
 	tripId: 'a-downtown-all-day',
 	fromStop: 'airport',
-	departure: 55440,
+	// .departure and .arrival are *not* "wall clock times", but seconds since
+	// noon minus 12 hours!
+	// see https://gist.github.com/derhuerst/574edc94981a21ef0ce90713f1cff7f6)
+	departure: 55440, // 15h, 24m
 	toStop: 'museum',
-	arrival: 55800,
+	arrival: 55800, // 15h, 30m
 }
 {
 	tripId: 'a-downtown-all-day',
 	fromStop: 'museum',
-	departure: 55860,
+	departure: 55860, // 15h, 31m
 	toStop: 'center',
-	arrival: 56100,
+	arrival: 56100, // 15h, 35m
 }
-// …
 ```
+
+A "connection" is a pair of `stop_time`s. `computeConnections(readFile, filters = {})` iterates over `stop_times.txt` and `frequencies.txt`, and emits all connections in the whole dataset. It returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator).
+
+
+## `computeSchedules`
+
+This utility computes what we call "schedules", temporal patterns by which vehicles visit stops. An example schedule:
+
+```js
+{
+	id: '248tGP', // signature, just a hash of the schedule's data
+	trips: [
+		// The trip `a downtown-all-day-1` follows this schedule and starts
+		// 55380 seconds after `noon - 12h` on each day it runs.
+		{tripId: 'a-downtown-all-day-1', start: 55380}
+	],
+	// Arrives at `airport` after 0s, departs 30s later.
+	// Arrives at `museum` after 420s, departs 60s later.
+	// Arrives at `center` after 720s, departs 90s later.
+	stops: ['airport', 'museum', 'center'],
+	arrivals: [0, 420, 720],
+	departures: [30, 480, 810],
+}
+```
+
+In schedule-basic public transport systems, schedules reduce the implicit complexity of GTFS data sets a lot, because one schedule summarizes many trips with a certain "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptions), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSchedules = require('gtfs-utils/compute-schedules')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const schedules = await computeSchedules(readFile)
+for await (const schedule of schedules.values()) {
+	console.log(schedule)
+}
+```
+
+`computeSchedules(readFile, filters = {}, opt = {})` reads `trips.txt` and `stop_times.txt` and computes schedules from it. Returns a [store](#store-api).
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `filters` must be an object; It may have the fields `trip`, `stopTime` & `frequencies`, each with a filter function.
+- `opt` must be an object; It may optionally have a custom `computeSig` function that, given a schedule, computes a signature of it.
+
+*Note:* In order to work, it must load (a reduced form of) `trips.txt`, `stop_times.txt` and `frequencies.txt` into memory. See [*store API*](#store-api) for more details.
 
 
 ## `computeStopovers`
 
 ```js
-computeStopovers(readFile, filters, timezone)
-```
-
-```js
 const readCsv = require('gtfs-utils/read-csv')
-const computeStopovers = require('gtfs-utils/compute-stopover-times')
+const computeStopovers = require('gtfs-utils/compute-stopovers')
 
 const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
 
-const filters = {
+const stopovers = computeStopovers(readFile, 'Europe/Berlin', {
 	trip: t => t.route_id === 'A',
 	stopTime: s => s.stop_id === 'some-stop-id',
-}
+})
 
-const stopovers = computeStopovers(readFile, filters, 'Europe/Berlin')
-for await (const stopover of stopovers) console.log(stopover)
+for await (const stopover of stopovers) {
+	console.log(stopover)
+}
 ```
 
-Will read *per-day* stop times from `trips.txt`, `stop_times.txt` and `frequencies.txt`, and apply them to the days of operation returned by [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptionsreadfile-timezone-filters), in order to compute *absolute* stop times.
+`computeStopovers(readFile, timezone, filters = {})` reads *per-day* stop times from `trips.txt`, `stop_times.txt` and `frequencies.txt`, and applies them to the days of operation returned by [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptions), in order to compute *absolute* stop times.
 
 - `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 - `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
@@ -695,6 +317,9 @@ The code above will print the following:
 	start_of_trip: 1551394800, // 2019-03-01T00:00:00+01:00
 	arrival: 1551450180, // 2019-03-01T15:23:00+01:00
 	departure: 1551450240, // 2019-03-01T15:24:00+01:00
+	// Items have this additional entry if they're based on an exact_times=0
+	// entry in frequencies.txt. See https://gtfs.org/reference/static/#frequenciestxt
+	// headwayBased: true,
 }
 {
 	stop_id: 'museum',
@@ -708,4 +333,180 @@ The code above will print the following:
 // …
 ```
 
-*Note*: In order to work, `computeStopovers` must load reduced forms of `trips.txt`, `calendar.txt` and `calendar_dates.txt` into memory. See [memory consumption](#memory-consumption) for more details.
+*Note:* In order to work, it must load reduced forms of `trips.txt`, `calendar.txt` and `calendar_dates.txt` into memory. See [*store API*](#store-api) for more details.
+
+
+## `computeSortedConnections`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const sortedConnections = await computeSortedConnections(readFile, 'Europe/Berlin')
+const from = 1552324800 // UNIX timestamp
+const to = 1552393800 // UNIX timestamp
+const fromI = sortedConnections.findIndex(c => c.departure >= from)
+const endI = sortedConnections.findIndex(c => c.departure > to)
+for (let i = 0; i < endI; i++) {
+	console.log(sortedConnections[i])
+}
+```
+
+```js
+{
+	tripId: 'b-outbound-on-working-days',
+	fromStop: 'lake',
+	departure: 1552324920, // 2019-03-11T18:22:00+01:00
+	toStop: 'airport',
+	arrival: 1552325400, // 2019-03-11T18:30:00+01:00
+	routeId: 'B',
+	serviceId: 'on-working-days',
+}
+{
+	tripId: 'b-downtown-on-working-days',
+	fromStop: 'airport',
+	departure: 1552392840, // 2019-03-12T13:14:00+01:00
+	toStop: 'lake',
+	arrival: 1552393200, // 2019-03-12T13:20:00+01:00
+	routeId: 'B',
+	serviceId: 'on-working-days',
+}
+```
+
+`computeSortedConnections(readFile, timezone, filters = {})` reads all [connections](#computeConnections) and applies each to the respective [service](#readservicesandexceptions), to compute all *absolute-time* connections in the dataset. Returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise) that will resolve with an array of connections.
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `timezone` must a timezone name from the [tz database](https://en.wikipedia.org/wiki/Tz_database#Names_of_time_zones).
+- `filters` must be an object; It may have the fields `service`, `trip` & `stopover`, each with a filter function.
+
+*Note:* `computeSortedConnections` must load (reduced forms of) `trips.txt`, `stop_times.txt` and `frequencies.txt` into memory. See [*store API*](#store-api) for more details.
+
+
+## `findAlternativeTrips`
+
+```
+           fromId  --time window-->  toId
+departure at tDep                    arrival at tArr
+```
+
+For a time window `(tDep, tArr)` to get from stop `fromId` to stop `toId`, `findAlternativeTrips` will return a list of all trips that run from `fromId` to `toId` equally fast or faster.
+
+```js
+// signature:
+async findAlternativeTrips(readFile, timezone, services, schedules) => async function* findAltTrips(fromId, tDep, toId, tArr) {}
+```
+
+`services` must be a [store](docs/api#store-api) with a `serviceId => daysOfOperation` mapping. `schedules` must be in the format returned by `computeSchedules`.
+
+*Note:* The purpose of this function is to identify *direct* alternative trips to a given trip; **It *is not* a replacement for a proper routing engine.** (There might be a faster way from `fromId` to `toId` via transfer, and `findAlternativeTrips` won't return it.)
+
+As an example, we're gonna use [`sample-gtfs-feed`](https://npmjs.com/package/sample-gtfs-feed):
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const inMemoryStore = require('gtfs-utils/lib/in-memory-store')
+const readServices = require('gtfs-utils/read-services-and-exceptions')
+const computeSchedules = require('gtfs-utils/compute-schedules')
+const findAlternativeTrips = require('gtfs-utils/find-alternative-trips')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+const timezone = 'Europe/Berlin'
+
+// read services into in-memory store
+const services = inMemoryStore()
+for await (const [id, svc] of readServices(readFile, timezone)) {
+	await services.set(id, svc)
+}
+
+// read schedules
+const schedules = await computeSchedules(readFile)
+
+// travel times of a downtown trip of the A line
+const fromId = 'airport'
+const departure = 1551795840 // 2019-03-05T15:24:00+01:00
+const toId = 'center'
+const arrival = 1551796500 // 2019-03-05T15:35:00+01:00
+
+// find an alternative trip of the C line
+const findAltTrips = await findAlternativeTrips(
+	readFile,
+	timezone,
+	services,
+	schedules,
+)
+const altTrips = findAltTrips(fromId, departure, toId, arrival)
+for await (const alt of altTrips) console.log(alt)
+```
+
+```js
+{ // This is the trip we were using as query.
+	tripId: 'a-downtown-all-day',
+	routeId: 'A',
+	serviceId: 'all-day',
+	departure: 1551795840, // 2019-03-05T15:24:00+01:00
+	arrival: 1551796500, // 2019-03-05T15:35:00+01:00
+}
+{ // This is an alternative trip.
+	tripId: 'c-downtown-all-day',
+	routeId: 'C',
+	serviceId: 'all-day',
+	departure: 1551796080, // 2019-03-05T15:28:00+01:00
+	arrival: 1551796380, // 2019-03-05T15:33:00+01:00
+}
+```
+
+
+## `computeServiceBreaks`
+
+Most public transport networks don't run 24/7, but instead have regular scheduled "service breaks", e.g. at night or on Sundays.
+
+Given [sorted connections](#computesortedconnections), `computeServiceBreaks(sortedConnections, opt = {})` finds periods of time without service between two stations.
+
+It depends on the specific network what period of time can be considered a "break": In a large city, it could be no bus/train running from 2am to 3am; In a small town there might only be a bus/train every hour, with a break of 8 hours at night. You can pass a custom `opt.minLength` value in seconds.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeSortedConnections = require('gtfs-utils/compute-sorted-connections')
+const computeServiceBreaks = require('gtfs-utils/compute-service-breaks')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+let connections = await computeSortedConnections(readFile, 'Europe/Berlin')
+
+// select time frame
+const start = 1557313200 // 2019-05-08T12:00:00+01:00
+const startI = connections.findIndex(c => c.departure >= start)
+const end = 1557496800 // 2019-05-10T15:00:00+01:00
+const endI = connections.findIndex(c => c.departure > end)
+connections = connections.slice(startI, endI)
+
+const serviceBreaks = computeServiceBreaks(connections, {
+	minLength: 30 * 60, // 30 minutes
+})
+for await (const serviceBreak of serviceBreaks) {
+	console.log(serviceBreak)
+}
+```
+
+
+## store API
+
+Some of the tools above need to read data into a [map](https://en.wikipedia.org/wiki/Associative_array) in order to work with it. In memory-constrained environments (such as [FaaS](https://en.wikipedia.org/wiki/Function_as_a_service)es), the amount of data to be read might be bigger than the available memory; This is why **`gtfs-utils` allows you to pass in your own store implementation**.
+
+In this case you could pass in a [Redis](https://redis.io)-backed store instead:
+
+```js
+const createRedisStore = require('gtfs-utils/lib/redis-store')
+
+computeSchedules(readFile, filters, {
+	// let computeSchedules use a Redis-backed store
+	createStore: createRedisStore,
+})
+```
+
+These stores are available:
+
+- `gtfs-utils/lib/in-memory-store` – stores data in memory; used by default
+- `gtfs-utils/lib/redis-store` – stores data in [Redis](https://redis.io)
