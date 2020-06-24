@@ -7,8 +7,13 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-computeSortedConnections(readFile, {}, 'Europe/Berlin')
-.then((sortedConnections) => {
-	console.log(sortedConnections)
+;(async () => {
+	const sortedCons = await computeSortedConnections(readFile, 'Europe/Berlin')
+	for (const connection of sortedCons) {
+		console.log(connection)
+	}
+})()
+.catch((err) => {
+	console.error(err)
+	process.exit(1)
 })
-.catch(console.error)

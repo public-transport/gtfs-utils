@@ -8,7 +8,7 @@ const readFile = (file) => {
 	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
-computeSortedConnections(readFile, {}, 'Europe/Berlin')
+computeSortedConnections(readFile, 'Europe/Berlin')
 .then((connections) => {
 	const {findBetween, data} = computeServiceBreaks(connections)
 
