@@ -3,7 +3,7 @@
 const debug = require('debug')('gtfs-utils:compute-stopover-times')
 
 const inMemoryStore = require('./lib/in-memory-store')
-const expectSorting = require('./lib/expect-sorting')
+const readTrips = require('./read-trips')
 const readStopTimes = require('./lib/read-stop-times')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const resolveTime = require('./lib/resolve-time')
@@ -49,23 +49,11 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 		...opt,
 	}
 
-	const svcIdsByTripId = createStore()
-	const routeIdsByTripId = createStore()
-
 	debug('reading trips')
-	// todo: DRY with read-trips.js
-	const checkSorting = expectSorting('trips', (a, b) => {
-		if (a.trip_id === b.trip_id) return 0
-		return a.trip_id < b.trip_id ? -1 : 1
+	const svcIdsRouteIdsByTrip = await readTrips(readFile, filters, {
+		...opt,
+		formatTrip: t => [t.service_id, t.route_id],
 	})
-	for await (const t of readFile('trips')) {
-		if (!filters.trip(t)) continue
-		checkSorting(t)
-		await Promise.all([
-			svcIdsByTripId.set(t.trip_id, t.service_id),
-			routeIdsByTripId.set(t.trip_id, t.route_id),
-		])
-	}
 
 	debug('reading services & exceptions')
 	const _services = readServicesAndExceptions(readFile, timezone, filters)
@@ -85,10 +73,9 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 		} = _
 
 		// todo: log errors?
-		const serviceId = await svcIdsByTripId.get(tripId)
-		if (!serviceId) continue
-		const routeId = await routeIdsByTripId.get(tripId)
-		if (!routeId) continue
+		const _1 = await svcIdsRouteIdsByTrip.get(tripId)
+		if (!_1) continue
+		const [serviceId, routeId] = _1
 		const days = await services.get(serviceId)
 		if (!days) continue
 

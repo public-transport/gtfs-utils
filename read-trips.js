@@ -19,8 +19,10 @@ const readTrips = async (readFile, filters = {}, opt = {}) => {
 
 	const {
 		createStore,
+		formatTrip,
 	} = {
 		createStore: inMemoryStore,
+		formatTrip: row => row,
 		...opt,
 	}
 
@@ -33,7 +35,7 @@ const readTrips = async (readFile, filters = {}, opt = {}) => {
 	for await (const t of readFile('trips')) {
 		if (!tripFilter(t)) continue
 		checkSorting(t)
-		await trips.set(t.trip_id, t)
+		await trips.set(t.trip_id, formatTrip(t))
 	}
 
 	return trips
