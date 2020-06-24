@@ -3,6 +3,7 @@
 	"description": "Utilities to process GTFS data sets.",
 	"version": "2.1.0",
 	"files": [
+		"sort.sh",
 		"parse-date.js",
 		"parse-time.js",
 		"format-date.js",

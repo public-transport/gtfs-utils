@@ -58,6 +58,8 @@ xsv sort -s service_id,date calendar_dates.txt | sponge calendar_dates.txt
 xsv sort -s trip_id,start_time frequencies.txt | sponge frequencies.txt
 ```
 
+There's also a [`sort.sh` script](sort.sh) running the commands available in the npm package.
+
 For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by using tools that sort data in-memory, e.g. by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `xsv` and piping data through it.
 
 ### basic example
