@@ -1,19 +1,19 @@
 'use strict'
 
+const debug = require('debug')('gtfs-utils:find-alternative-trips')
+
+const readTrips = require('./read-trips')
+const resolveTime = require('./lib/resolve-time')
+
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
-const createFindAlternativeTrips = (trips, services, schedules) => {
-	if (!isObj(trips)) {
-		throw new Error('trips must be an object.')
-	}
-	if (!isObj(services)) {
-		throw new Error('services must be an object.')
-	}
-	if (!isObj(schedules)) {
-		throw new Error('schedules must be an object.')
-	}
+const createFindAlternativeTrips = async (readFile, timezone, services, schedules) => {
+	debug('reading trips')
+	const svcIdsRouteIdsByTrip = await readTrips(readFile, {}, {
+		formatTrip: t => [t.service_id, t.route_id],
+	})
 
-	const findAlternativeTrips = (fromId, tDep, toId, tArr) => {
+	const findAlternativeTrips = async function* (fromId, tDep, toId, tArr) {
 		if ('string' !== typeof fromId || !fromId) {
 			throw new Error('fromId must be a non-empty string.')
 		}
@@ -31,10 +31,7 @@ const createFindAlternativeTrips = (trips, services, schedules) => {
 		}
 		if (tDep >= tArr) throw new Error('tDep must be < tArr.')
 
-		const alts = []
-		for (const schedId in schedules) {
-			const sched = schedules[schedId]
-
+		for await (const sched of schedules.values()) {
 			// Does it run from `fromId` to `toId`?
 			const fromI = sched.stops.indexOf(fromId)
 			if (fromI === -1) continue
@@ -50,39 +47,32 @@ const createFindAlternativeTrips = (trips, services, schedules) => {
 			// Does it run at the right point in time?
 			// For each trip that follows this schedule, find its service and
 			// sort out by absolute departure/arrival times.
-			// todo: replace by `for ... of` loop once they're fast enough
-			for (let tripRefI = 0; tripRefI < sched.trips.length; tripRefI++) {
-				const tripRef = sched.trips[tripRefI]
-
-				const tripId = tripRef.tripId
-				const trip = trips[tripId]
-				if (!trip) continue // invalid `tripRef.tripId`
-
-				const svcId = trip.service_id
-				const svc = services[svcId]
-				if (!svc) continue // invalid `trip.service_id`
+			for (const {tripId, start} of sched.trips) {
+				const _ = await svcIdsRouteIdsByTrip.get(tripId)
+				if (!_) continue // invalid `tripId` or unknwon trip
+				const [svcId, routeId] = _
+				const days = await services.get(svcId)
+				if (!days) continue // invalid service ID
 
 				// todo: replace by `for ... of` loop once they're fast enough
-				for (let svcI = 0; svcI < svc.length; svcI++) {
-					const tSvcStart = svc[svcI]
+				for (let svcI = 0; svcI < days.length; svcI++) {
+					const day = days[svcI]
 
-					const tTripStart = tSvcStart + tripRef.start
-					const tAltDep = tTripStart + dTDep
+					const tAltDep = resolveTime(timezone, day, start + dTDep)
 					if (tAltDep < tDep) continue // departs too early
-					const tAltArr = tTripStart + dTArr
+					const tAltArr = resolveTime(timezone, day, start + dTArr)
 					if (tAltArr > tArr) continue // arrives too late
 
-					alts.push({
+					yield {
 						tripId,
-						routeId: trip.route_id,
-						serviceId: trip.service_id,
+						routeId: routeId,
+						serviceId: svcId,
 						arrival: tAltArr,
 						departure: tAltDep
-					})
+					}
 				}
 			}
 		}
-		return alts
 	}
 
 	return findAlternativeTrips
