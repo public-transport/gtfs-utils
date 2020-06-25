@@ -1,54 +1,52 @@
 'use strict'
 
-const {gte, lte} = require('sorted-array-functions')
+// const {gte, lte} = require('sorted-array-functions')
 
-// todo: filters, threshold option, find threshold automatically
-const computeServiceBreaks = (connections, minLength = 10 * 60) => {
-	// by fromStopId-toStopId
-	const breaks = Object.create(null)
-	const prevDeps = Object.create(null)
+const inMemoryStore = require('./lib/in-memory-store')
 
+const computeServiceBreaks = async function* (connections, opt = {}) {
+	const {
+		createStore,
+		minLength,
+	} = {
+		createStore: inMemoryStore,
+		// todo: filters, threshold option, find threshold automatically
+		minLength: 10 * 60, // in seconds
+		...opt,
+	}
+
+	// fromStopId-toStopId => [dep, routeId, serviceId]
+	const prevDeps = createStore()
+
+	// todo: handle "breaks" at the beginning of the time frame
+	// todo: handle "breaks" at the end of the time frame
 	for (let i = 0; i < connections.length; i++) {
-		const data = connections[i]
+		const {
+			routeId, serviceId,
+			fromStop, toStop, departure,
+		} = connections[i]
 
-		const sig = data.fromStop + '-' + data.toStop
-		const prevDep = sig in prevDeps ? prevDeps[sig] : data.departure
+		const sig = fromStop + '-' + toStop
+		const prevDep = await prevDeps.get(sig)
 
-		if (data.departure - prevDep >= minLength) {
-			const brk = [
-				prevDep,
-				data.departure - prevDep,
-				data.routeId,
-				data.serviceId
-			]
-			if (!(sig in breaks)) breaks[sig] = []
-			breaks[sig].push(brk)
+		if (prevDep && (departure - prevDep[0]) >= minLength) {
+			// emit service break
+			yield {
+				fromStop, toStop,
+				start: prevDep[0],
+				end: departure,
+				duration: departure - prevDep[0],
+				routeId: prevDep[1],
+				serviceId: prevDep[2],
+			}
 		}
-		prevDeps[sig] = data.departure
+
+		await prevDeps.set(sig, [
+			departure,
+			routeId,
+			serviceId,
+		])
 	}
-
-	const formatBreak = ([from, duration, routeId, serviceId]) => ({
-		start: new Date(from * 1000),
-		end: new Date((from + duration) * 1000),
-		duration, routeId, serviceId
-	})
-
-	const findBetween = (from, to, tMin, tMax) => {
-		tMin = new Date(tMin) / 1000
-		if (Number.isNaN(tMin)) throw new Error('invalid tMin')
-		tMax = new Date(tMax) / 1000
-		if (Number.isNaN(tMax)) throw new Error('invalid tMax')
-
-		const l = breaks[from + '-' + to]
-		if (!l) return []
-
-		const cmp = (a, b) => a[0] - b[0]
-		const iMin = gte(l, [tMin], cmp)
-		const iMax = lte(l, [tMax], cmp)
-		return l.slice(iMin, iMax).map(formatBreak)
-	}
-
-	return {data: breaks, findBetween}
 }
 
 module.exports = computeServiceBreaks
