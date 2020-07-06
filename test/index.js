@@ -8,7 +8,7 @@ const {readFileSync, createReadStream} = require('fs')
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
 const daysBetween = require('../lib/days-between')
-// const computeStopovers = require('../compute-stopovers')
+const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
 const {extendedToBasic} = require('../route-types')
@@ -125,69 +125,103 @@ test('lib/days-between', (t) => {
 
 require('./read-stop-times')
 
-test.skip('compute-stopovers', (t) => {
-	// todo
-	t.end()
+const stopoversFixtures = readJSON5Sync(require.resolve('./fixtures/stopovers.json5'))
+test('compute-stopovers', async (t) => {
+	const stopovers = computeStopovers(readFile, 'Europe/Berlin', {
+		trip: t => t.trip_id === 'b-downtown-on-working-days',
+	})
+	const res = []
+	for await (const s of stopovers) res.push(s)
+
+	t.deepEqual(res, stopoversFixtures)
 })
 
-test.skip('compute-sorted-connections', (t) => {
-	const from = 1552324800
-	const to = 1552393000
+test('compute-sorted-connections', async (t) => {
+	const sortedCons = await computeSortedConnections(readFile, 'Europe/Berlin')
 
-	computeSortedConnections(readFile, {}, 'Europe/Berlin')
-	.then((sortedConnections) => {
-		const fromI = sortedConnections.findIndex(c => c.departure >= from)
-		const toI = sortedConnections.findIndex(c => c.departure > to)
-		const connections = sortedConnections.slice(fromI, toI)
+	const from = 1552324800 // 2019-03-11T18:20:00+01:00
+	const to = 1552377500 // 2019-03-12T08:58:20+01:00
+	const fromI = sortedCons.findIndex(c => c.departure >= from)
+	const toI = sortedCons.findIndex(c => c.departure > to)
+	const connections = sortedCons.slice(fromI, toI)
 
-		t.deepEqual(connections, [{
-			tripId: 'b-outbound-on-working-days',
-			fromStop: 'lake',
-			departure: 1552324920,
-			toStop: 'airport',
-			arrival: 1552325400,
-			routeId: 'B',
-			serviceId: 'on-working-days'
-		},
-		{
-			tripId: 'b-downtown-on-working-days',
-			fromStop: 'airport',
-			departure: 1552392840,
-			toStop: 'lake',
-			arrival: 1552393200,
-			routeId: 'B',
-			serviceId: 'on-working-days'
-		}])
-		t.end()
-	})
-	.catch(t.ifError)
+	t.deepEqual(connections, [{
+		tripId: 'b-outbound-on-working-days',
+		serviceId: 'on-working-days',
+		routeId: 'B',
+		fromStop: 'lake',
+		departure: 1552324920,
+		toStop: 'airport',
+		arrival: 1552325400,
+		headwayBased: false
+	}, {
+		tripId: 'b-downtown-on-working-days',
+		serviceId: 'on-working-days',
+		routeId: 'B',
+		fromStop: 'airport',
+		departure: 1552377360,
+		toStop: 'lake',
+		arrival: 1552377720,
+		headwayBased: false
+	}])
 })
 
-test.skip('compute-service-breaks', (t) => {
-	const from = '2019-05-08T12:00:00+02:00'
-	const to = '2019-05-10T15:00:00+02:00'
-
-	computeSortedConnections(readFile, {}, 'Europe/Berlin')
-	.then((connections) => {
-		const {findBetween, data} = computeServiceBreaks(connections)
-
-		const breaks = findBetween('airport', 'lake', from, to)
-		t.deepEqual(breaks, [{
-			start: new Date('2019-05-08T13:14:00+02:00'),
-			end: new Date('2019-05-09T13:14:00+02:00'),
-			duration: 86400,
-			routeId: 'B',
-			serviceId: 'on-working-days'
-		}, {
-			start: new Date('2019-05-09T13:14:00+02:00'),
-			end: new Date('2019-05-10T13:14:00+02:00'),
-			duration: 86400,
-			routeId: 'B',
-			serviceId: 'on-working-days'
-		}])
-		t.end()
+test('compute-service-breaks', async (t) => {
+	const connections = await computeSortedConnections(readFile, 'Europe/Berlin')
+	const allBreaks = computeServiceBreaks(connections, {
+		minLength: 30 * 60, // 30m
 	})
-	.catch(t.ifError)
+
+	const breaks = []
+	const from = 1557309600 // 2019-05-08T12:00:00+02:00
+	const to = 1557493200 // 2019-05-10T15:00:00+02:00
+	for await (const br of allBreaks) {
+		if (br.start < from || br.start > to) continue
+		if (br.fromStop !== 'airport' || br.toStop !== 'lake') continue
+		breaks.push(br)
+	}
+
+	t.deepEqual(breaks, [{
+		fromStop: 'airport',
+		toStop: 'lake',
+		start: Date.parse('2019-05-08T13:14:00+02:00') / 1000,
+		end: Date.parse('2019-05-09T08:56:00+02:00') / 1000,
+		duration: 70920,
+		routeId: 'B',
+		serviceId: 'on-working-days',
+	}, {
+		fromStop: 'airport',
+		toStop: 'lake',
+		start: Date.parse('2019-05-09T08:56:00+02:00') / 1000,
+		end: Date.parse('2019-05-09T13:14:00+02:00') / 1000,
+		duration: 15480,
+		routeId: 'B',
+		serviceId: 'on-working-days',
+	}, {
+		fromStop: 'airport',
+		toStop: 'lake',
+		start: Date.parse('2019-05-09T13:14:00+02:00') / 1000,
+		end: Date.parse('2019-05-10T08:56:00+02:00') / 1000,
+		duration: 70920,
+		routeId: 'B',
+		serviceId: 'on-working-days',
+	}, {
+		fromStop: 'airport',
+		toStop: 'lake',
+		start: Date.parse('2019-05-10T08:56:00+02:00') / 1000,
+		end: Date.parse('2019-05-10T13:14:00+02:00') / 1000,
+		duration: 15480,
+		routeId: 'B',
+		serviceId: 'on-working-days',
+	}, {
+		fromStop: 'airport',
+		toStop: 'lake',
+		start: Date.parse('2019-05-10T13:14:00+02:00') / 1000,
+		end: Date.parse('2019-05-11T08:56:00+02:00') / 1000,
+		duration: 70920,
+		routeId: 'B',
+		serviceId: 'on-working-days',
+	}])
 })
 
 test('extendedToBasic', (t) => {

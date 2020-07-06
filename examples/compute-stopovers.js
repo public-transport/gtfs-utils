@@ -8,7 +8,7 @@ const readFile = (file) => {
 }
 
 ;(async () => {
-	const stopovers = await computeStopovers(readFile, 'Europe/Berlin', {
+	const stopovers = computeStopovers(readFile, 'Europe/Berlin', {
 		stopTime: s => s.stop_id === 'airport',
 	})
 	for await (const stopover of stopovers) {
