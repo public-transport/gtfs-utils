@@ -1,0 +1,33 @@
+[
+	{
+		title: 'empty',
+		args: [
+			['gtfsTimeStr', ''],
+		],
+		fails: true
+	}, {
+		title: '1:2:3',
+		args: [
+			['gtfsTimeStr', '1:2:3'],
+		],
+		fails: true
+	}, {
+		title: '21:30',
+		args: [
+			['gtfsTimeStr', '21:30'],
+		],
+		result: {hours: 21, minutes: 30, seconds: null},
+	}, {
+		title: '21:30:01',
+		args: [
+			['gtfsTimeStr', '21:30:01'],
+		],
+		result: {hours: 21, minutes: 30, seconds: 1},
+	}, {
+		title: '123:48:01',
+		args: [
+			['gtfsTimeStr', '123:48:01'],
+		],
+		result: {hours: 123, minutes: 48, seconds: 1},
+	}
+]
