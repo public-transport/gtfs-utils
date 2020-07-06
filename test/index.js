@@ -8,7 +8,6 @@ const {readFileSync, createReadStream} = require('fs')
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
 const daysBetween = require('../lib/days-between')
-const errorsWithRow = require('../lib/errors-with-row')
 // const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
@@ -120,30 +119,6 @@ test('lib/days-between', (t) => {
 		t.equal(d.second, 0)
 		t.equal(d.millisecond, 0)
 	}
-
-	t.end()
-})
-
-test('lib/errors-with-row', (t) => {
-	let chunks = 0
-	const onData = errorsWithRow('some-file.txt', (chunk) => {
-		if (++chunks === 3) throw new Error('foo bar')
-	})
-
-	t.equal(typeof onData, 'function')
-	t.equal(onData.length, 3)
-	t.doesNotThrow(() => {
-		onData(); onData()
-	}, 'does not throw on 1st/2nd call')
-	try {
-		onData()
-	} catch (err) {
-		t.ok(err, 'throws on 3rd call')
-		t.equal(err.message, 'some-file.txt:4 foo bar') // +1 header line
-	}
-	t.doesNotThrow(() => {
-		onData()
-	}, 'does not throw on 4th call')
 
 	t.end()
 })
