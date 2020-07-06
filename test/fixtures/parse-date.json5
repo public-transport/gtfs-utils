@@ -1,0 +1,26 @@
+[
+	{
+		title: '20190303, UTC',
+		args: [
+			['gtfsDateStr', '20190303'],
+			['timezone', 'Etc/UTC'],
+		],
+		result: 1551571200, // 2019-03-03T00:00:00Z
+	},
+	{
+		title: '20190303, Berlin',
+		args: [
+			['gtfsDateStr', '20190303'],
+			['timezone', 'Europe/Berlin'],
+		],
+		result: 1551567600, // 2019-03-03T00:00:00+01:00
+	},
+	{
+		title: '20190303, Bangkok',
+		args: [
+			['gtfsDateStr', '20190303'],
+			['timezone', 'Asia/Bangkok'],
+		],
+		result: 1551546000, // 2019-03-03T00:00:00+07:00
+	},
+]

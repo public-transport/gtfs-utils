@@ -1,19 +1,57 @@
 'use strict'
 
+const JSON5 = require('json5')
 const {DateTime} = require('luxon')
 const test = require('tape')
-const {createReadStream} = require('fs')
+const {readFileSync, createReadStream} = require('fs')
 
 const readCsv = require('../read-csv')
-const parseDate = require('../parse-date')
 const formatDate = require('../format-date')
-const parseTime = require('../parse-time')
 const daysBetween = require('../lib/days-between')
 const errorsWithRow = require('../lib/errors-with-row')
 // const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
 const {extendedToBasic} = require('../route-types')
+
+const readJSON5Sync = (path) => {
+	return JSON5.parse(readFileSync(path, {encoding: 'utf8'}))
+}
+
+const testWithFixtures = (fn, fixtures, prefix = '') => {
+	fixtures.forEach((f) => {
+		const title = [prefix, f.title].filter(s => !!s).join(' – ')
+		const args = f.args.map(a => a[1]) // select values
+		const testFn = f.fails
+			? (t) => {
+				t.plan(1)
+				t.throws(() => fn(...args))
+			}
+			: (t) => {
+				t.plan(1)
+				t.deepEqual(fn(...args), f.result)
+			}
+		test(title, testFn)
+	})
+}
+
+testWithFixtures(
+	require('../parse-date'),
+	readJSON5Sync(require.resolve('./fixtures/parse-date.json5')),
+	'parse-date',
+)
+
+testWithFixtures(
+	require('../parse-time'),
+	readJSON5Sync(require.resolve('./fixtures/parse-time.json5')),
+	'parse-time',
+)
+
+testWithFixtures(
+	require('../lib/resolve-time'),
+	readJSON5Sync(require.resolve('./fixtures/resolve-time.json5')),
+	'resolve-time',
+)
 
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
@@ -40,28 +78,11 @@ test('read-csv: accept a readable stream as input', (t) => {
 	})
 })
 
-test('parse-date', (t) => {
-	t.plan(3)
-	t.equal(parseDate('20190303', utc), 1551571200)
-	t.equal(parseDate('20190303', berlin), 1551567600)
-	t.equal(parseDate('20190303', 'Asia/Bangkok'), 1551546000)
-})
-
 test('format-date', (t) => {
 	t.plan(3)
 	t.equal(formatDate(1551571200, utc), '20190303')
 	t.equal(formatDate(1551567600, berlin), '20190303')
 	t.equal(formatDate(1551546000, 'Asia/Bangkok'), '20190303')
-})
-
-test('parse-time', (t) => {
-	t.plan(3 + 3)
-	t.throws(() => parseTime())
-	t.throws(() => parseTime(''))
-	t.throws(() => parseTime('1:2:3'))
-	t.deepEqual(parseTime('21:30'), {hours: 21, minutes: 30, seconds: null})
-	t.deepEqual(parseTime('21:30:01'), {hours: 21, minutes: 30, seconds: 1})
-	t.deepEqual(parseTime('123:48:01'), {hours: 123, minutes: 48, seconds: 1})
 })
 
 test('lib/days-between', (t) => {
@@ -128,7 +149,6 @@ test('lib/errors-with-row', (t) => {
 })
 
 require('./read-stop-times')
-require('./resolve-time')
 
 test.skip('compute-stopovers', (t) => {
 	// todo
