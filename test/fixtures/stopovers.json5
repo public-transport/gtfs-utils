@@ -1,0 +1,5944 @@
+// All stopovers of the b-downtown-on-working-days trips in the
+// sample-gtfs-feed@0.5.1 npm package.
+[
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552031700,
+		departure: 1552031760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552032120,
+		departure: 1552032240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552032720,
+		departure: 1552032780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552047180,
+		departure: 1552047240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552047600,
+		departure: 1552047720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1551999600,
+		arrival: 1552048200,
+		departure: 1552048260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552118100,
+		departure: 1552118160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552118520,
+		departure: 1552118640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552119120,
+		departure: 1552119180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552133580,
+		departure: 1552133640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552134000,
+		departure: 1552134120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552086000,
+		arrival: 1552134600,
+		departure: 1552134660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552290900,
+		departure: 1552290960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552291320,
+		departure: 1552291440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552291920,
+		departure: 1552291980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552306380,
+		departure: 1552306440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552306800,
+		departure: 1552306920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552258800,
+		arrival: 1552307400,
+		departure: 1552307460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552377300,
+		departure: 1552377360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552377720,
+		departure: 1552377840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552378320,
+		departure: 1552378380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552392780,
+		departure: 1552392840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552393200,
+		departure: 1552393320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552345200,
+		arrival: 1552393800,
+		departure: 1552393860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552463700,
+		departure: 1552463760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552464120,
+		departure: 1552464240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552464720,
+		departure: 1552464780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552479180,
+		departure: 1552479240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552479600,
+		departure: 1552479720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552431600,
+		arrival: 1552480200,
+		departure: 1552480260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552550100,
+		departure: 1552550160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552550520,
+		departure: 1552550640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552551120,
+		departure: 1552551180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552565580,
+		departure: 1552565640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552566000,
+		departure: 1552566120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552518000,
+		arrival: 1552566600,
+		departure: 1552566660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552636500,
+		departure: 1552636560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552636920,
+		departure: 1552637040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552637520,
+		departure: 1552637580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552651980,
+		departure: 1552652040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552652400,
+		departure: 1552652520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552604400,
+		arrival: 1552653000,
+		departure: 1552653060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552722900,
+		departure: 1552722960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552723320,
+		departure: 1552723440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552723920,
+		departure: 1552723980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552738380,
+		departure: 1552738440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552738800,
+		departure: 1552738920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552690800,
+		arrival: 1552739400,
+		departure: 1552739460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552895700,
+		departure: 1552895760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552896120,
+		departure: 1552896240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552896720,
+		departure: 1552896780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552911180,
+		departure: 1552911240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552911600,
+		departure: 1552911720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552863600,
+		arrival: 1552912200,
+		departure: 1552912260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552982100,
+		departure: 1552982160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552982520,
+		departure: 1552982640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552983120,
+		departure: 1552983180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552997580,
+		departure: 1552997640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552998000,
+		departure: 1552998120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1552950000,
+		arrival: 1552998600,
+		departure: 1552998660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553068500,
+		departure: 1553068560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553068920,
+		departure: 1553069040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553069520,
+		departure: 1553069580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553083980,
+		departure: 1553084040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553084400,
+		departure: 1553084520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553036400,
+		arrival: 1553085000,
+		departure: 1553085060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553154900,
+		departure: 1553154960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553155320,
+		departure: 1553155440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553155920,
+		departure: 1553155980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553170380,
+		departure: 1553170440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553170800,
+		departure: 1553170920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553122800,
+		arrival: 1553171400,
+		departure: 1553171460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553241300,
+		departure: 1553241360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553241720,
+		departure: 1553241840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553242320,
+		departure: 1553242380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553256780,
+		departure: 1553256840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553257200,
+		departure: 1553257320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553209200,
+		arrival: 1553257800,
+		departure: 1553257860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553327700,
+		departure: 1553327760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553328120,
+		departure: 1553328240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553328720,
+		departure: 1553328780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553343180,
+		departure: 1553343240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553343600,
+		departure: 1553343720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553295600,
+		arrival: 1553344200,
+		departure: 1553344260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553500500,
+		departure: 1553500560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553500920,
+		departure: 1553501040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553501520,
+		departure: 1553501580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553515980,
+		departure: 1553516040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553516400,
+		departure: 1553516520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553468400,
+		arrival: 1553517000,
+		departure: 1553517060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553586900,
+		departure: 1553586960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553587320,
+		departure: 1553587440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553587920,
+		departure: 1553587980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553602380,
+		departure: 1553602440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553602800,
+		departure: 1553602920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553554800,
+		arrival: 1553603400,
+		departure: 1553603460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553673300,
+		departure: 1553673360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553673720,
+		departure: 1553673840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553674320,
+		departure: 1553674380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553688780,
+		departure: 1553688840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553689200,
+		departure: 1553689320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553641200,
+		arrival: 1553689800,
+		departure: 1553689860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553759700,
+		departure: 1553759760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553760120,
+		departure: 1553760240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553760720,
+		departure: 1553760780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553775180,
+		departure: 1553775240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553775600,
+		departure: 1553775720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553727600,
+		arrival: 1553776200,
+		departure: 1553776260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553846100,
+		departure: 1553846160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553846520,
+		departure: 1553846640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553847120,
+		departure: 1553847180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553861580,
+		departure: 1553861640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553862000,
+		departure: 1553862120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553814000,
+		arrival: 1553862600,
+		departure: 1553862660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553932500,
+		departure: 1553932560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553932920,
+		departure: 1553933040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553933520,
+		departure: 1553933580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553947980,
+		departure: 1553948040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553948400,
+		departure: 1553948520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1553900400,
+		arrival: 1553949000,
+		departure: 1553949060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554101700,
+		departure: 1554101760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554102120,
+		departure: 1554102240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554102720,
+		departure: 1554102780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554117180,
+		departure: 1554117240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554117600,
+		departure: 1554117720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554069600,
+		arrival: 1554118200,
+		departure: 1554118260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554188100,
+		departure: 1554188160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554188520,
+		departure: 1554188640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554189120,
+		departure: 1554189180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554203580,
+		departure: 1554203640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554204000,
+		departure: 1554204120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554156000,
+		arrival: 1554204600,
+		departure: 1554204660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554274500,
+		departure: 1554274560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554274920,
+		departure: 1554275040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554275520,
+		departure: 1554275580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554289980,
+		departure: 1554290040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554290400,
+		departure: 1554290520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554242400,
+		arrival: 1554291000,
+		departure: 1554291060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554360900,
+		departure: 1554360960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554361320,
+		departure: 1554361440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554361920,
+		departure: 1554361980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554376380,
+		departure: 1554376440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554376800,
+		departure: 1554376920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554328800,
+		arrival: 1554377400,
+		departure: 1554377460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554447300,
+		departure: 1554447360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554447720,
+		departure: 1554447840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554448320,
+		departure: 1554448380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554462780,
+		departure: 1554462840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554463200,
+		departure: 1554463320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554415200,
+		arrival: 1554463800,
+		departure: 1554463860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554533700,
+		departure: 1554533760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554534120,
+		departure: 1554534240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554534720,
+		departure: 1554534780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554549180,
+		departure: 1554549240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554549600,
+		departure: 1554549720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554501600,
+		arrival: 1554550200,
+		departure: 1554550260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554706500,
+		departure: 1554706560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554706920,
+		departure: 1554707040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554707520,
+		departure: 1554707580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554721980,
+		departure: 1554722040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554722400,
+		departure: 1554722520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554674400,
+		arrival: 1554723000,
+		departure: 1554723060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554792900,
+		departure: 1554792960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554793320,
+		departure: 1554793440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554793920,
+		departure: 1554793980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554808380,
+		departure: 1554808440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554808800,
+		departure: 1554808920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554760800,
+		arrival: 1554809400,
+		departure: 1554809460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554879300,
+		departure: 1554879360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554879720,
+		departure: 1554879840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554880320,
+		departure: 1554880380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554894780,
+		departure: 1554894840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554895200,
+		departure: 1554895320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554847200,
+		arrival: 1554895800,
+		departure: 1554895860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554965700,
+		departure: 1554965760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554966120,
+		departure: 1554966240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554966720,
+		departure: 1554966780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554981180,
+		departure: 1554981240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554981600,
+		departure: 1554981720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1554933600,
+		arrival: 1554982200,
+		departure: 1554982260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555052100,
+		departure: 1555052160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555052520,
+		departure: 1555052640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555053120,
+		departure: 1555053180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555067580,
+		departure: 1555067640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555068000,
+		departure: 1555068120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555020000,
+		arrival: 1555068600,
+		departure: 1555068660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555138500,
+		departure: 1555138560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555138920,
+		departure: 1555139040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555139520,
+		departure: 1555139580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555153980,
+		departure: 1555154040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555154400,
+		departure: 1555154520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555106400,
+		arrival: 1555155000,
+		departure: 1555155060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555311300,
+		departure: 1555311360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555311720,
+		departure: 1555311840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555312320,
+		departure: 1555312380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555326780,
+		departure: 1555326840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555327200,
+		departure: 1555327320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555279200,
+		arrival: 1555327800,
+		departure: 1555327860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555397700,
+		departure: 1555397760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555398120,
+		departure: 1555398240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555398720,
+		departure: 1555398780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555413180,
+		departure: 1555413240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555413600,
+		departure: 1555413720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555365600,
+		arrival: 1555414200,
+		departure: 1555414260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555484100,
+		departure: 1555484160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555484520,
+		departure: 1555484640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555485120,
+		departure: 1555485180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555499580,
+		departure: 1555499640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555500000,
+		departure: 1555500120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555452000,
+		arrival: 1555500600,
+		departure: 1555500660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555570500,
+		departure: 1555570560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555570920,
+		departure: 1555571040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555571520,
+		departure: 1555571580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555585980,
+		departure: 1555586040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555586400,
+		departure: 1555586520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555538400,
+		arrival: 1555587000,
+		departure: 1555587060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555656900,
+		departure: 1555656960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555657320,
+		departure: 1555657440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555657920,
+		departure: 1555657980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555672380,
+		departure: 1555672440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555672800,
+		departure: 1555672920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555624800,
+		arrival: 1555673400,
+		departure: 1555673460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555743300,
+		departure: 1555743360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555743720,
+		departure: 1555743840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555744320,
+		departure: 1555744380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555758780,
+		departure: 1555758840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555759200,
+		departure: 1555759320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555711200,
+		arrival: 1555759800,
+		departure: 1555759860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555916100,
+		departure: 1555916160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555916520,
+		departure: 1555916640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555917120,
+		departure: 1555917180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555931580,
+		departure: 1555931640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555932000,
+		departure: 1555932120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555884000,
+		arrival: 1555932600,
+		departure: 1555932660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556002500,
+		departure: 1556002560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556002920,
+		departure: 1556003040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556003520,
+		departure: 1556003580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556017980,
+		departure: 1556018040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556018400,
+		departure: 1556018520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1555970400,
+		arrival: 1556019000,
+		departure: 1556019060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556088900,
+		departure: 1556088960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556089320,
+		departure: 1556089440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556089920,
+		departure: 1556089980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556104380,
+		departure: 1556104440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556104800,
+		departure: 1556104920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556056800,
+		arrival: 1556105400,
+		departure: 1556105460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556175300,
+		departure: 1556175360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556175720,
+		departure: 1556175840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556176320,
+		departure: 1556176380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556190780,
+		departure: 1556190840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556191200,
+		departure: 1556191320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556143200,
+		arrival: 1556191800,
+		departure: 1556191860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556261700,
+		departure: 1556261760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556262120,
+		departure: 1556262240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556262720,
+		departure: 1556262780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556277180,
+		departure: 1556277240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556277600,
+		departure: 1556277720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556229600,
+		arrival: 1556278200,
+		departure: 1556278260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556348100,
+		departure: 1556348160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556348520,
+		departure: 1556348640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556349120,
+		departure: 1556349180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556363580,
+		departure: 1556363640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556364000,
+		departure: 1556364120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556316000,
+		arrival: 1556364600,
+		departure: 1556364660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556520900,
+		departure: 1556520960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556521320,
+		departure: 1556521440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556521920,
+		departure: 1556521980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556536380,
+		departure: 1556536440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556536800,
+		departure: 1556536920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556488800,
+		arrival: 1556537400,
+		departure: 1556537460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556607300,
+		departure: 1556607360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556607720,
+		departure: 1556607840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556608320,
+		departure: 1556608380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556622780,
+		departure: 1556622840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556623200,
+		departure: 1556623320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556575200,
+		arrival: 1556623800,
+		departure: 1556623860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556780100,
+		departure: 1556780160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556780520,
+		departure: 1556780640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556781120,
+		departure: 1556781180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556795580,
+		departure: 1556795640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556796000,
+		departure: 1556796120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556748000,
+		arrival: 1556796600,
+		departure: 1556796660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556866500,
+		departure: 1556866560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556866920,
+		departure: 1556867040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556867520,
+		departure: 1556867580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556881980,
+		departure: 1556882040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556882400,
+		departure: 1556882520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556834400,
+		arrival: 1556883000,
+		departure: 1556883060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556952900,
+		departure: 1556952960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556953320,
+		departure: 1556953440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556953920,
+		departure: 1556953980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556968380,
+		departure: 1556968440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556968800,
+		departure: 1556968920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1556920800,
+		arrival: 1556969400,
+		departure: 1556969460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557125700,
+		departure: 1557125760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557126120,
+		departure: 1557126240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557126720,
+		departure: 1557126780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557141180,
+		departure: 1557141240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557141600,
+		departure: 1557141720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557093600,
+		arrival: 1557142200,
+		departure: 1557142260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557212100,
+		departure: 1557212160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557212520,
+		departure: 1557212640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557213120,
+		departure: 1557213180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557227580,
+		departure: 1557227640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557228000,
+		departure: 1557228120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557180000,
+		arrival: 1557228600,
+		departure: 1557228660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557298500,
+		departure: 1557298560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557298920,
+		departure: 1557299040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557299520,
+		departure: 1557299580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557313980,
+		departure: 1557314040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557314400,
+		departure: 1557314520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557266400,
+		arrival: 1557315000,
+		departure: 1557315060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557384900,
+		departure: 1557384960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557385320,
+		departure: 1557385440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557385920,
+		departure: 1557385980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557400380,
+		departure: 1557400440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557400800,
+		departure: 1557400920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557352800,
+		arrival: 1557401400,
+		departure: 1557401460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557471300,
+		departure: 1557471360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557471720,
+		departure: 1557471840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557472320,
+		departure: 1557472380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557486780,
+		departure: 1557486840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557487200,
+		departure: 1557487320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557439200,
+		arrival: 1557487800,
+		departure: 1557487860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557557700,
+		departure: 1557557760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557558120,
+		departure: 1557558240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557558720,
+		departure: 1557558780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557573180,
+		departure: 1557573240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557573600,
+		departure: 1557573720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557525600,
+		arrival: 1557574200,
+		departure: 1557574260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557730500,
+		departure: 1557730560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557730920,
+		departure: 1557731040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557731520,
+		departure: 1557731580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557745980,
+		departure: 1557746040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557746400,
+		departure: 1557746520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557698400,
+		arrival: 1557747000,
+		departure: 1557747060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557816900,
+		departure: 1557816960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557817320,
+		departure: 1557817440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557817920,
+		departure: 1557817980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557832380,
+		departure: 1557832440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557832800,
+		departure: 1557832920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557784800,
+		arrival: 1557833400,
+		departure: 1557833460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557903300,
+		departure: 1557903360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557903720,
+		departure: 1557903840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557904320,
+		departure: 1557904380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557918780,
+		departure: 1557918840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557919200,
+		departure: 1557919320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557871200,
+		arrival: 1557919800,
+		departure: 1557919860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1557989700,
+		departure: 1557989760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1557990120,
+		departure: 1557990240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1557990720,
+		departure: 1557990780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1558005180,
+		departure: 1558005240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1558005600,
+		departure: 1558005720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1557957600,
+		arrival: 1558006200,
+		departure: 1558006260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558076100,
+		departure: 1558076160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558076520,
+		departure: 1558076640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558077120,
+		departure: 1558077180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558091580,
+		departure: 1558091640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558092000,
+		departure: 1558092120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558044000,
+		arrival: 1558092600,
+		departure: 1558092660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558162500,
+		departure: 1558162560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558162920,
+		departure: 1558163040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558163520,
+		departure: 1558163580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558177980,
+		departure: 1558178040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558178400,
+		departure: 1558178520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558130400,
+		arrival: 1558179000,
+		departure: 1558179060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558335300,
+		departure: 1558335360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558335720,
+		departure: 1558335840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558336320,
+		departure: 1558336380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558350780,
+		departure: 1558350840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558351200,
+		departure: 1558351320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558303200,
+		arrival: 1558351800,
+		departure: 1558351860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558421700,
+		departure: 1558421760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558422120,
+		departure: 1558422240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558422720,
+		departure: 1558422780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558437180,
+		departure: 1558437240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558437600,
+		departure: 1558437720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558389600,
+		arrival: 1558438200,
+		departure: 1558438260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558508100,
+		departure: 1558508160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558508520,
+		departure: 1558508640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558509120,
+		departure: 1558509180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558523580,
+		departure: 1558523640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558524000,
+		departure: 1558524120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558476000,
+		arrival: 1558524600,
+		departure: 1558524660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558594500,
+		departure: 1558594560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558594920,
+		departure: 1558595040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558595520,
+		departure: 1558595580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558609980,
+		departure: 1558610040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558610400,
+		departure: 1558610520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558562400,
+		arrival: 1558611000,
+		departure: 1558611060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558680900,
+		departure: 1558680960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558681320,
+		departure: 1558681440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558681920,
+		departure: 1558681980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558696380,
+		departure: 1558696440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558696800,
+		departure: 1558696920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558648800,
+		arrival: 1558697400,
+		departure: 1558697460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558767300,
+		departure: 1558767360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558767720,
+		departure: 1558767840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558768320,
+		departure: 1558768380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558782780,
+		departure: 1558782840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558783200,
+		departure: 1558783320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558735200,
+		arrival: 1558783800,
+		departure: 1558783860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558940100,
+		departure: 1558940160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558940520,
+		departure: 1558940640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558941120,
+		departure: 1558941180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558955580,
+		departure: 1558955640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558956000,
+		departure: 1558956120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558908000,
+		arrival: 1558956600,
+		departure: 1558956660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559026500,
+		departure: 1559026560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559026920,
+		departure: 1559027040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559027520,
+		departure: 1559027580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559041980,
+		departure: 1559042040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559042400,
+		departure: 1559042520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1558994400,
+		arrival: 1559043000,
+		departure: 1559043060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559112900,
+		departure: 1559112960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559113320,
+		departure: 1559113440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559113920,
+		departure: 1559113980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559128380,
+		departure: 1559128440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559128800,
+		departure: 1559128920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559080800,
+		arrival: 1559129400,
+		departure: 1559129460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559199300,
+		departure: 1559199360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559199720,
+		departure: 1559199840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559200320,
+		departure: 1559200380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559214780,
+		departure: 1559214840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559215200,
+		departure: 1559215320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559167200,
+		arrival: 1559215800,
+		departure: 1559215860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559285700,
+		departure: 1559285760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559286120,
+		departure: 1559286240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559286720,
+		departure: 1559286780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559301180,
+		departure: 1559301240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559301600,
+		departure: 1559301720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559253600,
+		arrival: 1559302200,
+		departure: 1559302260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559372100,
+		departure: 1559372160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559372520,
+		departure: 1559372640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559373120,
+		departure: 1559373180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559387580,
+		departure: 1559387640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559388000,
+		departure: 1559388120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559340000,
+		arrival: 1559388600,
+		departure: 1559388660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559544900,
+		departure: 1559544960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559545320,
+		departure: 1559545440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559545920,
+		departure: 1559545980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559560380,
+		departure: 1559560440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559560800,
+		departure: 1559560920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559512800,
+		arrival: 1559561400,
+		departure: 1559561460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559631300,
+		departure: 1559631360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559631720,
+		departure: 1559631840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559632320,
+		departure: 1559632380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559646780,
+		departure: 1559646840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559647200,
+		departure: 1559647320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559599200,
+		arrival: 1559647800,
+		departure: 1559647860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559717700,
+		departure: 1559717760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559718120,
+		departure: 1559718240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559718720,
+		departure: 1559718780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559733180,
+		departure: 1559733240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559733600,
+		departure: 1559733720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559685600,
+		arrival: 1559734200,
+		departure: 1559734260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559804100,
+		departure: 1559804160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559804520,
+		departure: 1559804640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559805120,
+		departure: 1559805180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559819580,
+		departure: 1559819640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559820000,
+		departure: 1559820120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559772000,
+		arrival: 1559820600,
+		departure: 1559820660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559890500,
+		departure: 1559890560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559890920,
+		departure: 1559891040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559891520,
+		departure: 1559891580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559905980,
+		departure: 1559906040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559906400,
+		departure: 1559906520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559858400,
+		arrival: 1559907000,
+		departure: 1559907060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559976900,
+		departure: 1559976960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559977320,
+		departure: 1559977440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559977920,
+		departure: 1559977980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559992380,
+		departure: 1559992440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559992800,
+		departure: 1559992920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1559944800,
+		arrival: 1559993400,
+		departure: 1559993460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560149700,
+		departure: 1560149760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560150120,
+		departure: 1560150240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560150720,
+		departure: 1560150780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560165180,
+		departure: 1560165240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560165600,
+		departure: 1560165720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560117600,
+		arrival: 1560166200,
+		departure: 1560166260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560236100,
+		departure: 1560236160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560236520,
+		departure: 1560236640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560237120,
+		departure: 1560237180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560251580,
+		departure: 1560251640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560252000,
+		departure: 1560252120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560204000,
+		arrival: 1560252600,
+		departure: 1560252660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560322500,
+		departure: 1560322560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560322920,
+		departure: 1560323040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560323520,
+		departure: 1560323580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560337980,
+		departure: 1560338040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560338400,
+		departure: 1560338520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560290400,
+		arrival: 1560339000,
+		departure: 1560339060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560408900,
+		departure: 1560408960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560409320,
+		departure: 1560409440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560409920,
+		departure: 1560409980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560424380,
+		departure: 1560424440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560424800,
+		departure: 1560424920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560376800,
+		arrival: 1560425400,
+		departure: 1560425460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560495300,
+		departure: 1560495360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560495720,
+		departure: 1560495840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560496320,
+		departure: 1560496380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560510780,
+		departure: 1560510840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560511200,
+		departure: 1560511320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560463200,
+		arrival: 1560511800,
+		departure: 1560511860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560581700,
+		departure: 1560581760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560582120,
+		departure: 1560582240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560582720,
+		departure: 1560582780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560597180,
+		departure: 1560597240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560597600,
+		departure: 1560597720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560549600,
+		arrival: 1560598200,
+		departure: 1560598260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560754500,
+		departure: 1560754560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560754920,
+		departure: 1560755040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560755520,
+		departure: 1560755580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560769980,
+		departure: 1560770040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560770400,
+		departure: 1560770520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560722400,
+		arrival: 1560771000,
+		departure: 1560771060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560840900,
+		departure: 1560840960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560841320,
+		departure: 1560841440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560841920,
+		departure: 1560841980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560856380,
+		departure: 1560856440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560856800,
+		departure: 1560856920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560808800,
+		arrival: 1560857400,
+		departure: 1560857460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560927300,
+		departure: 1560927360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560927720,
+		departure: 1560927840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560928320,
+		departure: 1560928380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560942780,
+		departure: 1560942840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560943200,
+		departure: 1560943320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560895200,
+		arrival: 1560943800,
+		departure: 1560943860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561013700,
+		departure: 1561013760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561014120,
+		departure: 1561014240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561014720,
+		departure: 1561014780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561029180,
+		departure: 1561029240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561029600,
+		departure: 1561029720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1560981600,
+		arrival: 1561030200,
+		departure: 1561030260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561100100,
+		departure: 1561100160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561100520,
+		departure: 1561100640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561101120,
+		departure: 1561101180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561115580,
+		departure: 1561115640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561116000,
+		departure: 1561116120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561068000,
+		arrival: 1561116600,
+		departure: 1561116660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561186500,
+		departure: 1561186560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561186920,
+		departure: 1561187040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561187520,
+		departure: 1561187580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561201980,
+		departure: 1561202040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561202400,
+		departure: 1561202520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561154400,
+		arrival: 1561203000,
+		departure: 1561203060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561359300,
+		departure: 1561359360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561359720,
+		departure: 1561359840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561360320,
+		departure: 1561360380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561374780,
+		departure: 1561374840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561375200,
+		departure: 1561375320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561327200,
+		arrival: 1561375800,
+		departure: 1561375860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561445700,
+		departure: 1561445760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561446120,
+		departure: 1561446240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561446720,
+		departure: 1561446780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561461180,
+		departure: 1561461240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561461600,
+		departure: 1561461720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561413600,
+		arrival: 1561462200,
+		departure: 1561462260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561532100,
+		departure: 1561532160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561532520,
+		departure: 1561532640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561533120,
+		departure: 1561533180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561547580,
+		departure: 1561547640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561548000,
+		departure: 1561548120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561500000,
+		arrival: 1561548600,
+		departure: 1561548660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561618500,
+		departure: 1561618560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561618920,
+		departure: 1561619040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561619520,
+		departure: 1561619580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561633980,
+		departure: 1561634040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561634400,
+		departure: 1561634520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561586400,
+		arrival: 1561635000,
+		departure: 1561635060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561704900,
+		departure: 1561704960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561705320,
+		departure: 1561705440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561705920,
+		departure: 1561705980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561720380,
+		departure: 1561720440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561720800,
+		departure: 1561720920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561672800,
+		arrival: 1561721400,
+		departure: 1561721460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561791300,
+		departure: 1561791360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561791720,
+		departure: 1561791840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561792320,
+		departure: 1561792380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561806780,
+		departure: 1561806840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561807200,
+		departure: 1561807320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561759200,
+		arrival: 1561807800,
+		departure: 1561807860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561964100,
+		departure: 1561964160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561964520,
+		departure: 1561964640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561965120,
+		departure: 1561965180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561979580,
+		departure: 1561979640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561980000,
+		departure: 1561980120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1561932000,
+		arrival: 1561980600,
+		departure: 1561980660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562050500,
+		departure: 1562050560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562050920,
+		departure: 1562051040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562051520,
+		departure: 1562051580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562065980,
+		departure: 1562066040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562066400,
+		departure: 1562066520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562018400,
+		arrival: 1562067000,
+		departure: 1562067060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562136900,
+		departure: 1562136960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562137320,
+		departure: 1562137440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562137920,
+		departure: 1562137980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562152380,
+		departure: 1562152440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562152800,
+		departure: 1562152920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562104800,
+		arrival: 1562153400,
+		departure: 1562153460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562223300,
+		departure: 1562223360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562223720,
+		departure: 1562223840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562224320,
+		departure: 1562224380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562238780,
+		departure: 1562238840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562239200,
+		departure: 1562239320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562191200,
+		arrival: 1562239800,
+		departure: 1562239860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562309700,
+		departure: 1562309760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562310120,
+		departure: 1562310240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562310720,
+		departure: 1562310780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562325180,
+		departure: 1562325240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562325600,
+		departure: 1562325720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562277600,
+		arrival: 1562326200,
+		departure: 1562326260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562396100,
+		departure: 1562396160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562396520,
+		departure: 1562396640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562397120,
+		departure: 1562397180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562411580,
+		departure: 1562411640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562412000,
+		departure: 1562412120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562364000,
+		arrival: 1562412600,
+		departure: 1562412660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562568900,
+		departure: 1562568960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562569320,
+		departure: 1562569440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562569920,
+		departure: 1562569980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562584380,
+		departure: 1562584440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562584800,
+		departure: 1562584920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562536800,
+		arrival: 1562585400,
+		departure: 1562585460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562655300,
+		departure: 1562655360
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562655720,
+		departure: 1562655840
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562656320,
+		departure: 1562656380
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562670780,
+		departure: 1562670840
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562671200,
+		departure: 1562671320
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562623200,
+		arrival: 1562671800,
+		departure: 1562671860
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562741700,
+		departure: 1562741760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562742120,
+		departure: 1562742240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562742720,
+		departure: 1562742780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562757180,
+		departure: 1562757240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562757600,
+		departure: 1562757720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562709600,
+		arrival: 1562758200,
+		departure: 1562758260
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562828100,
+		departure: 1562828160
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562828520,
+		departure: 1562828640
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562829120,
+		departure: 1562829180
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562843580,
+		departure: 1562843640
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562844000,
+		departure: 1562844120
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562796000,
+		arrival: 1562844600,
+		departure: 1562844660
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562914500,
+		departure: 1562914560
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562914920,
+		departure: 1562915040
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562915520,
+		departure: 1562915580
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562929980,
+		departure: 1562930040
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562930400,
+		departure: 1562930520
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562882400,
+		arrival: 1562931000,
+		departure: 1562931060
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563000900,
+		departure: 1563000960
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563001320,
+		departure: 1563001440
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563001920,
+		departure: 1563001980
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563016380,
+		departure: 1563016440
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563016800,
+		departure: 1563016920
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1562968800,
+		arrival: 1563017400,
+		departure: 1563017460
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563605700,
+		departure: 1563605760
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563606120,
+		departure: 1563606240
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563606720,
+		departure: 1563606780
+	},
+	{
+		stop_id: 'airport',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563621180,
+		departure: 1563621240
+	},
+	{
+		stop_id: 'lake',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563621600,
+		departure: 1563621720
+	},
+	{
+		stop_id: 'center',
+		trip_id: 'b-downtown-on-working-days',
+		service_id: 'on-working-days',
+		route_id: 'B',
+		start_of_trip: 1563573600,
+		arrival: 1563622200,
+		departure: 1563622260
+	}
+]
