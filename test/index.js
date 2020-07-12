@@ -1,9 +1,9 @@
 'use strict'
 
-const JSON5 = require('json5')
 const {DateTime} = require('luxon')
 const test = require('tape')
-const {readFileSync, createReadStream} = require('fs')
+const {createReadStream} = require('fs')
+const {readJSON5Sync} = require('./lib')
 
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
@@ -12,10 +12,6 @@ const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
 const {extendedToBasic} = require('../route-types')
-
-const readJSON5Sync = (path) => {
-	return JSON5.parse(readFileSync(path, {encoding: 'utf8'}))
-}
 
 const testWithFixtures = (fn, fixtures, prefix = '') => {
 	fixtures.forEach((f) => {
