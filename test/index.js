@@ -3,7 +3,7 @@
 const {DateTime} = require('luxon')
 const test = require('tape')
 const {createReadStream} = require('fs')
-const {readJSON5Sync} = require('./lib')
+const {readJSON5Sync, readFilesFromFixture} = require('./lib')
 
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
@@ -122,7 +122,7 @@ test('lib/days-between', (t) => {
 require('./read-stop-times')
 
 const stopoversFixtures = readJSON5Sync(require.resolve('./fixtures/stopovers.json5'))
-test('compute-stopovers', async (t) => {
+test('compute-stopovers: works', async (t) => {
 	const stopovers = computeStopovers(readFile, 'Europe/Berlin', {
 		trip: t => t.trip_id === 'b-downtown-on-working-days',
 	})
@@ -130,6 +130,47 @@ test('compute-stopovers', async (t) => {
 	for await (const s of stopovers) res.push(s)
 
 	t.deepEqual(res, stopoversFixtures)
+})
+
+test('compute-stopovers: handles DST switch properly', async (t) => {
+	const readFile = readFilesFromFixture('daylight-saving-time')
+	const stopovers = computeStopovers(readFile, 'Europe/Berlin')
+
+	const res = []
+	for await (const s of stopovers) res.push(s)
+	t.deepEqual(res, [{
+		stop_id: '1',
+		trip_id: 'A1',
+		service_id: 'sA',
+		route_id: 'A',
+		start_of_trip: 1572127200, // 2019-10-27T00:00:00+02:00
+		arrival: 1572137940, // 2019-10-27T02:59:00+02:00
+		departure: 1572138060, // 2019-10-27T02:01:00+01:00
+	}, {
+		stop_id: '2',
+		trip_id: 'A1',
+		service_id: 'sA',
+		route_id: 'A',
+		start_of_trip: 1572127200, // 2019-10-27T00:00:00+02:00
+		arrival: 1572141540, // 2019-10-27T02:59:00+01:00
+		departure: 1572141660, // 2019-10-27T03:01:00+01:00
+	}, {
+		stop_id: '2',
+		trip_id: 'B1',
+		service_id: 'sB',
+		route_id: 'B',
+		start_of_trip: 1553986800, // 2019-03-31T00:00:00+01:00
+		arrival: 1553990340, // 2019-03-31T00:59:00+01:00
+		departure: 1553990460, // 2019-03-31T01:01:00+01:00
+	}, {
+		stop_id: '1',
+		trip_id: 'B1',
+		service_id: 'sB',
+		route_id: 'B',
+		start_of_trip: 1553986800, // 2019-03-31T00:00:00+01:00
+		arrival: 1553993940, // 2019-03-31T01:59:00+01:00
+		departure: 1553994060,// 2019-03-31T03:01:00+02:00
+	}])
 })
 
 test('compute-sorted-connections', async (t) => {
