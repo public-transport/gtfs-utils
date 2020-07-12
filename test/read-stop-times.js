@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('tape')
+const {readFilesFromFixture} = require('./lib')
 
 const readCsv = require('../read-csv')
 const readStopTimes = require('../lib/read-stop-times')
@@ -85,4 +86,31 @@ test('read-stop-times works', async (t) => {
 			headwayBasedHeadways: []
 		},
 	])
+})
+
+test('read-stop-times: handles DST switch properly', async (t) => {
+	const readFile = readFilesFromFixture('daylight-saving-time')
+	const stopTimes = readStopTimes(readFile, noFilter)
+
+	const res = []
+	for await (const st of stopTimes) res.push(st)
+	t.deepEqual(res, [{
+		tripId: 'A1',
+		stops: ['1', '2'],
+		arrivals: [7140, 10740],
+		departures: [7260, 10860],
+		headwayBasedStarts: [],
+		headwayBasedEnds: [],
+		headwayBasedHeadways: [],
+	}, {
+		tripId: 'B1',
+		stops: ['2', '1'],
+		arrivals: [7140, 10740],
+		departures: [7260, 10860],
+		headwayBasedStarts: [],
+		headwayBasedEnds: [],
+		headwayBasedHeadways: [],
+	}])
+
+	t.end()
 })

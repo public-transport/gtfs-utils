@@ -1,0 +1,11 @@
+[
+	{
+		tripId: 'A1',
+		stops: ['1', '2'],
+		arrivals: [7140, 10740],
+		departures: [7260, 10860],
+		headwayBasedStarts: [],
+		headwayBasedEnds: [],
+		headwayBasedHeadways: [],
+	}
+]
