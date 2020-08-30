@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"files": [
 		"sort.sh",
 		"parse-date.js",
@@ -39,7 +39,7 @@
 	"bugs": "https://github.com/public-transport/gtfs-utils/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=10"
+		"node": ">=12"
 	},
 	"dependencies": {
 		"csv-parser": "^2.0.0",
