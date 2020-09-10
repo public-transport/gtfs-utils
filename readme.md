@@ -19,7 +19,7 @@ Read more in the [*performance* section](#performance).
 
 ### data-source-agnostic
 
-`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: in-memory buffers, streaming HTTP, [dat](https://dat.foundation), etc.
+`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: in-memory [buffers](https://nodejs.org/api/buffer.html), streaming HTTP, [dat](https://dat.foundation)/[IPFS](https://ipfs.io), etc.
 
 There are too many half-done, slightly opinionated GTFS processing tools out there, so `gtfs-utils` tries to be as universal as possible.
 
@@ -43,7 +43,7 @@ npm install gtfs-utils
 
 ### sorted GTFS files
 
-**`gtfs-tidy` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance). For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read the data incrementally, only those rows for *one* `trip_id` at a time.
+**`gtfs-utils` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read the data incrementally, only those rows for *one* `trip_id` at a time.
 
 [`xsv`](https://github.com/BurntSushi/xsv) and [`sponge`](https://linux.die.net/man/1/sponge) work very well for this ([with one caveat](https://github.com/BurntSushi/xsv/issues/142#issuecomment-647478949)):
 
@@ -58,15 +58,15 @@ xsv sort -s service_id,date calendar_dates.txt | sponge calendar_dates.txt
 xsv sort -s trip_id,start_time frequencies.txt | sponge frequencies.txt
 ```
 
-There's also a [`sort.sh` script](sort.sh) running the commands available in the npm package.
+There's also a [`sort.sh` script](sort.sh) included in the npm package, which executes the commands above.
 
 For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by using tools that sort data in-memory, e.g. by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `xsv` and piping data through it.
 
 ### basic example
 
-Given our [sample GTFS dataset](https://npmjs.com/package/sample-gtfs-feed), we'll answer the following question: **On a specific day, which vehicles or which lines stop at a specific station?**
+Given our [sample GTFS dataset](https://npmjs.com/package/sample-gtfs-feed), we'll answer the following question: **On a specific day, which vehicles of which lines stop at a specific station?**
 
-We define a function `readFile` that reads our GTFS data into a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams)/[async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator). Because we have CSV files on disk, we'll use the built-in `readCsv` helper:
+We define a function `readFile` that reads our GTFS data into a [readable stream](https://nodejs.org/api/stream.html#stream_readable_streams)/[async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator). In this case we'll read CSV files from disk using the built-in `readCsv` helper:
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')
@@ -76,9 +76,11 @@ const readFile = (file) => {
 }
 ```
 
-[`computerStopovers()`](docs/api.md#computestopovers) will read [`calendar.txt`](https://gtfs.org/reference/static/#calendartxt), [`calendar_dates.txt`](https://gtfs.org/reference/static/#calendar_datestxt), [`trips.txt`](https://gtfs.org/reference/static/#tripstxt), [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) & [`frequencies.txt`](https://gtfs.org/reference/static/#frequenciestxt) and return all stopovers of all trips across the full time frame of the dataset.
+[`computerStopovers()`](docs/api.md#computestopovers) will read [`calendar.txt`](https://gtfs.org/reference/static/#calendartxt), [`calendar_dates.txt`](https://gtfs.org/reference/static/#calendar_datestxt), [`trips.txt`](https://gtfs.org/reference/static/#tripstxt), [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) & [`frequencies.txt`](https://gtfs.org/reference/static/#frequenciestxt) and return all *stopovers* of all trips across the full time frame of the dataset.
 
-It returns an [async generator function](https://javascript.info/async-iterators-generators#async-generators), and thus also [async-iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator), so we can use `for await`:
+It returns an [async generator function](https://javascript.info/async-iterators-generators#async-generators) (which thus is [async-iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator)), so we can use `for await`.
+
+In the following example, we're going to print all stopovers at `airport` on the 5th of May 2019:
 
 ```js
 const {DateTime} = require('luxon')
@@ -90,7 +92,7 @@ const isOnDay = (t) => {
 	return String(t).slice(0, day.length) === day
 }
 
-const stopovers = await computeStopovers(readFile, 'Europe/Berlin', filters)
+const stopovers = await computeStopovers(readFile, 'Europe/Berlin')
 for await (const stopover of stopovers) {
 	if (stopover.stop_id !== 'airport') continue
 	if (!isOnDay(stopover.arrival)) continue
@@ -136,7 +138,7 @@ For more examples, check the [API documentation](docs/api.md).
 
 `gtfs-utils` should be fast enough for small to medium-sized GTFS datasets.
 
-However, with the [2.5GB DELFI dataset](https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite?tx_vrrkit_view%5Bdataset_name%5D=deutschlandweite-sollfahrplandaten-gtfs&tx_vrrkit_view%5Baction%5D=details&tx_vrrkit_view%5Bcontroller%5D=View) ([download](https://delfi-gtfs-url.now.sh/api/latest)), some operations take hours.
+However, with the [2.5GB DELFI dataset](https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite?tx_vrrkit_view%5Bdataset_name%5D=deutschlandweite-sollfahrplandaten-gtfs&tx_vrrkit_view%5Baction%5D=details&tx_vrrkit_view%5Bcontroller%5D=View) ([direct download](https://delfi-gtfs-url.now.sh/api/latest)), some operations take hours.
 
 It won't be as fast as other GTFS tools because it
 
@@ -152,7 +154,7 @@ It won't be as fast as other GTFS tools because it
 - [gtfstidy](https://github.com/patrickbr/gtfstidy) – Go command line tool for validating and tidying GTFS feeds.
 - [gtfs-stream](https://github.com/staeco/gtfs-stream) – Streaming GTFS and GTFS-RT parser for node
 - [mapzen-gtfs](https://github.com/transitland/mapzen-gtfs) – Python library for reading and writing GTFS feeds. (Python)
-
+- [gtfspy](https://github.com/CxAalto/gtfspy) – Public transport network analysis using Python
 
 ## Contributing
 
