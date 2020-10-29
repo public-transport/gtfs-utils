@@ -194,6 +194,8 @@ service-2 [
 // …
 ```
 
+*Note:* Be careful when filtering services by weekday! Time values in `stop_times.txt` can be >24h, so the day in `calendar.txt` does not necessarily indicate the day of every stopover.
+
 
 ## `computeConnections`
 
