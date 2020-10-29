@@ -115,5 +115,34 @@
 			['relativeTime', 10800], // 3h 0m 0s
 		],
 		result: 1553994000, // 2019-03-31T03:00:00+02:00
+	},
+
+	// https://gist.github.com/derhuerst/574edc94981a21ef0ce90713f1cff7f6
+	{
+		title: 'standard time -> DST, 25h from previous day',
+		args: [
+			['timezone', 'Europe/Berlin'],
+			['t0', 1553904000], // 2019-03-30T01:00:00+01:00
+			['relativeTime', 90000], // 25h 0m 0s
+		],
+		result: 1553990400, // 2019-03-31T01:00:00+01:00
+	},
+	{
+		title: 'standard time -> DST, 25h 59m 59s from previous day',
+		args: [
+			['timezone', 'Europe/Berlin'],
+			['t0', 1553904000], // 2019-03-30T01:00:00+01:00
+			['relativeTime', 93599], // 25h 59m 59s
+		],
+		result: 1553993999, // 2019-03-31T01:59:59+01:00
+	},
+	{
+		title: 'standard time -> DST, 26h from previous day',
+		args: [
+			['timezone', 'Europe/Berlin'],
+			['t0', 1553904000], // 2019-03-30T01:00:00+01:00
+			['relativeTime', 93600], // 26h 0m 0s
+		],
+		result: 1553994000, // 2019-03-31T03:00:00+02:00
 	}
 ]

@@ -85,6 +85,15 @@ test('read-stop-times works', async (t) => {
 			headwayBasedEnds: [],
 			headwayBasedHeadways: []
 		},
+		{
+			tripId: 'during-dst-1',
+			stops: [ 'airport', 'center' ],
+			arrivals: [ 93300, 93780 ],
+			departures: [ 93480, 93900 ],
+			headwayBasedStarts: [],
+			headwayBasedEnds: [],
+			headwayBasedHeadways: [],
+		},
 	])
 })
 
