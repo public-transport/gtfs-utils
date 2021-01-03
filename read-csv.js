@@ -2,7 +2,7 @@
 
 const {readable: isReadable} = require('is-stream')
 const fs = require('fs')
-const pump = require('pump')
+const {pipeline} = require('stream')
 const stripBomStream = require('strip-bom-stream')
 const parseCsv = require('csv-parser')
 
@@ -12,7 +12,7 @@ const readCsv = (path) => {
 		throw new Error('path must be a string or a Readable stream')
 	}
 
-	return pump(
+	return pipeline(
 		isPathStream ? path : fs.createReadStream(path),
 		stripBomStream(),
 		parseCsv(),

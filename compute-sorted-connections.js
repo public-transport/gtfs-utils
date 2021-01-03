@@ -1,8 +1,7 @@
 'use strict'
 
 const debug = require('debug')('gtfs-utils:compute-sorted-connections')
-const pump = require('pump')
-const {Writable} = require('stream')
+const {Writable, pipeline} = require('stream')
 const {DateTime} = require('luxon')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
@@ -82,7 +81,7 @@ const computeStopoversByTrip = (readFile, filters, timezone) => {
 		})
 
 		return new Promise((resolve, reject) => {
-			pump(
+			pipeline(
 				readFile('stop_times'),
 				parser,
 				(err) => {

@@ -1,8 +1,7 @@
 'use strict'
 
-const {Transform} = require('stream')
+const {Transform, pipeline} = require('stream')
 const {DateTime} = require('luxon')
-const pump = require('pump')
 
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const readTrips = require('./read-trips')
@@ -80,7 +79,7 @@ const computeStopoverTimes = (readFile, filters, timezone) => {
 		}
 		trips = _trips
 
-		pump(
+		pipeline(
 			readFile('stop_times'),
 			parser,
 			() => {}
