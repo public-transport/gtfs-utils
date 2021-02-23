@@ -7,7 +7,7 @@ const {readJSON5Sync, readFilesFromFixture} = require('./lib')
 
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
-const daysBetween = require('../lib/days-between')
+const datesBetween = require('../lib/dates-between')
 const resolveTime = require('../lib/resolve-time')
 const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
@@ -81,7 +81,7 @@ test('format-date', (t) => {
 	t.equal(formatDate(1551546000, 'Asia/Bangkok'), '20190303')
 })
 
-test('lib/days-between', (t) => {
+test('lib/dates-between', (t) => {
 	const march3rd = 1551567600 // Europe/Berlin
 	const march4th = 1551654000 // Europe/Berlin
 	const march5th = 1551740400 // Europe/Berlin
@@ -95,18 +95,18 @@ test('lib/days-between', (t) => {
 		sunday: true
 	}
 
-	t.deepEqual(daysBetween('20190313', '20190303', allWeekdays, berlin), [])
-	t.deepEqual(daysBetween('20190303', '20190303', allWeekdays, berlin), [
+	t.deepEqual(datesBetween('20190313', '20190303', allWeekdays, berlin), [])
+	t.deepEqual(datesBetween('20190303', '20190303', allWeekdays, berlin), [
 		march3rd
 	])
-	t.deepEqual(daysBetween('20190303', '20190305', allWeekdays, berlin), [
+	t.deepEqual(datesBetween('20190303', '20190305', allWeekdays, berlin), [
 		march3rd,
 		march4th,
 		march5th
 	])
-	t.equal(daysBetween('20190303', '20190313', allWeekdays, berlin).length, 11)
+	t.equal(datesBetween('20190303', '20190313', allWeekdays, berlin).length, 11)
 
-	const many = daysBetween('20190303', '20190703', allWeekdays, berlin)
+	const many = datesBetween('20190303', '20190703', allWeekdays, berlin)
 	t.ok(Array.isArray(many))
 	for (let ts of many) {
 		const d = DateTime.fromMillis(ts * 1000, {zone: berlin})

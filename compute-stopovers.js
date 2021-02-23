@@ -58,8 +58,8 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 	debug('reading services & exceptions')
 	const _services = readServicesAndExceptions(readFile, timezone, filters)
 	const services = createStore() // by service ID
-	for await (const [id, days] of _services) {
-		await services.set(id, days)
+	for await (const [id, dates] of _services) {
+		await services.set(id, dates)
 	}
 
 	debug('reading stop times')
@@ -76,10 +76,10 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 		const _1 = await svcIdsRouteIdsByTrip.get(tripId)
 		if (!_1) continue
 		const [serviceId, routeId] = _1
-		const days = await services.get(serviceId)
-		if (!days) continue
+		const dates = await services.get(serviceId)
+		if (!dates) continue
 
-		for (const day of days) {
+		for (const date of dates) {
 			// schedule-based
 			for (let i = 0; i < stops.length; i++) {
 				yield {
@@ -87,9 +87,9 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 					trip_id: tripId,
 					service_id: serviceId,
 					route_id: routeId,
-					start_of_trip: day,
-					arrival: resolveTime(timezone, day, arrs[i]),
-					departure: resolveTime(timezone, day, deps[i]),
+					start_of_trip: date,
+					arrival: resolveTime(timezone, date, arrs[i]),
+					departure: resolveTime(timezone, date, deps[i]),
 				}
 			}
 
@@ -107,9 +107,9 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 							trip_id: tripId,
 							service_id: serviceId,
 							route_id: routeId,
-							start_of_trip: day,
-							arrival: resolveTime(timezone, day, arr),
-							departure: resolveTime(timezone, day, dep),
+							start_of_trip: date,
+							arrival: resolveTime(timezone, date, arr),
+							departure: resolveTime(timezone, date, dep),
 							headwayBased: true,
 						}
 					}
