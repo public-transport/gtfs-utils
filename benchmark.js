@@ -44,12 +44,13 @@ const randomTimes = new Array(50).fill(null)
 .map(() => (Math.random() * 27 * 3600) | 0) // GTFS Time values can be >24h
 
 s.add('resolveTime: static arguments', () => {
-	resolveTime('Europe/Berlin', T0, 15 * 3600 + 30 * 60)
+	resolveTime('Europe/Berlin', '2019-02-01', 15 * 3600 + 30 * 60)
 })
 s.add('resolveTime: random time', () => {
 	const time = randomTimes[Math.random() * randomTimes.length | 0]
-	resolveTime('Europe/Berlin', T0, time)
+	resolveTime('Europe/Berlin', '2019-02-01', time)
 })
+// todo: resolveTime: random date & time
 
 s.on('error', (err) => {
 	console.error(err)
