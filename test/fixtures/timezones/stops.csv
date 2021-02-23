@@ -1,0 +1,6 @@
+stop_id,stop_name,stop_lat,stop_lon,location_type,parent_station,stop_timezone
+s1,one,1.1,1.1,,,
+s2,two,2.2,2.2,,,Europe/Berlin
+s3,three,3.3,3.3,1,,Europe/London
+s3a,three/A,3.31,3.31,0,s3,
+s3b,three/B,3.32,3.32,0,s3,Asia/Bangkok

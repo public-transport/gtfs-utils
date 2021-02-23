@@ -6,9 +6,11 @@ const {createReadStream} = require('fs')
 const {readJSON5Sync, readFilesFromFixture} = require('./lib')
 
 const readCsv = require('../read-csv')
+const inMemStore = require('../lib/in-memory-store')
 const formatDate = require('../format-date')
 const datesBetween = require('../lib/dates-between')
 const resolveTime = require('../lib/resolve-time')
+const readStopTimezones = require('../lib/read-stop-timezones')
 const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
@@ -126,6 +128,21 @@ test('lib/resolve-time', (t) => {
 	t.equal(r(tzB, dateB, time1), _('2021-03-03T03:02:01+07:00'))
 	t.equal(r(tzB, dateB, time2), _('2021-03-04T02:00+07:00'))
 	t.end()
+})
+
+test('lib/read-stop-timezones', async (t) => {
+	const readFile = readFilesFromFixture('timezones')
+	const filters = {stop: () => true}
+	const tzs = await readStopTimezones(readFile, filters, inMemStore)
+
+	const actual = Object.fromEntries(Array.from(tzs.raw.entries()))
+	t.deepEqual(actual, {
+		's1': null,
+		's2': 'Europe/Berlin',
+		's3': 'Europe/London',
+		's3a': 'Europe/London',
+		's3b': 'Europe/London',
+	})
 })
 
 require('./read-stop-times')
