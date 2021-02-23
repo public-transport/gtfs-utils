@@ -47,6 +47,7 @@ const readStops = async (readFile, filters = {}, opt = {}) => {
 		// continue if it's not a stop
 		if (
 			('location_type' in stop)
+			&& stop.location_type !== ''
 			&& stop.location_type !== '0'
 		) continue
 
