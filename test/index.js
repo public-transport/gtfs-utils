@@ -199,6 +199,88 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 	}])
 })
 
+test('compute-stopovers: handles timezones properly', async (t) => {
+	const readFile = readFilesFromFixture('timezones')
+	const stopovers = computeStopovers(readFile, 'Europe/Berlin') // todo: remove fallback timezone
+
+	const res = []
+	for await (const s of stopovers) res.push(s)
+	t.equal(res.length, 8, 'res must have 8 items')
+
+	t.deepEqual(res[0], { // todo: don't slice
+		service_id: 's1',
+		stop_id: 's1',
+		trip_id: 't1',
+		route_id: 'r1',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T04:00+01:00') / 1000,
+		departure: Date.parse('2021-02-02T04:01+01:00') / 1000,
+	})
+		t.deepEqual(res[1], {
+		stop_id: 's2',
+		trip_id: 't1',
+		service_id: 's1',
+		route_id: 'r1',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T04:20+01:00') / 1000,
+		departure: Date.parse('2021-02-02T04:21+01:00') / 1000,
+	})
+	t.deepEqual(res[2], {
+		stop_id: 's1',
+		trip_id: 't2',
+		service_id: 's1',
+		route_id: 'r2',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T08:00+01:00') / 1000,
+		departure: Date.parse('2021-02-02T08:01+01:00') / 1000,
+	})
+	t.deepEqual(res[3], {
+		stop_id: 's3',
+		trip_id: 't2',
+		service_id: 's1',
+		route_id: 'r2',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T07:20+00:00') / 1000,
+		departure: Date.parse('2021-02-02T07:21+00:00') / 1000,
+	})
+	t.deepEqual(res[4], {
+		stop_id: 's1',
+		trip_id: 't3',
+		service_id: 's1',
+		route_id: 'r3',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T12:00+01:00') / 1000,
+		departure: Date.parse('2021-02-02T12:01+01:00') / 1000,
+	})
+	t.deepEqual(res[5], {
+		stop_id: 's3a',
+		trip_id: 't3',
+		service_id: 's1',
+		route_id: 'r3',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T11:20+00:00') / 1000,
+		departure: Date.parse('2021-02-02T11:21+00:00') / 1000,
+	})
+	t.deepEqual(res[6], {
+		stop_id: 's1',
+		trip_id: 't4',
+		service_id: 's1',
+		route_id: 'r4',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T16:00+01:00') / 1000,
+		departure: Date.parse('2021-02-02T16:01+01:00') / 1000,
+	})
+	t.deepEqual(res[7], {
+		stop_id: 's3b',
+		trip_id: 't4',
+		service_id: 's1',
+		route_id: 'r4',
+		start_of_trip: '2021-02-02',
+		arrival: Date.parse('2021-02-02T15:20+00:00') / 1000,
+		departure: Date.parse('2021-02-02T15:21+00:00') / 1000,
+	})
+})
+
 test('compute-sorted-connections', async (t) => {
 	const sortedCons = await computeSortedConnections(readFile, 'Europe/Berlin')
 
