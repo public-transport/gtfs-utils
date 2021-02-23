@@ -8,6 +8,7 @@ const {readJSON5Sync, readFilesFromFixture} = require('./lib')
 const readCsv = require('../read-csv')
 const formatDate = require('../format-date')
 const daysBetween = require('../lib/days-between')
+const resolveTime = require('../lib/resolve-time')
 const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
@@ -116,6 +117,25 @@ test('lib/days-between', (t) => {
 		t.equal(d.millisecond, 0)
 	}
 
+	t.end()
+})
+
+test('lib/resolve-time', (t) => {
+	const r = resolveTime
+	const _ = iso => Date.parse(iso) / 1000
+	const tzA = 'Europe/Berlin'
+	const t0A = Date.parse('2021-02-02T00:00+01:00') / 1000
+	const tzB = 'Asia/Bangkok'
+	const t0B = Date.parse('2021-02-02T00:00+07:00') / 1000
+	const time1 = 3 * 3600 + 2 * 60 + 1 // 03:02:01
+	const time2 = 26 * 3600 // 26:00
+
+	t.equal(r(tzA, t0A, time1), _('2021-02-02T03:02:01+01:00'))
+	t.equal(r(tzA, t0A, time2), _('2021-02-03T02:00+01:00'))
+	t.equal(r(tzB, t0A, time1), _('2021-02-02T03:02:01+07:00'))
+	t.equal(r(tzB, t0A, time2), _('2021-02-03T02:00+07:00'))
+	t.equal(r(tzB, t0B, time1), _('2021-02-02T03:02:01+07:00'))
+	t.equal(r(tzB, t0B, time2), _('2021-02-03T02:00+07:00'))
 	t.end()
 })
 
