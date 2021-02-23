@@ -3,12 +3,12 @@
 const debug = require('debug')('gtfs-utils:compute-stopover-times')
 
 const inMemoryStore = require('./lib/in-memory-store')
+const readStopTimezones = require('./lib/read-stop-timezones')
 const readTrips = require('./read-trips')
 const readStopTimes = require('./lib/read-stop-times')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const resolveTime = require('./lib/resolve-time')
 
-// todo: respect stopover.stop_timezone & agency.agency_timezone
 const computeStopovers = async function* (readFile, timezone, filters = {}, opt = {}) {
 	if ('function' !== typeof readFile) {
 		throw new Error('readFile must be a function.')
@@ -19,6 +19,7 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 	}
 
 	filters = {
+		stop: () => true,
 		trip: () => true,
 		service: () => true,
 		serviceException: () => true,
@@ -48,6 +49,10 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 		createStore: inMemoryStore,
 		...opt,
 	}
+
+	debug('reading stops.stop_timezone')
+	// stop.stop_id -> stop.stop_timezone || parent.stop_timezone
+	const stopTimezones = await readStopTimezones(readFile, filters, createStore)
 
 	debug('reading trips')
 	const svcIdsRouteIdsByTrip = await readTrips(readFile, filters, {
@@ -82,14 +87,16 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 		for (const date of dates) {
 			// schedule-based
 			for (let i = 0; i < stops.length; i++) {
+				const stopId = stops[i]
+				const tz = (await stopTimezones.get(stopId)) || timezone
 				yield {
-					stop_id: stops[i],
+					stop_id: stopId,
 					trip_id: tripId,
 					service_id: serviceId,
 					route_id: routeId,
 					start_of_trip: date,
-					arrival: resolveTime(timezone, date, arrs[i]),
-					departure: resolveTime(timezone, date, deps[i]),
+					arrival: resolveTime(tz, date, arrs[i]),
+					departure: resolveTime(tz, date, deps[i]),
 				}
 			}
 
@@ -100,6 +107,7 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 			for (let h = 0; h < hwStartsL; h++) {
 				for (let t = hwStarts[h]; t < hwEnds[h]; t += hwHeadways[h]) {
 					for (let i = 0; i < stops.length; i++) {
+						const tz = (await stopTimezones.get(stops[i])) || timezone
 						const arr = t + arrs[i] - t0
 						const dep = t + deps[i] - t0
 						yield {
@@ -108,8 +116,8 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 							service_id: serviceId,
 							route_id: routeId,
 							start_of_trip: date,
-							arrival: resolveTime(timezone, date, arr),
-							departure: resolveTime(timezone, date, dep),
+							arrival: resolveTime(tz, date, arr),
+							departure: resolveTime(tz, date, dep),
 							headwayBased: true,
 						}
 					}
