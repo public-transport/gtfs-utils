@@ -4,7 +4,7 @@ const {has: arrHas, add: arrInsert} = require('sorted-array-functions')
 const expectSorting = require('./lib/expect-sorting')
 const iterateMatching = require('./lib/iterate-matching')
 const datesBetween = require('./lib/dates-between')
-const parseDate = require('./parse-date')
+const parseDate = require('./lib/parse-date')
 
 const REMOVED = '2'
 const ADDED = '1'
@@ -70,10 +70,10 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			if (!serviceExceptionFilter(ex)) continue
 			checkExceptionsSorting(ex)
 
-			const date = parseDate(ex.date, timezone)
+			const date = parseDate(ex.date)
 			if (ex.exception_type === REMOVED) {
-				const i = dates.indexOf(date)
-				dates.splice(i, 1) // delete
+				const i = dates.indexOf(date) // todo: use sorted-array-functions
+				if (i >= 0) dates.splice(i, 1) // delete
 			} else if (ex.exception_type === ADDED) {
 				if (!arrHas(dates, date)) arrInsert(dates, date)
 			} // todo: else emit error
