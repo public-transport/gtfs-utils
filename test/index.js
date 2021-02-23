@@ -311,6 +311,49 @@ test('compute-sorted-connections', async (t) => {
 	}])
 })
 
+test('compute-sorted-connections: handles timezones properly', async (t) => {
+	const readFile = readFilesFromFixture('timezones')
+	const cons = await computeSortedConnections(readFile, 'Europe/Berlin')
+
+	t.deepEqual(cons, [{
+		tripId: 't1',
+		serviceId: 's1',
+		routeId: 'r1',
+		fromStop: 's1',
+		departure: Date.parse('2021-02-02T04:01+01:00') / 1000,
+		toStop: 's2',
+		arrival: Date.parse('2021-02-02T04:20+01:00') / 1000,
+		headwayBased: false,
+	}, {
+		tripId: 't2',
+		serviceId: 's1',
+		routeId: 'r2',
+		fromStop: 's1',
+		departure: Date.parse('2021-02-02T08:01+01:00') / 1000,
+		toStop: 's3',
+		arrival: Date.parse('2021-02-02T07:20+00:00') / 1000,
+		headwayBased: false,
+	}, {
+		tripId: 't3',
+		serviceId: 's1',
+		routeId: 'r3',
+		fromStop: 's1',
+		departure: Date.parse('2021-02-02T12:01+01:00') / 1000,
+		toStop: 's3a',
+		arrival: Date.parse('2021-02-02T11:20+00:00') / 1000,
+		headwayBased: false,
+	}, {
+		tripId: 't4',
+		serviceId: 's1',
+		routeId: 'r4',
+		fromStop: 's1',
+		departure: Date.parse('2021-02-02T16:01+01:00') / 1000,
+		toStop: 's3b',
+		arrival: Date.parse('2021-02-02T15:20+00:00') / 1000,
+		headwayBased: false,
+	}])
+})
+
 test('compute-service-breaks', async (t) => {
 	const connections = await computeSortedConnections(readFile, 'Europe/Berlin')
 	const allBreaks = computeServiceBreaks(connections, {

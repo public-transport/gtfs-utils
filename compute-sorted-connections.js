@@ -4,6 +4,7 @@ const debug = require('debug')('gtfs-utils:compute-sorted-connections')
 const {gte} = require('sorted-array-functions')
 
 const inMemoryStore = require('./lib/in-memory-store')
+const readStopTimezones = require('./lib/read-stop-timezones')
 const readTrips = require('./read-trips')
 const readServicesAndExceptions = require('./read-services-and-exceptions')
 const computeConnections = require('./compute-connections')
@@ -15,12 +16,21 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 		throw new Error('timezone must be a non-empty string.')
 	}
 
+	filters = {
+		stop: () => true,
+		...filters
+	}
+
 	const {
 		createStore,
 	} = {
 		createStore: inMemoryStore,
 		...opt,
 	}
+
+	debug('reading stops.stop_timezone')
+	// stop.stop_id -> stop.stop_timezone || parent.stop_timezone
+	const stopTimezones = await readStopTimezones(readFile, filters, createStore)
 
 	debug('reading trips')
 	const svcIdsRouteIdsByTrip = await readTrips(readFile, filters, {
@@ -52,14 +62,15 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 
 		for (const c of connections) {
 			for (let i = 0; i < dates.length; i++) {
-				const dep = resolveTime(timezone, dates[i], c.departure)
+				const fromTz = (await stopTimezones.get(c.fromStop)) || timezone
+				const toTz = (await stopTimezones.get(c.toStop)) || timezone
 				const newCon = {
 					tripId: c.tripId,
 					serviceId, routeId,
 					fromStop: c.fromStop,
-					departure: dep,
+					departure: resolveTime(fromTz, dates[i], c.departure),
 					toStop: c.toStop,
-					arrival: resolveTime(timezone, dates[i], c.arrival),
+					arrival: resolveTime(toTz, dates[i], c.arrival),
 					headwayBased: !!c.headwayBased,
 				}
 
