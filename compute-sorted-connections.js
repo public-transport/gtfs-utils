@@ -31,8 +31,8 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 	debug('reading services & exceptions')
 	const _services = readServicesAndExceptions(readFile, timezone, filters)
 	const services = createStore() // by service ID
-	for await (const [id, days] of _services) {
-		await services.set(id, days)
+	for await (const [id, dates] of _services) {
+		await services.set(id, dates)
 	}
 
 	// todo: use store API to support memory-constrained environments
@@ -47,19 +47,19 @@ const computeSortedConnections = async (readFile, timezone, filters = {}, opt = 
 		const _ = await svcIdsRouteIdsByTrip.get(connections[0].tripId)
 		if (!_) continue
 		const [serviceId, routeId] = _
-		const days = await services.get(serviceId)
-		if (!days) continue // todo: log error?
+		const dates = await services.get(serviceId)
+		if (!dates) continue // todo: log error?
 
 		for (const c of connections) {
-			for (let i = 0; i < days.length; i++) {
-				const dep = resolveTime(timezone, days[i], c.departure)
+			for (let i = 0; i < dates.length; i++) {
+				const dep = resolveTime(timezone, dates[i], c.departure)
 				const newCon = {
 					tripId: c.tripId,
 					serviceId, routeId,
 					fromStop: c.fromStop,
 					departure: dep,
 					toStop: c.toStop,
-					arrival: resolveTime(timezone, days[i], c.arrival),
+					arrival: resolveTime(timezone, dates[i], c.arrival),
 					headwayBased: !!c.headwayBased,
 				}
 

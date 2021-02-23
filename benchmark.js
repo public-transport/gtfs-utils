@@ -2,7 +2,7 @@
 
 const {Suite} = require('benchmark')
 const parseDate = require('./parse-date')
-const daysBetween = require('./lib/days-between')
+const datesBetween = require('./lib/dates-between')
 const resolveTime = require('./lib/resolve-time')
 
 const T0 = 1548975600000 // 2019-02-01T00:00+01:00
@@ -14,8 +14,8 @@ s.add('parseDate, Europe/Berlin', () => {
 })
 
 const randomStartDates = new Array(30).fill(null).map(() => {
-	const days = Math.random() * 27 | 0
-	const d = new Date(T0 + days * 24 * 3600 * 1000 + 7200)
+	const dates = Math.random() * 27 | 0
+	const d = new Date(T0 + dates * 24 * 3600 * 1000 + 7200)
 	return [
 		('0000' + d.getFullYear()).slice(-4),
 		('00' + (d.getMonth() + 1)).slice(-2),
@@ -32,12 +32,12 @@ const allWeekdays = {
 	saturday: true,
 	sunday: true
 }
-s.add('daysBetween: static arguments', () => {
-	daysBetween('20200202', '20200606', allWeekdays, 'Europe/Berlin')
+s.add('datesBetween: static arguments', () => {
+	datesBetween('20200202', '20200606', allWeekdays, 'Europe/Berlin')
 })
-s.add('daysBetween: random start date', () => {
+s.add('datesBetween: random start date', () => {
 	const startDate = randomStartDates[Math.random() * randomStartDates.length | 0]
-	daysBetween(startDate, '20200606', allWeekdays, 'Europe/Berlin')
+	datesBetween(startDate, '20200606', allWeekdays, 'Europe/Berlin')
 })
 
 const randomTimes = new Array(50).fill(null)

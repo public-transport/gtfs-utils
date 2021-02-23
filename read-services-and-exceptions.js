@@ -3,7 +3,7 @@
 const {has: arrHas, add: arrInsert} = require('sorted-array-functions')
 const expectSorting = require('./lib/expect-sorting')
 const iterateMatching = require('./lib/iterate-matching')
-const daysBetween = require('./lib/days-between')
+const datesBetween = require('./lib/dates-between')
 const parseDate = require('./parse-date')
 
 const REMOVED = '2'
@@ -56,7 +56,7 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		if (!serviceFilter(s)) continue
 		checkServicesSorting(s)
 
-		const days = daysBetween(s.start_date, s.end_date, {
+		const dates = datesBetween(s.start_date, s.end_date, {
 			monday: s.monday === '1',
 			tuesday: s.tuesday === '1',
 			wednesday: s.wednesday === '1',
@@ -70,16 +70,16 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			if (!serviceExceptionFilter(ex)) continue
 			checkExceptionsSorting(ex)
 
-			const day = parseDate(ex.date, timezone)
+			const date = parseDate(ex.date, timezone)
 			if (ex.exception_type === REMOVED) {
-				const i = days.indexOf(day)
-				days.splice(i, 1) // delete
+				const i = dates.indexOf(date)
+				dates.splice(i, 1) // delete
 			} else if (ex.exception_type === ADDED) {
-				if (!arrHas(days, day)) arrInsert(days, day)
+				if (!arrHas(dates, date)) arrInsert(dates, date)
 			} // todo: else emit error
 		}
 
-		yield [s.service_id, days]
+		yield [s.service_id, dates]
 	}
 }
 

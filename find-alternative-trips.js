@@ -51,16 +51,16 @@ const createFindAlternativeTrips = async (readFile, timezone, services, schedule
 				const _ = await svcIdsRouteIdsByTrip.get(tripId)
 				if (!_) continue // invalid `tripId` or unknwon trip
 				const [svcId, routeId] = _
-				const days = await services.get(svcId)
-				if (!days) continue // invalid service ID
+				const dates = await services.get(svcId)
+				if (!dates) continue // invalid service ID
 
 				// todo: replace by `for ... of` loop once they're fast enough
-				for (let svcI = 0; svcI < days.length; svcI++) {
-					const day = days[svcI]
+				for (let svcI = 0; svcI < dates.length; svcI++) {
+					const date = dates[svcI]
 
-					const tAltDep = resolveTime(timezone, day, start + dTDep)
+					const tAltDep = resolveTime(timezone, date, start + dTDep)
 					if (tAltDep < tDep) continue // departs too early
-					const tAltArr = resolveTime(timezone, day, start + dTArr)
+					const tAltArr = resolveTime(timezone, date, start + dTArr)
 					if (tAltArr > tArr) continue // arrives too late
 
 					yield {
