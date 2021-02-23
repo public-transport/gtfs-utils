@@ -97,25 +97,14 @@ test('lib/dates-between', (t) => {
 
 	t.deepEqual(datesBetween('20190313', '20190303', allWeekdays, berlin), [])
 	t.deepEqual(datesBetween('20190303', '20190303', allWeekdays, berlin), [
-		march3rd
+		'2019-03-03',
 	])
 	t.deepEqual(datesBetween('20190303', '20190305', allWeekdays, berlin), [
-		march3rd,
-		march4th,
-		march5th
+		'2019-03-03',
+		'2019-03-04',
+		'2019-03-05',
 	])
 	t.equal(datesBetween('20190303', '20190313', allWeekdays, berlin).length, 11)
-
-	const many = datesBetween('20190303', '20190703', allWeekdays, berlin)
-	t.ok(Array.isArray(many))
-	for (let ts of many) {
-		const d = DateTime.fromMillis(ts * 1000, {zone: berlin})
-		if (d.hour !== 0) console.error(ts)
-		t.equal(d.hour, 0)
-		t.equal(d.minute, 0)
-		t.equal(d.second, 0)
-		t.equal(d.millisecond, 0)
-	}
 
 	t.end()
 })
@@ -163,7 +152,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'A1',
 		service_id: 'sA',
 		route_id: 'A',
-		start_of_trip: 1572127200, // 2019-10-27T00:00:00+02:00
+		start_of_trip: '2019-10-27',
 		arrival: 1572137940, // 2019-10-27T02:59:00+02:00
 		departure: 1572138060, // 2019-10-27T02:01:00+01:00
 	}, {
@@ -171,7 +160,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'A1',
 		service_id: 'sA',
 		route_id: 'A',
-		start_of_trip: 1572127200, // 2019-10-27T00:00:00+02:00
+		start_of_trip: '2019-10-27',
 		arrival: 1572141540, // 2019-10-27T02:59:00+01:00
 		departure: 1572141660, // 2019-10-27T03:01:00+01:00
 	}, {
@@ -179,7 +168,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'B1',
 		service_id: 'sB',
 		route_id: 'B',
-		start_of_trip: 1553986800, // 2019-03-31T00:00:00+01:00
+		start_of_trip: '2019-03-31',
 		arrival: 1553990340, // 2019-03-31T00:59:00+01:00
 		departure: 1553990460, // 2019-03-31T01:01:00+01:00
 	}, {
@@ -187,7 +176,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'B1',
 		service_id: 'sB',
 		route_id: 'B',
-		start_of_trip: 1553986800, // 2019-03-31T00:00:00+01:00
+		start_of_trip: '2019-03-31',
 		arrival: 1553993940, // 2019-03-31T01:59:00+01:00
 		departure: 1553994060,// 2019-03-31T03:01:00+02:00
 	}])
