@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "3.0.1",
+	"version": "3.1.0",
 	"files": [
 		"sort.sh",
 		"parse-date.js",
@@ -43,7 +43,7 @@
 		"node": ">=12"
 	},
 	"dependencies": {
-		"csv-parser": "^2.0.0",
+		"csv-parser": "^3.0.0",
 		"date-fns": "^2.12.0",
 		"date-fns-tz": "^1.0.10",
 		"debug": "^4.1.1",
