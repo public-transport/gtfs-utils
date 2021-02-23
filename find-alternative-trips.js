@@ -2,12 +2,20 @@
 
 const debug = require('debug')('gtfs-utils:find-alternative-trips')
 
+const readStopTimezones = require('./lib/read-stop-timezones')
+const inMemoryStore = require('./lib/in-memory-store')
 const readTrips = require('./read-trips')
 const resolveTime = require('./lib/resolve-time')
 
 const isObj = o => 'object' === typeof o && o !== null && !Array.isArray(o)
 
 const createFindAlternativeTrips = async (readFile, timezone, services, schedules) => {
+	debug('reading stops.stop_timezone')
+	// stop.stop_id -> stop.stop_timezone || parent.stop_timezone
+	const stopTimezones = await readStopTimezones(readFile, {
+		stop: () => true,
+	}, inMemoryStore)
+
 	debug('reading trips')
 	const svcIdsRouteIdsByTrip = await readTrips(readFile, {}, {
 		formatTrip: t => [t.service_id, t.route_id],
@@ -30,6 +38,9 @@ const createFindAlternativeTrips = async (readFile, timezone, services, schedule
 			throw new Error('fromId and toId must be different.')
 		}
 		if (tDep >= tArr) throw new Error('tDep must be < tArr.')
+
+		const fromTz = await stopTimezones.get(fromId) || timezone
+		const toTz = await stopTimezones.get(toId) || timezone
 
 		for await (const sched of schedules.values()) {
 			// Does it run from `fromId` to `toId`?
@@ -58,9 +69,9 @@ const createFindAlternativeTrips = async (readFile, timezone, services, schedule
 				for (let svcI = 0; svcI < dates.length; svcI++) {
 					const date = dates[svcI]
 
-					const tAltDep = resolveTime(timezone, date, start + dTDep)
+					const tAltDep = resolveTime(fromTz, date, start + dTDep)
 					if (tAltDep < tDep) continue // departs too early
-					const tAltArr = resolveTime(timezone, date, start + dTArr)
+					const tAltArr = resolveTime(toTz, date, start + dTArr)
 					if (tAltArr > tArr) continue // arrives too late
 
 					yield {
