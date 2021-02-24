@@ -23,11 +23,11 @@ Read more in the [*performance* section](#performance).
 
 There are too many half-done, slightly opinionated GTFS processing tools out there, so `gtfs-utils` tries to be as universal as possible.
 
-### Correctness
+### correct
 
 Aside from new features of the ever-expanded GTFS spec that change the expected behavior of old ones (and bugs of course), `gtfs-utils` tries to follow the spec closely.
 
-It will, for example, only return an absolute timestamp of an arrival by taking the timezone into account, because [`stop_times.txt` uses "wall clock time"](https://gist.github.com/derhuerst/574edc94981a21ef0ce90713f1cff7f6).
+For example, it will, when computing the absolute timestamp/instant of an arrival at a stop, always take into account `stop_timezone` or the user-supplied timezone, because [`stop_times.txt` uses "wall clock time"](https://gist.github.com/derhuerst/574edc94981a21ef0ce90713f1cff7f6).
 
 
 ## Installing
