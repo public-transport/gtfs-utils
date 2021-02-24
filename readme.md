@@ -43,24 +43,24 @@ npm install gtfs-utils
 
 ### sorted GTFS files
 
-**`gtfs-utils` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read the data incrementally, only those rows for *one* `trip_id` at a time.
+**`gtfs-utils` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read each file incrementally, only those rows for *one* `trip_id` at a time.
 
-[`xsv`](https://github.com/BurntSushi/xsv) and [`sponge`](https://linux.die.net/man/1/sponge) work very well for this ([with one caveat](https://github.com/BurntSushi/xsv/issues/142#issuecomment-647478949)):
+[Miller](https://miller.readthedocs.io/) and [`sponge`](https://linux.die.net/man/1/sponge) work very well for this:
 
 ```shell
-xsv sort -s agency_id agency.txt | sponge agency.txt
-xsv sort -s stop_id stops.txt | sponge stops.txt
-xsv sort -s route_id routes.txt | sponge routes.txt
-xsv sort -s trip_id trips.txt | sponge trips.txt
-xsv sort -s trip_id,stop_sequence stop_times.txt | sponge stop_times.txt
-xsv sort -s service_id calendar.txt | sponge calendar.txt
-xsv sort -s service_id,date calendar_dates.txt | sponge calendar_dates.txt
-xsv sort -s trip_id,start_time frequencies.txt | sponge frequencies.txt
+mlr --csv sort -f agency_id agency.txt | sponge agency.txt
+mlr --csv sort -f stop_id stops.txt | sponge stops.txt
+mlr --csv sort -f route_id routes.txt | sponge routes.txt
+mlr --csv sort -f trip_id trips.txt | sponge trips.txt
+mlr --csv sort -f trip_id -n stop_sequence stop_times.txt | sponge stop_times.txt
+mlr --csv sort -f service_id calendar.txt | sponge calendar.txt
+mlr --csv sort -f service_id,date calendar_dates.txt | sponge calendar_dates.txt
+mlr --csv sort -f trip_id,start_time frequencies.txt | sponge frequencies.txt
 ```
 
 There's also a [`sort.sh` script](sort.sh) included in the npm package, which executes the commands above.
 
-For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by using tools that sort data in-memory, e.g. by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `xsv` and piping data through it.
+*Note:* For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `mlr` and piping data through it.
 
 ### basic example
 

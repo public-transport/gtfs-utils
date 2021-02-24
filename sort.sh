@@ -5,16 +5,17 @@ set -o pipefail
 
 function sort() {
 	if [ -f "$1" ]; then
-		echo "$ xsv sort -s $2 $1"
-		xsv sort -s "$2" "$1" | sponge "$1"
+		2>&1 echo "$ mlr --csv sort ${@:2} $1"
+		mlr --csv sort ${@:2} "$1" | sponge "$1"
 	fi
 }
 
-sort agency.txt agency_id
-sort stops.txt stop_id
-sort routes.txt route_id
-sort trips.txt trip_id
-sort stop_times.txt trip_id,stop_sequence
-sort calendar.txt service_id
-sort calendar_dates.txt service_id,date
-sort frequencies.txt trip_id,start_time
+sort agency.csv -f agency_id
+sort stops.csv -f stop_id
+sort routes.csv -f route_id
+sort trips.csv -f trip_id
+sort stop_times.csv -f trip_id -n stop_sequence
+sort calendar.csv -f service_id
+sort calendar_dates.csv -f service_id,date
+# todo: sort start_time properly (it may be HH:MM:SS or H:MM:SS)
+sort frequencies.csv -f trip_id,start_time
