@@ -3,17 +3,19 @@
 **Utilities to process [GTFS](https://gtfs.org/reference/static/) data sets.**
 
 [![npm version](https://img.shields.io/npm/v/gtfs-utils.svg)](https://www.npmjs.com/package/gtfs-utils)
-[![build status](https://api.travis-ci.org/public-transport/gtfs-utils.svg?branch=master)](https://travis-ci.org/public-transport/gtfs-utils)
 ![ISC-licensed](https://img.shields.io/github/license/public-transport/gtfs-utils.svg)
-[![chat on gitter](https://badges.gitter.im/public-transport/Lobby.svg)](https://gitter.im/public-transport/Lobby)
-[![support Jannis via GitHub Sponsors](https://img.shields.io/badge/support%20Jannis-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
+![minimum Node.js version](https://img.shields.io/node/v/gtfs-utils.svg)
+[![support me via GitHub Sponsors](https://img.shields.io/badge/support%20me-donate-fa7664.svg)](https://github.com/sponsors/derhuerst)
+[![chat with me on Twitter](https://img.shields.io/badge/chat%20with%20me-on%20Twitter-1da1f2.svg)](https://twitter.com/derhuerst)
 
 
 ## Design goals
 
 ### streaming/iterative on sorted data
 
-Whenever possible, all `gtfs-utils` tools will only read as little data into memory as possible. As [public transportation systems will hopefully become more integrated](https://github.com/public-transport/why-linked-open-transit-data#why-linked-open-transit-data) over time, GTFS datasets will often be multiple GBs large. GTFS processing should work in memory-constrained Raspberry Pis or [FaaS](https://en.wikipedia.org/wiki/Function_as_a_service) environments as well.
+As [public transportation systems will hopefully become more integrated](https://github.com/public-transport/why-linked-open-transit-data#why-linked-open-transit-data) over time, GTFS datasets will often be multiple GBs large. GTFS processing should work in memory-constrained Raspberry Pis or [FaaS](https://en.wikipedia.org/wiki/Function_as_a_service) environments as well.
+
+Whenever possible, all `gtfs-utils` tools will only read as little data into memory as possible. For this, the individual files in a GTFS dataset need to be sorted in a way that allows iterative processing (see below).
 
 Read more in the [*performance* section](#performance).
 
@@ -136,17 +138,15 @@ For more examples, check the [API documentation](docs/api.md).
 
 ## Performance
 
-`gtfs-utils` should be fast enough for small to medium-sized GTFS datasets.
+`gtfs-utils` should be fast enough for small to medium-sized GTFS datasets. It won't be as fast as other GTFS tools because it
 
-However, with the [2.5GB DELFI dataset](https://www.opendata-oepnv.de/ht/de/organisation/delfi/startseite?tx_vrrkit_view%5Bdataset_name%5D=deutschlandweite-sollfahrplandaten-gtfs&tx_vrrkit_view%5Baction%5D=details&tx_vrrkit_view%5Bcontroller%5D=View) ([direct download](https://delfi-gtfs-url.now.sh/api/latest)), some operations take hours.
-
-It won't be as fast as other GTFS tools because it
-
-- it uses [async iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) extensively for memory-efficiency and an easy-of-use, which has inherent performance penalties.
+- uses [async iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) extensively for memory-efficiency and an easy-of-use, which [currently has significant performance penalties in v8](https://github.com/nodejs/node/issues/31979).
 - is written in JavaScript, so it cannot optimise the memory layout of its data structures.
 - parses all columns of a file it needs information from, into a JavaScript object.
 
-*Note:* Unfortunately, async iteration currently [seems to be quite slow in v8](https://github.com/nodejs/node/issues/31979).
+On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dataset](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-februar-2021-bis-dezember-2021) (25k `stops.txt` rows, 90k `trips.txt` rows, 1.9m `stop_times.txt` rows, ~500m stopovers) finishes in several hours.
+
+*Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) in combination with PostgreSQL's smart query optimizer.
 
 
 ## Related
