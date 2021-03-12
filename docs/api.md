@@ -64,13 +64,22 @@ for await (const stop of stops.values()) {
 	stop_url: 'https://fta.example.org/stations/airport.html',
 	location_type: '1',
 	stop_timezone: 'Europe/Berlin',
-	wheelchair_boardings: '1',
+	wheelchair_boarding: '1',
 	parent_station: '',
-	child_stops: ['airport-1', 'airport-2'],
+	level_id: '',
+	platform_code: '',
+	stops: ['airport-1', 'airport-2'],
+	entrances: ['airport-entrance'],
+	boardingAreas: [],
 }
 ```
 
-`readStops(readFile, filters = {}, opt = {})` reads `stops.txt`, reduces it into a map `stop_id => stop`, and adds platform IDs of a station as `station.platforms`. Returns a [store](#store-api).
+`readStops(readFile, filters = {}, opt = {})`
+
+1. reads `stops.txt` into a [store](#store-api) `stop_id => stop`,
+2. adds stop IDs of a station as `station.stop`,
+3. adds entrance IDs of a stop as `stop.entrances`,
+4. adds boarding area IDs of a stop as `stop.boardingAreas`.
 
 
 ## `readTrips`

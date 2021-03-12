@@ -2,10 +2,9 @@
 
 const inMemoryStore = require('./lib/in-memory-store')
 const {
-	// STOP,
+	STOP,
 	STATION,
-	// ENTRANCE_EXIT,
-	GENERIC_NODE,
+	ENTRANCE_EXIT,
 	BOARDING_AREA,
 } = require('./lib/location-types')
 
@@ -32,40 +31,55 @@ const readStops = async (readFile, filters = {}, opt = {}) => {
 		...opt,
 	}
 
-	const stops = createStore() // by ID
+	const stops = createStore() // by stop_id
+	const allOthers = createStore() // by stop_id
 
 	for await (let s of readFile('stops')) {
 		if (!stopFilter(s)) continue
-		// todo: support these
-		if (s.location_type === GENERIC_NODE || s.location_type === BOARDING_AREA) continue
+		const locType = s.location_type
 
-		if (s.location_type === STATION) {
-			s = {...s, platforms: []}
+		if (locType === STOP || locType === '' || locType === undefined) {
+			await stops.set(s.stop_id, s)
+		} else if (locType === STATION) {
+			s = {
+				...s,
+				stops: [],
+				entrances: [],
+				boardingAreas: [],
+			}
+			await stops.set(s.stop_id, s)
+		} else if (
+			(locType === ENTRANCE_EXIT || locType === BOARDING_AREA)
+			&& s.parent_station
+		) {
+			await allOthers.set(s.stop_id, s) // todo: parse/simplify?
 		}
-		await stops.set(s.stop_id, s)
 	}
 
-	// todo [breaking]: expect sorting by location_type, fill .platforms while reading
 	for await (const [id, stop] of stops.entries()) {
-		// todo: add entrances to their parents
-		// todo: add boarding areas to their parents
-		// todo: add generic nodes to their parents?
-
-		// continue if it's not a stop
 		if (
-			('location_type' in stop)
-			&& stop.location_type !== ''
-			&& stop.location_type !== '0'
+			// skip if it's a station
+			stop.location_type === STATION
+			// skip if if the stop doesn't have a parent station
+			|| !stop.parent_station
 		) continue
 
-		// continue if if the stop doesn't have a parent station
-		if (!stop.parent_station) continue
-
-		// add to stop to station.platforms
 		await stops.map(stop.parent_station, (station) => {
 			if (!station) return;
-			station.platforms.push(id)
+			station.stops.push(id)
 			return station
+		})
+	}
+
+	for await (const [id, item] of allOthers.entries()) {
+		await stops.map(item.parent_station, (stop) => {
+			if (!stop) return;
+			if (item.location_type === ENTRANCE_EXIT) {
+				stop.entrances.push(id)
+			} else if (item.location_type === BOARDING_AREA) {
+				stop.boardingAreas.push(id)
+			}
+			return stop
 		})
 	}
 
