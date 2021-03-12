@@ -11,7 +11,9 @@ function sort() {
 }
 
 sort agency.csv -f agency_id
-sort stops.csv -f stop_id
+# For stations (loc_type 1), parent_station must be empty.
+# We get stations first by sorting on parent_station.
+sort stops.csv -f parent_station -nr location_type
 sort routes.csv -f route_id
 sort trips.csv -f trip_id
 sort stop_times.csv -f trip_id -n stop_sequence

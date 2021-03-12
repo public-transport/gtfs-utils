@@ -32,56 +32,83 @@ const readStops = async (readFile, filters = {}, opt = {}) => {
 	}
 
 	const stops = createStore() // by stop_id
-	const allOthers = createStore() // by stop_id
+	let firstCollect = true
+	let curParentStation = NaN
+	let curLocType = NaN
+	let childIds = []
 
 	for await (let s of readFile('stops')) {
 		if (!stopFilter(s)) continue
-		const locType = s.location_type
 
-		if (locType === STOP || locType === '' || locType === undefined) {
-			await stops.set(s.stop_id, s)
-		} else if (locType === STATION) {
-			s = {
+
+		const locType = s.location_type === '' || s.location_type === undefined
+			? STOP : s.location_type
+
+		// just insert stations & plain/orphan stops
+		if (locType === STATION) {
+			await stops.set(s.stop_id, {
 				...s,
 				stops: [],
 				entrances: [],
 				boardingAreas: [],
-			}
+			})
+			continue
+		}
+		if (locType === STOP && !s.parent_station) {
 			await stops.set(s.stop_id, s)
-		} else if (
-			(locType === ENTRANCE_EXIT || locType === BOARDING_AREA)
-			&& s.parent_station
-		) {
-			await allOthers.set(s.stop_id, s) // todo: parse/simplify?
+			continue
+		}
+
+		if (!s.parent_station) continue
+		if (
+			locType !== STOP
+			&& locType !== ENTRANCE_EXIT
+			&& locType !== BOARDING_AREA
+		) continue
+
+		// collect all items of one kind for one station
+		if (s.parent_station !== curParentStation || locType !== curLocType) {
+			if (firstCollect) firstCollect = false
+			else {
+				await stops.map(curParentStation, (station) => {
+					if (!station) {
+						// todo: debug-log?
+						return;
+					}
+
+					const key = ({
+						[STOP]: 'stops',
+						[ENTRANCE_EXIT]: 'entrances',
+						[BOARDING_AREA]: 'boardingAreas',
+					})[curLocType]
+					station[key] = childIds
+					return station
+				})
+			}
+
+			curParentStation = s.parent_station
+			curLocType = locType
+			childIds = [s.stop_id]
+		} else {
+			childIds.push(s.stop_id)
 		}
 	}
 
-	for await (const [id, stop] of stops.entries()) {
-		if (
-			// skip if it's a station
-			stop.location_type === STATION
-			// skip if if the stop doesn't have a parent station
-			|| !stop.parent_station
-		) continue
+	// store pending child IDs
+	await stops.map(curParentStation, (station) => {
+		if (!station) {
+			// todo: debug-log?
+			return;
+		}
 
-		await stops.map(stop.parent_station, (station) => {
-			if (!station) return;
-			station.stops.push(id)
-			return station
-		})
-	}
-
-	for await (const [id, item] of allOthers.entries()) {
-		await stops.map(item.parent_station, (stop) => {
-			if (!stop) return;
-			if (item.location_type === ENTRANCE_EXIT) {
-				stop.entrances.push(id)
-			} else if (item.location_type === BOARDING_AREA) {
-				stop.boardingAreas.push(id)
-			}
-			return stop
-		})
-	}
+		const key = ({
+			[STOP]: 'stops',
+			[ENTRANCE_EXIT]: 'entrances',
+			[BOARDING_AREA]: 'boardingAreas',
+		})[curLocType]
+		station[key] = childIds
+		return station
+	})
 
 	return stops
 }

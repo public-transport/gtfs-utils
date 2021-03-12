@@ -51,7 +51,7 @@ npm install gtfs-utils
 
 ```shell
 mlr --csv sort -f agency_id agency.txt | sponge agency.txt
-mlr --csv sort -f stop_id stops.txt | sponge stops.txt
+mlr --csv sort -f parent_station -nr location_type stops.txt | sponge stops.txt
 mlr --csv sort -f route_id routes.txt | sponge routes.txt
 mlr --csv sort -f trip_id trips.txt | sponge trips.txt
 mlr --csv sort -f trip_id -n stop_sequence stop_times.txt | sponge stop_times.txt
