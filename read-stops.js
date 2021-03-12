@@ -1,6 +1,13 @@
 'use strict'
 
 const inMemoryStore = require('./lib/in-memory-store')
+const {
+	// STOP,
+	STATION,
+	// ENTRANCE_EXIT,
+	GENERIC_NODE,
+	BOARDING_AREA,
+} = require('./lib/location-types')
 
 const noFilter = () => true
 
@@ -30,15 +37,15 @@ const readStops = async (readFile, filters = {}, opt = {}) => {
 	for await (let s of readFile('stops')) {
 		if (!stopFilter(s)) continue
 		// todo: support these
-		if (s.location_type === '3' || s.location_type === '4') continue
+		if (s.location_type === GENERIC_NODE || s.location_type === BOARDING_AREA) continue
 
-		if (s.location_type === '1') { // station
+		if (s.location_type === STATION) {
 			s = {...s, platforms: []}
 		}
 		await stops.set(s.stop_id, s)
 	}
 
-	// todo: expect sorting by location_type, fill .platforms while reading
+	// todo [breaking]: expect sorting by location_type, fill .platforms while reading
 	for await (const [id, stop] of stops.entries()) {
 		// todo: add entrances to their parents
 		// todo: add boarding areas to their parents
