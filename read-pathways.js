@@ -68,38 +68,37 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 			const pw = await pathways.get(pwId)
 			const stationId = await stations.get(pw.to_stop_id)
 
-			let node = nodes[pw.from_stop_id]
-			if (!node) {
+			let fromNode = nodes[pw.from_stop_id]
+			if (!fromNode) {
 				nrOfNodes++
-				node = nodes[pw.from_stop_id] = {
+				fromNode = nodes[pw.from_stop_id] = {
 					id: pw.from_stop_id,
 					connectedTo: Object.create(null), // by stop ID
 				}
 			}
 
-			let connectedNode = nodes[pw.to_stop_id]
-			if (!connectedNode) {
+			let toNode = nodes[pw.to_stop_id]
+			if (!toNode) {
 				nrOfNodes++
-				connectedNode = nodes[pw.to_stop_id] = {
+				toNode = nodes[pw.to_stop_id] = {
 					id: pw.to_stop_id,
 					connectedTo: Object.create(null), // by stop ID
 				}
 			}
 			if (stationId !== initialStationId) toNode.station = stationId
 
-			let edges = node.connectedTo[pw.to_stop_id]
-			if (!edges) edges = node.connectedTo[pw.to_stop_id] = []
-			if (!edges.some(([pw2]) => pw2.pathway_id === pw.pathway_id)) {
-				edges.push([pw, connectedNode])
+			let edges = fromNode.connectedTo[pw.to_stop_id]
+			if (!edges) {
+				edges = fromNode.connectedTo[pw.to_stop_id] = Object.create(null) // by pathway ID
 			}
+			if (!edges[pw.pathway_id]) edges[pw.pathway_id] = [pw, toNode]
 
 			if (pw.is_bidirectional === BIDIRECTIONAL) {
-				let reverseEdges = connectedNode.connectedTo[pw.from_stop_id]
-				if (!reverseEdges) reverseEdges = connectedNode.connectedTo[pw.from_stop_id] = []
-
-				if (!reverseEdges.some(([pw2]) => pw2.pathway_id === pw.pathway_id)) {
-					reverseEdges.push([pw, node])
+				let reverseEdges = toNode.connectedTo[pw.from_stop_id]
+				if (!reverseEdges) {
+					reverseEdges = toNode.connectedTo[pw.from_stop_id] = Object.create(null) // by pathway ID
 				}
+				if (!reverseEdges[pw.pathway_id]) reverseEdges[pw.pathway_id] = [pw, fromNode]
 			}
 
 			// find connecting edges, add them to the queue
