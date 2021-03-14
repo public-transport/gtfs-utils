@@ -426,3 +426,5 @@ test('extendedToBasic', (t) => {
 	t.equal(extendedToBasic(110), 0)
 	t.equal(extendedToBasic(706), 3)
 })
+
+require('./read-pathways')
