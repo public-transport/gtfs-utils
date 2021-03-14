@@ -3,7 +3,9 @@
 const inMemoryStore = require('./lib/in-memory-store')
 const readStopStations = require('./lib/read-stop-stations')
 
-const readPathways = async (readFile, filters = {}, opt = {}) => {
+const BIDIRECTIONAL = '1'
+
+const readPathways = async function* (readFile, filters = {}, opt = {}) {
 	if (typeof readFile !== 'function') {
 		throw new TypeError('readFile must be a function')
 	}
@@ -30,71 +32,105 @@ const readPathways = async (readFile, filters = {}, opt = {}) => {
 	const stations = await readStopStations(readFile, filters, createStore)
 
 	const pathways = createStore() // by node/stop ID
-	const addPathway = async (fromNodeId, toNodeId, pw) => {
-		await pathways.map(fromNodeId, (node) => {
-			node = node || {
-				id: fromNodeId,
-				connectedTo: {},
-			}
-			let pathways = (
-				Object.hasOwnProperty(node.connectedTo, toNodeId)
-				&& node.connectedTo[toNodeId]
-			)
-			if (!pathways) pathways = node.connectedTo[toNodeId] = {}
-
-			if (!Object.hasOwnProperty(pathways, pw.pathway_id)) {
-				// pathway not stored yet
-				pathways[pw.pathway_id] = pw
-			}
-
-			return node
-		})
-	}
-
-	const parents = createStore() // parent_station by stop_id
-	for await (const s of readFile('stops')) {
-		const parent = s.parent_station || s.stop_id // parent or self
-		await parents.set(s.stop_id, parent)
-	}
+	const pathwaysByFrom = createStore() // pathway IDs by from_stop_id
 
 	for await (let pw of readFile('pathways')) {
 		if (!pathwayFilter(pw)) continue
-
-		if (!pw.from_stop_id || !pw.to_stop_id || pw.from_stop_id === pw.to_stop_id) {
-			// todo: debug-log invalid pathway
-			continue
-		}
-
-		let [fromParentId, toParentId] = await Promise.all([
-			await parents.get(pw.from_stop_id),
-			await parents.get(pw.to_stop_id),
-		])
-		if (!fromParentId && !toParentId) {
-			// todo: debug-log invalid pathway
+		if (
+			!pw.pathway_id
+			|| !pw.from_stop_id || !pw.to_stop_id || pw.from_stop_id === pw.to_stop_id
+		) {
+			// todo: debug-log invalid pathways
 			continue
 		}
 
 		await Promise.all([
-			addPathway(fromParentId, toParentId, pw),
-			addPathway(toParentId, fromParentId, pw), // reverse
+			pathways.set(pw.pathway_id, pw),
+			pathwaysByFrom.map(pw.from_stop_id, (pws) => {
+				if (!pws) return [pw.pathway_id]
+				pws.push(pw.pathway_id)
+				return pws
+			}),
 		])
-
-		// optionally, walk up again
-		if (fromParentId !== toParentId) {
-			const [fromParent2Id, toParent2Id] = await Promise.all([
-				parents.get(fromParentId),
-				parents.get(toParentId),
-			])
-			if (fromParent2Id === fromParentId && toParent2Id === toParentId) continue
-
-			await Promise.all([
-				addPathway(fromParentId, toParentId, pw),
-				addPathway(toParentId, fromParentId, pw), // reverse
-			])
-		}
 	}
 
-	return pathways
+	const buildStationGraph = async (initialPw, initialStationId) => {
+		const queue = [initialPw.pathway_id]
+		const nodes = Object.create(null) // by stop ID
+		const seenPathways = new Set() // by pathway ID
+
+		let nrOfNodes = 0
+		while (queue.length > 0) {
+			const pwId = queue.shift()
+			if (seenPathways.has(pwId)) continue // to prevent endless loops
+			seenPathways.add(pwId)
+
+			const pw = await pathways.get(pwId)
+			const stationId = await stations.get(pw.to_stop_id)
+
+			let node = nodes[pw.from_stop_id]
+			if (!node) {
+				nrOfNodes++
+				node = nodes[pw.from_stop_id] = {
+					id: pw.from_stop_id,
+					connectedTo: Object.create(null), // by stop ID
+				}
+			}
+
+			let connectedNode = nodes[pw.to_stop_id]
+			if (!connectedNode) {
+				nrOfNodes++
+				connectedNode = nodes[pw.to_stop_id] = {
+					id: pw.to_stop_id,
+					connectedTo: Object.create(null), // by stop ID
+				}
+			}
+			if (stationId !== initialStationId) toNode.station = stationId
+
+			let edges = node.connectedTo[pw.to_stop_id]
+			if (!edges) edges = node.connectedTo[pw.to_stop_id] = []
+			if (!edges.some(([pw2]) => pw2.pathway_id === pw.pathway_id)) {
+				edges.push([pw, connectedNode])
+			}
+
+			if (pw.is_bidirectional === BIDIRECTIONAL) {
+				let reverseEdges = connectedNode.connectedTo[pw.from_stop_id]
+				if (!reverseEdges) reverseEdges = connectedNode.connectedTo[pw.from_stop_id] = []
+
+				if (!reverseEdges.some(([pw2]) => pw2.pathway_id === pw.pathway_id)) {
+					reverseEdges.push([pw, node])
+				}
+			}
+
+			// find connecting edges, add them to the queue
+			if (stationId === initialStationId) {
+				const connectingPwIds = (await pathwaysByFrom.get(pw.to_stop_id)) || []
+				for (const pwId of connectingPwIds) {
+					if (seenPathways.has(pwId)) continue
+					if (queue.includes(pwId)) continue // todo: this is very expensive!
+					queue.push(pwId)
+				}
+			}
+		}
+
+		return nodes
+	}
+
+	const coveredStations = new Set() // by station ID
+	for await (const pw of pathways.values()) {
+		const t0 = Date.now()
+
+		const stationId = await stations.get(pw.from_stop_id)
+		// don't yield twice because we hit 2 pathways of the same graph
+		if (coveredStations.has(stationId)) {
+			// todo: debug-log
+			continue
+		}
+		coveredStations.add(stationId)
+
+		const nodes = await buildStationGraph(pw, stationId)
+		yield [stationId, nodes]
+	}
 }
 
 module.exports = readPathways
