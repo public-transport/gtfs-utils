@@ -27,6 +27,7 @@
 		"compute-stopovers.js",
 		"compute-connections.js",
 		"compute-schedules.js",
+		"read-pathways.js",
 		"lib",
 		"docs",
 		"examples",
