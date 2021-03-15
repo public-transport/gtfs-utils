@@ -56,20 +56,24 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 		])
 	}
 
-	const buildStationGraph = async (initialPw, initialStationId) => {
-		const queue = [initialPw.pathway_id]
+	const FORWARD = Symbol('forward') // along the "inherent" direction of a pathway
+	const REVERSE = Symbol('reverse') // in the opposite direction of a bidirectional pathway
+
+	const buildStationGraph = async (initialPw, initialDir, initialStationId) => {
+		const queue = [initialPw.pathway_id, initialDir]
 		const nodes = Object.create(null) // by stop ID
 		const seenPathways = new Set() // by pathway ID
 
 		let nrOfNodes = 0
 		while (queue.length > 0) {
 			const pwId = queue.shift()
-			debug('pathway', pwId)
+			const dir = queue.shift()
+			debug('pathway', pwId, 'direction', dir)
+			// todo: incorporate direction in lookup?
 			if (seenPathways.has(pwId)) continue // to prevent endless loops
 			seenPathways.add(pwId)
 
 			const pw = await pathways.get(pwId)
-			const stationId = await stations.get(pw.to_stop_id)
 
 			let fromNode = nodes[pw.from_stop_id]
 			if (!fromNode) {
@@ -89,7 +93,6 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 					connectedTo: Object.create(null), // by stop ID
 				}
 			}
-			if (stationId !== initialStationId) toNode.station = stationId
 			debug('toNode', toNode)
 
 			let edges = fromNode.connectedTo[pw.to_stop_id]
@@ -109,13 +112,15 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 			debugNodes(nodes)
 
 			// find connecting edges, add them to the queue
-			if (stationId === initialStationId) {
-				const connectingPwIds = (await pathwaysByFrom.get(pw.to_stop_id)) || []
+			const connectedStopId = dir === REVERSE ? pw.from_stop_id : pw.to_stop_id
+			const connectedStationId = await stations.get(connectedStopId)
+			if (connectedStationId === initialStationId) {
+				const connectingPwIds = (await pathwaysByFrom.get(connectedStopId)) || []
 				debug('queuing connecting pathways', ...connectingPwIds)
 				for (const pwId of connectingPwIds) {
 					if (seenPathways.has(pwId)) continue
 					if (queue.includes(pwId)) continue // todo: this is very expensive!
-					queue.push(pwId)
+					queue.push(pwId, FORWARD)
 				}
 			}
 		}
@@ -127,20 +132,32 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 	for await (const pw of pathways.values()) {
 		const t0 = Date.now()
 
-		// todo: what if the pathway is bidirectional? consider to_stop_id too
 		const stationId = await stations.get(pw.from_stop_id)
-		debug('initial pathway', pw.pathway_id, 'station ID', stationId)
+		debug('initial pathway', pw.pathway_id, 'from station ID', stationId)
 		// don't yield twice because we hit 2 pathways of the same graph
 		if (coveredStations.has(stationId)) {
-			debug('skipping because this station\'s graph has already been yielded')
-			continue
+			debug(pw.pathway_id, stationId, 'already yielded before')
+		} else {
+			coveredStations.add(stationId)
+
+			const nodes = await buildStationGraph(pw, FORWARD, stationId)
+			yield [stationId, nodes[pw.from_stop_id], nodes]
 		}
-		coveredStations.add(stationId)
 
-		const nodes = await buildStationGraph(pw, stationId)
+		if (pw.is_bidirectional === BIDIRECTIONAL) {
+			const stationId = await stations.get(pw.to_stop_id)
+			debug('bidirectional pathway', pw.pathway_id, 'to station ID', stationId)
+			if (coveredStations.has(stationId)) {
+				debug(pw.pathway_id, stationId, 'already yielded before')
+			} else {
+				coveredStations.add(stationId)
 
-		debug(`yielding after ${Date.now() - t0} ms`)
-		yield [stationId, nodes]
+				const nodes = await buildStationGraph(pw, REVERSE, stationId)
+				yield [stationId, nodes[pw.to_stop_id], nodes]
+			}
+		}
+
+		debug(pw.pathway_id, Date.now() - t0, 'ms')
 	}
 }
 
