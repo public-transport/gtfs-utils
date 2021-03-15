@@ -1,5 +1,7 @@
 'use strict'
 
+const debug = require('debug')('gtfs-utils:read-pathways')
+const debugNodes = require('debug')('gtfs-utils:read-pathways:nodes')
 const inMemoryStore = require('./lib/in-memory-store')
 const readStopStations = require('./lib/read-stop-stations')
 
@@ -62,6 +64,7 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 		let nrOfNodes = 0
 		while (queue.length > 0) {
 			const pwId = queue.shift()
+			debug('pathway', pwId)
 			if (seenPathways.has(pwId)) continue // to prevent endless loops
 			seenPathways.add(pwId)
 
@@ -76,6 +79,7 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 					connectedTo: Object.create(null), // by stop ID
 				}
 			}
+			debug('fromNode', fromNode)
 
 			let toNode = nodes[pw.to_stop_id]
 			if (!toNode) {
@@ -86,6 +90,7 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 				}
 			}
 			if (stationId !== initialStationId) toNode.station = stationId
+			debug('toNode', toNode)
 
 			let edges = fromNode.connectedTo[pw.to_stop_id]
 			if (!edges) {
@@ -101,9 +106,12 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 				if (!reverseEdges[pw.pathway_id]) reverseEdges[pw.pathway_id] = [pw, fromNode]
 			}
 
+			debugNodes(nodes)
+
 			// find connecting edges, add them to the queue
 			if (stationId === initialStationId) {
 				const connectingPwIds = (await pathwaysByFrom.get(pw.to_stop_id)) || []
+				debug('queuing connecting pathways', ...connectingPwIds)
 				for (const pwId of connectingPwIds) {
 					if (seenPathways.has(pwId)) continue
 					if (queue.includes(pwId)) continue // todo: this is very expensive!
@@ -119,15 +127,19 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 	for await (const pw of pathways.values()) {
 		const t0 = Date.now()
 
+		// todo: what if the pathway is bidirectional? consider to_stop_id too
 		const stationId = await stations.get(pw.from_stop_id)
+		debug('initial pathway', pw.pathway_id, 'station ID', stationId)
 		// don't yield twice because we hit 2 pathways of the same graph
 		if (coveredStations.has(stationId)) {
-			// todo: debug-log
+			debug('skipping because this station\'s graph has already been yielded')
 			continue
 		}
 		coveredStations.add(stationId)
 
 		const nodes = await buildStationGraph(pw, stationId)
+
+		debug(`yielding after ${Date.now() - t0} ms`)
 		yield [stationId, nodes]
 	}
 }
