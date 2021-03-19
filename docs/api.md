@@ -15,6 +15,7 @@
 - [`findAlternativeTrips(trips, services, schedules) => (fromId, tDep, toId, tArr)`](#findalternativetrips)
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`computeStopovers(readFile, timezone, filters)`](#computestopovers)
+- [`readPathways(readFile, filters)`](#readpathways)
 
 
 ## `readCsv`
@@ -551,3 +552,47 @@ These stores are available:
 
 - `gtfs-utils/lib/in-memory-store` – stores data in memory; used by default
 - `gtfs-utils/lib/redis-store` – stores data in [Redis](https://redis.io)
+
+## `readPathways`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readPathways = require('gtfs-utils/read-pathways')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const pathways = readPathways(readFile)
+for await (const [stationId, node, allNodes] of pathways) {
+	console.log(stationId, node)
+}
+```
+
+`readPathways(readFile, filters = {}, opt = {})` reads all pathways into memory, reads all pathways of a station into a [directed graph](https://en.wikipedia.org/wiki/Directed_graph). Each node of this graph has two fields `id` and `connectedTo`:
+
+```js
+{ // node `stop-123`
+	id: 'stop-123',
+	connectedTo: {
+		'stop-321': [
+			{ // pathway connecting `stop-123` to `stop-321`
+				pathway_id: 'pw-1234',
+				from_stop_id: 'stop-123',
+				to_stop_id: 'stop-321',
+				pathway_mode: '4',
+			},
+			{ // node `stop-321`
+				id: 'stop-321',
+				connectedTo: {
+					// …
+				},
+			},
+			// …
+		],
+	},
+}
+```
+
+`readPathways` returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[stationId, node, allNodesById]` triple.
+
+- For each station, it will only emit *one* triple, with `node` being the first pathway (that is connected to this station) that it came across.
+- `allNodesById` as an object, with all nodes of the graph stored by their IDs.

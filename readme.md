@@ -159,6 +159,8 @@ On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dat
 - [gtfs-stream](https://github.com/staeco/gtfs-stream) – Streaming GTFS and GTFS-RT parser for node
 - [mapzen-gtfs](https://github.com/transitland/mapzen-gtfs) – Python library for reading and writing GTFS feeds. (Python)
 - [gtfspy](https://github.com/CxAalto/gtfspy) – Public transport network analysis using Python
+- [extract-gtfs-shapes](https://github.com/derhuerst/extract-gtfs-shapes) – Command-line tool to extract shapes from a GTFS dataset.
+- [extract-gtfs-pathways](https://github.com/derhuerst/extract-gtfs-pathways) – Command-line tool to extract pathways from a GTFS dataset.
 
 ## Contributing
 
