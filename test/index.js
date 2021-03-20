@@ -138,7 +138,6 @@ test('lib/read-stop-timezones', async (t) => {
 
 	const actual = Object.fromEntries(Array.from(tzs.raw.entries()))
 	t.deepEqual(actual, {
-		's1': null,
 		's2': 'Europe/Berlin',
 		's3': 'Europe/London',
 		's3a': 'Europe/London',
