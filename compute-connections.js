@@ -43,7 +43,7 @@ const computeConnections = async function* (readFile, filters = {}, opt = {}) {
 				departure: departures[i - 1],
 				toStop: stops[i],
 				arrival: arrivals[i],
-				headwayBased: false, // todo: pick a more helpful flag name?
+				headwayBased: false,
 			})
 		}
 
@@ -60,7 +60,7 @@ const computeConnections = async function* (readFile, filters = {}, opt = {}) {
 						departure: t + departures[i - 1] - t0,
 						toStop: stops[i],
 						arrival: t + arrivals[i] - t0,
-						headwayBased: true, // todo: pick a more helpful flag name?
+						headwayBased: true,
 					})
 				}
 			}

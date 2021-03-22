@@ -10,7 +10,6 @@ const readServicesAndExceptions = require('./read-services-and-exceptions')
 const computeConnections = require('./compute-connections')
 const resolveTime = require('./lib/resolve-time')
 
-// todo: respect stopover.stop_timezone & agency.agency_timezone
 const computeSortedConnections = async (readFile, timezone, filters = {}, opt = {}) => {
 	if ('string' !== typeof timezone || !timezone) {
 		throw new Error('timezone must be a non-empty string.')

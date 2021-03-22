@@ -53,7 +53,7 @@ const createFindAlternativeTrips = async (readFile, timezone, services, schedule
 			// Does it take too long?
 			const dTDep = sched.departures[fromI]
 			const dTArr = sched.arrivals[toI]
-			if (dTArr - dTDep > tArr - tDep) continue // todo: add thresold?
+			if (dTArr - dTDep > tArr - tDep) continue // todo: add threshold?
 
 			// Does it run at the right point in time?
 			// For each trip that follows this schedule, find its service and

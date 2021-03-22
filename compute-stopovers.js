@@ -77,12 +77,17 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 			headwayBasedHeadways: hwHeadways,
 		} = _
 
-		// todo: log errors?
 		const _1 = await svcIdsRouteIdsByTrip.get(tripId)
-		if (!_1) continue
+		if (!_1) {
+			// todo: debug-log
+			continue
+		}
 		const [serviceId, routeId] = _1
 		const dates = await services.get(serviceId)
-		if (!dates) continue
+		if (!dates) {
+			// todo: debug-log
+			continue
+		}
 
 		for (const date of dates) {
 			// schedule-based

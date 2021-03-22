@@ -216,7 +216,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		arrival: Date.parse('2021-02-02T04:00+01:00') / 1000,
 		departure: Date.parse('2021-02-02T04:01+01:00') / 1000,
 	})
-		t.deepEqual(res[1], {
+	t.deepEqual(res[1], {
 		stop_id: 's2',
 		trip_id: 't1',
 		service_id: 's1',
