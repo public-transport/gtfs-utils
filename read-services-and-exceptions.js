@@ -1,6 +1,6 @@
 'use strict'
 
-const {has: arrHas, add: arrInsert} = require('sorted-array-functions')
+const {eq: arrEq, has: arrHas, add: arrInsert} = require('sorted-array-functions')
 const expectSorting = require('./lib/expect-sorting')
 const iterateMatching = require('./lib/iterate-matching')
 const datesBetween = require('./lib/dates-between')
@@ -72,7 +72,7 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 
 			const date = parseDate(ex.date)
 			if (ex.exception_type === REMOVED) {
-				const i = dates.indexOf(date) // todo: use sorted-array-functions
+				const i = arrEq(dates, date)
 				if (i >= 0) dates.splice(i, 1) // delete
 			} else if (ex.exception_type === ADDED) {
 				if (!arrHas(dates, date)) arrInsert(dates, date)
