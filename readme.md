@@ -64,6 +64,8 @@ There's also a [`sort.sh` script](sort.sh) included in the npm package, which ex
 
 *Note:* For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `mlr` and piping data through it.
 
+*Note:* With a bit of extra code, you can also [use `gtfs-utils` with a `.zip` archive](docs/zip.md).
+
 ### basic example
 
 Given our [sample GTFS dataset](https://npmjs.com/package/sample-gtfs-feed), we'll answer the following question: **On a specific day, which vehicles of which lines stop at a specific station?**
