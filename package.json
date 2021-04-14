@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "4.0.0",
+	"version": "4.1.0",
 	"files": [
 		"sort.sh",
 		"parse-date.js",
@@ -60,7 +60,7 @@
 		"eslint": "^7.1.0",
 		"json5": "^2.1.3",
 		"node-stream-zip": "^1.13.2",
-		"sample-gtfs-feed": "^0.7.0",
+		"sample-gtfs-feed": "^0.9.0",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
 	},

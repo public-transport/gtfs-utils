@@ -140,6 +140,8 @@ For more examples, check the [API documentation](docs/api.md).
 
 ## Performance
 
+By default, `gtfs-utils` verifies that the input files are sorted correctly. You can disable this to improve performance slightly by running with the `CHECK_GTFS_SORTING=false` environment variable.
+
 `gtfs-utils` should be fast enough for small to medium-sized GTFS datasets. It won't be as fast as other GTFS tools because it
 
 - uses [async iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) extensively for memory-efficiency and an easy-of-use, which [currently has significant performance penalties in v8](https://github.com/nodejs/node/issues/31979).

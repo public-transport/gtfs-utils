@@ -1,5 +1,5 @@
 // All stopovers of the b-downtown-on-working-days trips in the
-// sample-gtfs-feed@0.5.1 npm package.
+// sample-gtfs-feed@0.9.0 npm package.
 [
 	{
 		stop_id: 'airport',
