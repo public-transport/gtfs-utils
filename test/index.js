@@ -11,6 +11,7 @@ const formatDate = require('../format-date')
 const datesBetween = require('../lib/dates-between')
 const resolveTime = require('../lib/resolve-time')
 const readStopTimezones = require('../lib/read-stop-timezones')
+const readServicesAndExceptions = require('../read-services-and-exceptions')
 const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
@@ -146,6 +147,15 @@ test('lib/read-stop-timezones', async (t) => {
 })
 
 require('./read-stop-times')
+
+const servicesFixtures = readJSON5Sync(require.resolve('./fixtures/services.json5'))
+test('read-services-and-exceptions: works', async (t) => {
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+	for await (const [id, dates] of services) res[id] = dates
+
+	t.deepEqual(res, servicesFixtures)
+})
 
 const stopoversFixtures = readJSON5Sync(require.resolve('./fixtures/stopovers.json5'))
 test('compute-stopovers: works', async (t) => {
