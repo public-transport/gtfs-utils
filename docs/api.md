@@ -289,7 +289,7 @@ This utility computes what we call "schedules", temporal patterns by which vehic
 }
 ```
 
-In schedule-basic public transport systems, schedules reduce the implicit complexity of GTFS data sets a lot, because one schedule summarizes many trips with a certain "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptions), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
+In schedule-based public transport systems, schedules reduce the implicit complexity of GTFS data sets a lot, because one schedule summarizes many trips with a certain "pattern". Paired with [`readServicesAndExceptions`](#readservicesandexceptions), you can easily answer questions like *Which vehicles run from X to Y at T?* and *Which other vehicles run as well?*.
 
 ```js
 const readCsv = require('gtfs-utils/read-csv')

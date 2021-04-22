@@ -150,7 +150,7 @@ By default, `gtfs-utils` verifies that the input files are sorted correctly. You
 
 On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dataset](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-februar-2021-bis-dezember-2021) (25k `stops.txt` rows, 90k `trips.txt` rows, 1.9m `stop_times.txt` rows, ~500m stopovers) finishes in several hours.
 
-*Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) in combination with PostgreSQL's smart query optimizer.
+*Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) to leverage PostgreSQL's query optimizer. In my experience, it is orders of magnitude faster.
 
 
 ## Related
