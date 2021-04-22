@@ -157,6 +157,36 @@ console.log(routeTypes.basic.find(type => type.gtfs === 3))
 `fptf` contains the [*Friendly Public Transport Format (FPTF)* mode](https://github.com/public-transport/friendly-public-transport-format/tree/1.2.1/spec#modes).
 
 
+## `pickupTypes`
+
+```js
+const pickupTypes = require('gtfs-utils/pickup-types')
+console.log(pickupTypes.MUST_PHONE_AGENCY) // 2
+```
+
+Contains all possible values of the `pickup_type` field in [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt).
+
+
+## `dropOffTypes`
+
+```js
+const dropOffTypes = require('gtfs-utils/drop-off-types')
+console.log(dropOffTypes.MUST_COORDINATE_WITH_DRIVER) // 3
+```
+
+Contains all possible values of the `drop_off_type` field in [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt).
+
+
+## `bookingTypes`
+
+```js
+const bookingTypes = require('gtfs-utils/booking-types')
+console.log(bookingTypes.SAME_DAY) // 1
+```
+
+Contains all possible values of the `booking_type` field in [`booking_rules.txt` of the GTFS-BookingRules extension (from GTFS-Flex)](https://github.com/MobilityData/gtfs-flex/blob/e1832cfea5ddb9df29bd2fc50e80b0a4987695c1/spec/reference.md#booking_rulestxt-file-added).
+
+
 ## `readServicesAndExceptions`
 
 ```js
