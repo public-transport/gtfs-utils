@@ -1,7 +1,7 @@
 {
 	"name": "gtfs-utils",
 	"description": "Utilities to process GTFS data sets.",
-	"version": "4.2.0",
+	"version": "4.2.1",
 	"files": [
 		"sort.sh",
 		"parse-date.js",
