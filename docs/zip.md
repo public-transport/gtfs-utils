@@ -6,6 +6,7 @@ The following code sample shows you how to benefit from `gtfs-util`'s streaming/
 
 ```js
 const {async: ZipArchive} = require('node-stream-zip') // node-stream-zip@1
+const {PassThrough} = require('stream')
 const readCsv = require('gtfs-utils/read-csv')
 const computeStopovers = require('gtfs-utils/compute-stopovers')
 
@@ -32,4 +33,4 @@ for await (const stopover of stopovers) console.log(stopover)
 await zip.close() // We're done reading data, close .zip archive.
 ```
 
-*Note:* As `gtfs-utils` expects the files/data to be sorted in a specific way, the data inside the `.zip` archive must already be sorted, or you need to [sort the files as explained](../readme.md).
+*Note:* As `gtfs-utils` expects the files/data to be sorted in a specific way, the data inside the `.zip` archive must already be sorted, or you need to [sort the files as explained](../readme.md#sorted-gtfs-files).

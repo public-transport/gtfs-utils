@@ -21,7 +21,7 @@ Read more in the [*performance* section](#performance).
 
 ### data-source-agnostic
 
-`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: in-memory [buffers](https://nodejs.org/api/buffer.html), streaming HTTP, [dat](https://dat.foundation)/[IPFS](https://ipfs.io), etc.
+`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: [`.zip` archives](docs/zip.md), HTTP requests, in-memory [buffers](https://nodejs.org/api/buffer.html), [dat](https://dat.foundation)/[IPFS](https://ipfs.io), etc.
 
 There are too many half-done, slightly opinionated GTFS processing tools out there, so `gtfs-utils` tries to be as universal as possible.
 
@@ -45,7 +45,7 @@ npm install gtfs-utils
 
 ### sorted GTFS files
 
-**`gtfs-utils` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read each file incrementally, only those rows for *one* `trip_id` at a time.
+**`gtfs-utils` assumes that the files in your GTFS dataset are [sorted in a particular way](#sorted-gtfs-files)**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read each file incrementally, only rows for *one* `trip_id` at a time.
 
 [Miller](https://miller.readthedocs.io/) and [`sponge`](https://linux.die.net/man/1/sponge) work very well for this:
 
@@ -150,7 +150,7 @@ By default, `gtfs-utils` verifies that the input files are sorted correctly. You
 
 On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dataset](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-februar-2021-bis-dezember-2021) (25k `stops.txt` rows, 90k `trips.txt` rows, 1.9m `stop_times.txt` rows, ~500m stopovers) finishes in several hours.
 
-*Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) to leverage PostgreSQL's query optimizer. In my experience, it is orders of magnitude faster.
+*Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) to leverage PostgreSQL's query optimizer. Once you have imported the data, it is usually orders of magnitude faster.
 
 
 ## Related
