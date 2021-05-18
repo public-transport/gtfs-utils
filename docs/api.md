@@ -16,6 +16,7 @@
 - [`computeServiceBreaks(sortedConnections)`](#computeservicebreakssortedconnections)
 - [`computeStopovers(readFile, timezone, filters)`](#computestopovers)
 - [`readPathways(readFile, filters)`](#readpathways)
+- [`readShapes(readFile, filters)`](#readshapes)
 
 
 ## `readCsv`
@@ -596,3 +597,42 @@ for await (const [stationId, node, allNodes] of pathways) {
 
 - For each station, it will only emit *one* triple, with `node` being the first pathway (that is connected to this station) that it came across.
 - `allNodesById` as an object, with all nodes of the graph stored by their IDs.
+
+## `readShapes`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const readShapes = require('gtfs-utils/read-shapes')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const shapes = readShapes(readFile)
+for await (const [shapeId, points] of shapes) {
+	console.log(shapeId, points)
+}
+```
+
+`readShapes(readFile, filters = {})` reads all shapes from `shapes.txt`. It returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[stationId, points]` pairs, with `points` looking like this:
+
+```js
+[
+	{
+		shape_pt_lat: 48.59430,
+		shape_pt_lon: 8.86477,
+		shape_pt_sequence: 1,
+		shape_dist_traveled: 0,
+	}, {
+		shape_pt_lat: 48.59394,
+		shape_pt_lon: 8.86377,
+		shape_pt_sequence: 3,
+		shape_dist_traveled: 83.98,
+	},
+	// …
+	{
+		shape_pt_lat: 48.59431,
+		shape_pt_lon: 8.86476,
+		shape_pt_sequence: 82,
+		shape_dist_traveled: 3112.71,
+	}
+]
+```

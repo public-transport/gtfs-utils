@@ -28,6 +28,7 @@
 		"compute-connections.js",
 		"compute-schedules.js",
 		"read-pathways.js",
+		"read-shapes.js",
 		"lib",
 		"docs",
 		"examples",
@@ -64,7 +65,7 @@
 		"eslint": "^7.1.0",
 		"json5": "^2.1.3",
 		"node-stream-zip": "^1.13.2",
-		"sample-gtfs-feed": "^0.9.0",
+		"sample-gtfs-feed": "^0.10.3",
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0"
 	},
