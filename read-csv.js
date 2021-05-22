@@ -6,7 +6,7 @@ const {pipeline} = require('stream')
 const stripBomStream = require('strip-bom-stream')
 const parseCsv = require('csv-parser')
 
-const readCsv = (path) => {
+const readCsv = async (path) => {
 	const isPathStream = isReadable(path)
 	if (typeof path !== 'string' && !isPathStream) {
 		throw new Error('path must be a string or a Readable stream')

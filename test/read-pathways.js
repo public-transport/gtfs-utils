@@ -5,8 +5,8 @@ const test = require('tape')
 const readCsv = require('../read-csv')
 const readPathways = require('../read-pathways')
 
-const readFile = (file) => {
-	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
+const readFile = async (file) => {
+	return await readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
 const pw = (id, a, b, data = {}) => ({

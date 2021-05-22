@@ -17,7 +17,7 @@ const readShapes = async function* (readFile, filters = {}) {
 		throw new Error('filters.shapesRow must be a function.')
 	}
 
-	const shapes = readFile('shapes')
+	const shapes = await readFile('shapes')
 	const checkShapesSorting = expectSorting('shapes', (a, b) => {
 		if (a.shape_id < b.shape_id) return -1
 		if (a.shape_id > b.shape_id) return 1

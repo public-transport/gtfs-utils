@@ -28,12 +28,12 @@ readCsv('path-to-file.txt')
 .on('error', console.error)
 .on('data', row => console.log(row))
 // or
-for await (const row of readCsv('path-to-file.txt')) {
+for await (const row of await readCsv('path-to-file.txt')) {
 	console.log(row)
 }
 ```
 
-`readCsv(path)` returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+`readCsv(path)` is an async function that returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
 
 `path` can also be a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) like [`process.stdin`](https://nodejs.org/api/process.html#process_process_stdin).
 

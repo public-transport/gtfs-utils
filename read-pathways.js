@@ -36,7 +36,7 @@ const readPathways = async function* (readFile, filters = {}, opt = {}) {
 	const pathways = createStore() // by node/stop ID
 	const pathwaysByFrom = createStore() // pathway IDs by from_stop_id
 
-	for await (let pw of readFile('pathways')) {
+	for await (let pw of await readFile('pathways')) {
 		if (!pathwayFilter(pw)) continue
 		if (
 			!pw.pathway_id

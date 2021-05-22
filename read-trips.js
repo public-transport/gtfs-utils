@@ -32,7 +32,7 @@ const readTrips = async (readFile, filters = {}, opt = {}) => {
 	})
 
 	const trips = createStore() // by ID
-	for await (const t of readFile('trips')) {
+	for await (const t of await readFile('trips')) {
 		if (!tripFilter(t)) continue
 		checkSorting(t)
 		await trips.set(t.trip_id, formatTrip(t))

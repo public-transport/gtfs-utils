@@ -37,7 +37,7 @@ const readStops = async (readFile, filters = {}, opt = {}) => {
 	let curLocType = NaN
 	let childIds = []
 
-	for await (let s of readFile('stops')) {
+	for await (let s of await readFile('stops')) {
 		if (!stopFilter(s)) continue
 
 

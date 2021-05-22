@@ -65,16 +65,14 @@ const readFile = (file) => {
 const utc = 'Etc/UTC'
 const berlin = 'Europe/Berlin'
 
-test('read-csv: accept a readable stream as input', (t) => {
+test('read-csv: accept a readable stream as input', async (t) => {
 	const readable = createReadStream(require.resolve('sample-gtfs-feed/gtfs/stops.txt'))
-	const src = readCsv(readable)
+	const src = await readCsv(readable)
 
-	src.once('data', (stop) => {
-		t.ok(stop)
-		t.ok(stop.stop_id)
-		src.destroy()
-		t.end()
-	})
+	const stop = await new Promise(res => src.once('data', res))
+	t.ok(stop)
+	t.ok(stop.stop_id)
+	src.destroy()
 })
 
 test('format-date', (t) => {

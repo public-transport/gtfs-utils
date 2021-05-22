@@ -3,8 +3,8 @@
 const readCsv = require('../read-csv')
 const readStops = require('../read-stops')
 
-const readFile = (file) => {
-	return readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
+const readFile = async (file) => {
+	return await readCsv(require.resolve('sample-gtfs-feed/gtfs/' + file + '.txt'))
 }
 
 ;(async () => {

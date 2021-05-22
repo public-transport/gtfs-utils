@@ -33,13 +33,13 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		throw new TypeError('filters.serviceException must be a function')
 	}
 
-	const services = readFile('calendar')
+	const services = await readFile('calendar')
 	const checkServicesSorting = expectSorting('calendar', (a, b) => {
 		if (a.service_id === b.service_id) return 0
 		return a.service_id < b.service_id ? -1 : 1
 	})
 
-	const exceptions = readFile('calendar_dates')
+	const exceptions = await readFile('calendar_dates')
 	const compareException = (svc, ex) => {
 		if (svc.service_id === ex.service_id) return 0
 		return svc.service_id < ex.service_id ? -1 : 1

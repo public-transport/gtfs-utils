@@ -6,25 +6,15 @@ The following code sample shows you how to benefit from `gtfs-util`'s streaming/
 
 ```js
 const {async: ZipArchive} = require('node-stream-zip') // node-stream-zip@1
-const {PassThrough} = require('stream')
 const readCsv = require('gtfs-utils/read-csv')
 const computeStopovers = require('gtfs-utils/compute-stopovers')
 
 // Define a readFile() function that reads from the GTFS .zip
 // archive on-the-fly and parses the CSV data.
 const zip = new ZipArchive('path/to/gtfs.zip')
-const readFile = (name) => {
-	const stream = new PassThrough({highWaterMark: 0})
-	zip.stream(name + '.txt')
-	.then((file) => new Promise((resolve, reject) => {
-		pipeline(file, stream, (err) => {
-			if (err) reject(err)
-			else resolve()
-		})
-	}))
-	.catch(err => stream.destroy(err))
-
-	return readCsv(stream)
+const readFile = async (name) => {
+	const file = await zip.stream(name + '.txt')
+	return await readCsv(file)
 }
 
 const stopovers = computeStopovers(readFile, 'Europe/Berlin')
