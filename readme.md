@@ -60,7 +60,7 @@ mlr --csv sort -f service_id,date calendar_dates.txt | sponge calendar_dates.txt
 mlr --csv sort -f trip_id,start_time frequencies.txt | sponge frequencies.txt
 ```
 
-There's also a [`sort.sh` script](sort.sh) included in the npm package, which executes the commands above.
+There's also a [`sort.sh` script](sort.sh) included in the npm package, which executes the commands above. To execute it, you need [Miller](https://miller.readthedocs.io/) (`mlr`), [`sponge`](https://linux.die.net/man/1/sponge) (from moreutils), (GNU) [`sort`](https://linux.die.net/man/1/sort) and [`awk`](https://linux.die.net/man/1/awk) to be installed.
 
 *Note:* For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `mlr` and piping data through it.
 
