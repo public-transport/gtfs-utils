@@ -21,7 +21,7 @@ Read more in the [*performance* section](#performance).
 
 ### data-source-agnostic
 
-`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: [`.zip` archives](docs/zip.md), HTTP requests, in-memory [buffers](https://nodejs.org/api/buffer.html), [dat](https://dat.foundation)/[IPFS](https://ipfs.io), etc.
+`gtfs-utils` does not make assumptions about where you read the GTFS data from. Although it has a built-in tool to read CSV from files on disk, anything is possible: [`.zip` archives](docs/zip.md), [HTTP requests](docs/fetch.md), in-memory [buffers](https://nodejs.org/api/buffer.html), [dat](https://dat.foundation)/[IPFS](https://ipfs.io), etc.
 
 There are too many half-done, slightly opinionated GTFS processing tools out there, so `gtfs-utils` tries to be as universal as possible.
 
@@ -64,7 +64,7 @@ There's also a [`sort.sh` script](sort.sh) included in the npm package, which ex
 
 *Note:* For read-only sources (like HTTP requests), sorting the files is not an option. You can solve this by [spawning](https://nodejs.org/docs/latest-v12.x/api/child_process.html#child_process_child_process_spawn_command_args_options) `mlr` and piping data through it.
 
-*Note:* With a bit of extra code, you can also [use `gtfs-utils` with a `.zip` archive](docs/zip.md).
+*Note:* With a bit of extra code, you can also use `gtfs-utils` [with a `.zip` archive](docs/zip.md) or [with a *remote* feed](docs/fetch.md).
 
 ### basic example
 
