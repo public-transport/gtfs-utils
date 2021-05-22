@@ -54,12 +54,6 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 	// stop.stop_id -> stop.stop_timezone || parent.stop_timezone
 	const stopTimezones = await readStopTimezones(readFile, filters, createStore)
 
-	debug('reading trips')
-	const svcIdsRouteIdsByTrip = await readTrips(readFile, filters, {
-		...opt,
-		formatTrip: t => [t.service_id, t.route_id],
-	})
-
 	debug('reading services & exceptions')
 	const _services = readServicesAndExceptions(readFile, timezone, filters)
 	const services = createStore() // by service ID
@@ -70,19 +64,13 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 	debug('reading stop times')
 	for await (const _ of readStopTimes(readFile, filters)) {
 		const {
-			tripId,
+			tripId, routeId, serviceId, shapeId,
 			stops, arrivals: arrs, departures: deps,
 			headwayBasedStarts: hwStarts,
 			headwayBasedEnds: hwEnds,
 			headwayBasedHeadways: hwHeadways,
 		} = _
 
-		const _1 = await svcIdsRouteIdsByTrip.get(tripId)
-		if (!_1) {
-			// todo: debug-log
-			continue
-		}
-		const [serviceId, routeId] = _1
 		const dates = await services.get(serviceId)
 		if (!dates) {
 			// todo: debug-log
@@ -99,6 +87,7 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 					trip_id: tripId,
 					service_id: serviceId,
 					route_id: routeId,
+					shape_id: shapeId,
 					start_of_trip: date,
 					arrival: resolveTime(tz, date, arrs[i]),
 					departure: resolveTime(tz, date, deps[i]),
@@ -120,6 +109,7 @@ const computeStopovers = async function* (readFile, timezone, filters = {}, opt 
 							trip_id: tripId,
 							service_id: serviceId,
 							route_id: routeId,
+							shape_id: shapeId,
 							start_of_trip: date,
 							arrival: resolveTime(tz, date, arr),
 							departure: resolveTime(tz, date, dep),

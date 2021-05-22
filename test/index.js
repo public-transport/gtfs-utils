@@ -176,6 +176,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'A1',
 		service_id: 'sA',
 		route_id: 'A',
+		shape_id: undefined,
 		start_of_trip: '2019-10-27',
 		arrival: 1572137940, // 2019-10-27T02:59:00+02:00
 		departure: 1572138060, // 2019-10-27T02:01:00+01:00
@@ -184,6 +185,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'A1',
 		service_id: 'sA',
 		route_id: 'A',
+		shape_id: undefined,
 		start_of_trip: '2019-10-27',
 		arrival: 1572141540, // 2019-10-27T02:59:00+01:00
 		departure: 1572141660, // 2019-10-27T03:01:00+01:00
@@ -192,6 +194,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'B1',
 		service_id: 'sB',
 		route_id: 'B',
+		shape_id: undefined,
 		start_of_trip: '2019-03-31',
 		arrival: 1553990340, // 2019-03-31T00:59:00+01:00
 		departure: 1553990460, // 2019-03-31T01:01:00+01:00
@@ -200,6 +203,7 @@ test('compute-stopovers: handles DST switch properly', async (t) => {
 		trip_id: 'B1',
 		service_id: 'sB',
 		route_id: 'B',
+		shape_id: undefined,
 		start_of_trip: '2019-03-31',
 		arrival: 1553993940, // 2019-03-31T01:59:00+01:00
 		departure: 1553994060,// 2019-03-31T03:01:00+02:00
@@ -219,6 +223,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		stop_id: 's1',
 		trip_id: 't1',
 		route_id: 'r1',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T04:00+01:00') / 1000,
 		departure: Date.parse('2021-02-02T04:01+01:00') / 1000,
@@ -228,6 +233,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't1',
 		service_id: 's1',
 		route_id: 'r1',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T04:20+01:00') / 1000,
 		departure: Date.parse('2021-02-02T04:21+01:00') / 1000,
@@ -237,6 +243,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't2',
 		service_id: 's1',
 		route_id: 'r2',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T08:00+01:00') / 1000,
 		departure: Date.parse('2021-02-02T08:01+01:00') / 1000,
@@ -246,6 +253,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't2',
 		service_id: 's1',
 		route_id: 'r2',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T07:20+00:00') / 1000,
 		departure: Date.parse('2021-02-02T07:21+00:00') / 1000,
@@ -255,6 +263,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't3',
 		service_id: 's1',
 		route_id: 'r3',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T12:00+01:00') / 1000,
 		departure: Date.parse('2021-02-02T12:01+01:00') / 1000,
@@ -264,6 +273,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't3',
 		service_id: 's1',
 		route_id: 'r3',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T11:20+00:00') / 1000,
 		departure: Date.parse('2021-02-02T11:21+00:00') / 1000,
@@ -273,6 +283,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't4',
 		service_id: 's1',
 		route_id: 'r4',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T16:00+01:00') / 1000,
 		departure: Date.parse('2021-02-02T16:01+01:00') / 1000,
@@ -282,6 +293,7 @@ test('compute-stopovers: handles timezones properly', async (t) => {
 		trip_id: 't4',
 		service_id: 's1',
 		route_id: 'r4',
+		shape_id: undefined,
 		start_of_trip: '2021-02-02',
 		arrival: Date.parse('2021-02-02T15:20+00:00') / 1000,
 		departure: Date.parse('2021-02-02T15:21+00:00') / 1000,

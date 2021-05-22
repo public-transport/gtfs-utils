@@ -357,6 +357,7 @@ The code above will print the following:
 	trip_id: 'a-downtown-all-day',
 	service_id: 'all-day',
 	route_id: 'A',
+	shape_id: 'a-downtown-all-day-s0',
 	start_of_trip: 1551394800, // 2019-03-01T00:00:00+01:00
 	arrival: 1551450180, // 2019-03-01T15:23:00+01:00
 	departure: 1551450240, // 2019-03-01T15:24:00+01:00
@@ -369,6 +370,7 @@ The code above will print the following:
 	trip_id: 'a-downtown-all-day',
 	service_id: 'all-day',
 	route_id: 'A',
+	shape_id: 'a-downtown-all-day-s0',
 	start_of_trip: 1551394800, // 2019-03-01T00:00:00+01:00
 	arrival: 1551450600, // 2019-03-01T15:30:00+01:00
 	departure: 1551450660, // 2019-03-01T15:31:00+01:00
