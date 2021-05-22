@@ -19,5 +19,6 @@ sort trips.csv -f trip_id
 sort stop_times.csv -f trip_id -n stop_sequence
 sort calendar.csv -f service_id
 sort calendar_dates.csv -f service_id,date
+sort shapes.csv -f shape_id -n shape_pt_sequence
 # todo: sort start_time properly (it may be HH:MM:SS or H:MM:SS)
 sort frequencies.csv -f trip_id,start_time
