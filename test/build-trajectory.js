@@ -6,6 +6,38 @@ const test = require('tape')
 const inMemoryStore = require('../lib/in-memory-store')
 const buildTrajectory = require('../lib/build-trajectory')
 
+// just for debugging
+const printTrajectorForDebugging = (tr, stopLocs) => {
+	console.error(JSON.stringify({
+		type: 'FeatureCollection',
+		features: [
+			{
+				...tr,
+				geometry: {
+					type: 'LineString',
+					coordinates: tr.geometry.coordinates.map(c => c.slice(0, 2)),
+				},
+			},
+			...Array.from(stopLocs.raw.entries()).map(([stopId, coordinates]) => ({
+				type: 'Feature',
+				properties: {
+					stopId,
+					'marker-color': '#ff0000',
+				},
+				geometry: {type: 'Point', coordinates},
+			})),
+			...tr.geometry.coordinates.map(([lon, lat, _, arr, dep]) => ({
+				type: 'Feature',
+				properties: {
+					arr, dep,
+					'marker-size': 'small',
+				},
+				geometry: {type: 'Point', coordinates: [lon, lat]},
+			})),
+		],
+	}, '\t'))
+}
+
 test('buildTrajectory works with imaginary shape & schedule', async (t) => {
 	const stopLocs = inMemoryStore()
 	stopLocs.raw.set('airport', [ 1.1,   1.1])
@@ -47,6 +79,7 @@ test('buildTrajectory works with imaginary shape & schedule', async (t) => {
 	}))
 
 	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs)
+	// printTrajectorForDebugging(trajectory, stopLocs)
 
 	t.deepEqual(trajectory.properties, {
 		shapeId,
@@ -145,6 +178,7 @@ test('buildTrajectory works with shape `190067` & schedule `ZimPNw` from DELFI f
 	}))
 
 	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs)
+	// printTrajectorForDebugging(trajectory, stopLocs)
 
 	t.deepEqual(trajectory.properties, {
 		shapeId,
@@ -291,6 +325,7 @@ test('buildTrajectory works with shape `31-779-j21-2.1.H` & schedule `ZVU8cE` fr
 	}
 
 	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs)
+	// printTrajectorForDebugging(trajectory, stopLocs)
 
 	t.deepEqual(trajectory.properties, {
 		shapeId,
