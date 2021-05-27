@@ -106,6 +106,58 @@ test('buildTrajectory works with imaginary shape & schedule', async (t) => {
 	])
 })
 
+test('buildTrajectory extrapolates correctly', async (t) => {
+	const stopLocs = inMemoryStore()
+	stopLocs.raw.set('foo', [1.11, 1.11])
+	stopLocs.raw.set('bar', [1.12, 1.12])
+
+	const schedule = {
+		id: '12',
+		trips: [{tripId: 'A', start: 1234}],
+		stops: ['foo', 'bar'],
+		arrivals: [0, 590],
+		departures: [10, 600],
+		headwayBasedStarts: [],
+		headwayBasedEnds: [],
+		headwayBasedHeadways: []
+	}
+
+	const shapeId = 's0'
+	const shapePoints = [
+		[1.05, 1.05],
+		[1.10, 1.10],
+		[1.11, 1.11], // <-- foo is right here, at 1.11 | 1.11
+		[1.12, 1.12], // <-- bar is right here, at 1.12 | 1.12
+		[1.14, 1.14],
+		[1.20, 1.20],
+		[1.30, 1.30],
+	].map(([shape_pt_lon, shape_pt_lat], shape_pt_sequence) => ({
+		shape_pt_lat,
+		shape_pt_lon,
+		shape_pt_sequence,
+		shape_dist_traveled: null,
+	}))
+
+	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs)
+	// printTrajectorForDebugging(trajectory, stopLocs)
+
+	const coords = trajectory.geometry.coordinates
+	.map(([lon, lat, ...r]) => [
+		parseFloat(lon.toFixed(7)),
+		parseFloat(lat.toFixed(7)),
+		...r,
+	])
+	t.deepEqual(coords, [
+		[1.05, 1.05, null, -3470, -3470],
+		[1.10, 1.10, null,  -570,  -570],
+		[1.11, 1.11, null,     0,    10],
+		[1.12, 1.12, null,   590,   600],
+		[1.14, 1.14, null,  1170,  1170],
+		[1.20, 1.20, null,  4650,  4650],
+		[1.30, 1.30, null, 10450, 10450],
+	])
+})
+
 test('buildTrajectory works with shape `190067` & schedule `ZimPNw` from DELFI feed', async (t) => {
 	const stopLocs = inMemoryStore()
 	stopLocs.raw.set('de:03255:43633::7', [9.453118, 51.820517])
