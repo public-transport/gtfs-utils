@@ -29,6 +29,7 @@
 		"compute-schedules.js",
 		"read-pathways.js",
 		"read-shapes.js",
+		"compute-trajectories.js",
 		"lib",
 		"docs",
 		"examples",

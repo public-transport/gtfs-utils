@@ -480,3 +480,4 @@ test('extendedToBasic', (t) => {
 require('./read-pathways')
 require('./read-shapes')
 require('./build-trajectory')
+require('./compute-trajectories')

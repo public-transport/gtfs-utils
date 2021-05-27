@@ -17,6 +17,7 @@
 - [`computeStopovers(readFile, timezone, filters)`](#computestopovers)
 - [`readPathways(readFile, filters)`](#readpathways)
 - [`readShapes(readFile, filters)`](#readshapes)
+- [`computeTrajectories(readFile, filters)`](#computetrajectories)
 
 
 ## `readCsv`
@@ -638,3 +639,111 @@ for await (const [shapeId, points] of shapes) {
 	}
 ]
 ```
+
+
+## `computeTrajectories`
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeTrajectories = require('gtfs-utils/compute-trajectories')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+for await (const trajectory of computeTrajectories(readFile)) {
+	console.log(trajectory)
+}
+```
+
+`computeTrajectories(readFile, filters = {})` reads *per-day* stop times from `trips.txt`, `stop_times.txt` and `frequencies.txt`, and applies them to the days of operation returned by [`readServicesAndExceptions(readFile, timezone, filters)`](#readservicesandexceptions), in order to compute *absolute* stop times.
+
+- `readFile` must be a function that, when called with a file name, returns a [readable stream](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_readable_streams) in [`objectMode`](https://nodejs.org/docs/latest-v10.x/api/stream.html#stream_object_mode).
+- `filters` must be an object; It may have the fields `trip`, `service`, `serviceException`, `stopTime`, `frequencies`, each with a filter function.
+
+Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of trajectories; Each trajectory is a [GeoJSON](https://geojson.org) [`LineString`](https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.4), with additional items in each coordinate:
+
+1. longitude
+2. latitude
+3. altitude
+4. arrival time
+5. departure time
+
+As an example, we're gonna use [`sample-gtfs-feed`](https://npmjs.com/package/sample-gtfs-feed):
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const computeTrajectories = require('gtfs-utils/compute-trajectories')
+
+const readFile = async (name) => {
+	const path = require.resolve('sample-gtfs-feed/gtfs/' + name + '.txt')
+	return await readCsv(path)
+}
+
+const filters = {
+	trip: t => t.route_id === 'A',
+}
+
+for await (const trajectory of computeTrajectories(readFile, filters)) {
+	console.log(trajectory)
+}
+```
+
+```js
+{
+	type: 'Feature',
+	properties: {
+		id: 'ZGB8W9-a-downtown-all-day-s0',
+		scheduleId: 'Z2gvHvF',
+		shapeId: 'a-downtown-all-day-s0',
+		tripId: 'a-downtown-all-day',
+		serviceId: 'all-day',
+	},
+	geometry: {
+		type: 'LineString',
+		coordinates: [
+			[13.510294914, 52.364833832, null, 61, 61],
+			[13.510567665, 52.364398956, null, 63, 63],
+			[13.510860443, 52.363952637, null, 64, 64],
+			// …
+			[13.452836037, 52.44562149, null, 387, 387],
+			[13.451435089, 52.445671082, null, 390, 390],
+			[13.449950218, 52.445732117, null, 392, 392],
+			// …
+			[13.495876312, 52.500293732, null, 713, 713],
+			[13.496304512, 52.500156403, null, 714, 714],
+			[13.497889519, 52.499641418, null, 717, 717],
+		],
+	},
+}
+{
+	type: 'Feature',
+	properties: {
+		id: 'R8lSc-a-outbound-all-day-s0',
+		scheduleId: 'Z1bgqY0',
+		shapeId: 'a-outbound-all-day-s0',
+		tripId: 'a-outbound-all-day',
+		serviceId: 'all-day',
+	},
+	geometry: {
+		type: 'LineString',
+		coordinates: [
+			[13.497889519, 52.499641418, null, 65, 65],
+			[13.496304512, 52.500156403, null, 69, 69],
+			[13.495876312, 52.500293732, null, 70, 70],
+			[13.495686531, 52.500354767, null, 71, 71],
+			[13.495450974, 52.500431061, null, 71, 71],
+			// …
+			[13.465647697, 52.49892807, null, 153, 153],
+			[13.465513229, 52.498714447, null, 154, 154],
+			// …
+			[13.509624481, 52.366386414, null, 720, 720],
+			[13.509587288, 52.366352081, null, 720, 720],
+			[13.509503365, 52.366222382, null, 720, 720],
+			[13.509493828, 52.366146088, null, 721, 721],
+			[13.509539604, 52.366039276, null, 721, 721],
+			[13.510294914, 52.364833832, null, 725, 725],
+		],
+	},
+}
+```
+
+*Note:* In order to work, `computeTrajectories` must load reduced forms of `trips.txt`, `stop_times.txt`, `frequencies.txt` and `shapes.txt` into memory. See [*store API*](#store-api) for more details.
