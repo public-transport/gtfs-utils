@@ -78,7 +78,7 @@ const computeSchedules = async (readFile, filters = {}, opt = {}) => {
 				}
 			}
 			// merge into existing schedule
-			schedule.trips.push(tripId)
+			schedule.trips.push({tripId, start: t0})
 			return schedule
 		})
 	}
