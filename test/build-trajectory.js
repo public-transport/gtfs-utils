@@ -78,7 +78,8 @@ test('buildTrajectory works with imaginary shape & schedule', async (t) => {
 		shape_dist_traveled: null,
 	}))
 
-	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs)
+	const tOffset = 123
+	const trajectory = await buildTrajectory(shapeId, shapePoints, schedule, stopLocs, tOffset)
 	// printTrajectorForDebugging(trajectory, stopLocs)
 
 	t.deepEqual(trajectory.properties, {
@@ -92,17 +93,17 @@ test('buildTrajectory works with imaginary shape & schedule', async (t) => {
 		...r,
 	])
 	t.deepEqual(coords, [
-		// [1.1,   1.1,   null,   0,  30],
-		[1.101, 1.101, null,  45,  45],
-		// [1.102, 1.102, null,  60,  80],
-		[1.104, 1.104, null, 113, 113],
-		[1.105, 1.105, null, 129, 129],
-		[1.108, 1.108, null, 178, 178],
-		// [1.11,  1.11,  null, 210, 240],
-		[1.111, 1.111, null, 267, 267],
-		[1.12,  1.12,  null, 510, 540],
-		[1.129, 1.129, null, 594, 594],
-		// [1.13,  1.13,  null, 600, 720],
+		// [1.1,   1.1,   null,   tOffset + 0,  tOffset + 30],
+		[1.101, 1.101, null,  tOffset + 45,  tOffset + 45],
+		// [1.102, 1.102, null,  tOffset + 60,  tOffset + 80],
+		[1.104, 1.104, null, tOffset + 113, tOffset + 113],
+		[1.105, 1.105, null, tOffset + 129, tOffset + 129],
+		[1.108, 1.108, null, tOffset + 178, tOffset + 178],
+		// [1.11,  1.11,  null, tOffset + 210, tOffset + 240],
+		[1.111, 1.111, null, tOffset + 267, tOffset + 267],
+		[1.12,  1.12,  null, tOffset + 510, tOffset + 540],
+		[1.129, 1.129, null, tOffset + 594, tOffset + 594],
+		// [1.13,  1.13,  null, tOffset + 600, tOffset + 720],
 	])
 })
 
