@@ -77,7 +77,7 @@
 	"scripts": {
 		"test": "env NODE_ENV=dev node test/index.js | tap-min",
 		"lint": "eslint .",
-		"benchmark": "env NODE_ENV=production node benchmark.js",
+		"benchmark": "env NODE_ENV=production node benchmark/index.js",
 		"prepublishOnly": "npm test && npm run lint"
 	}
 }

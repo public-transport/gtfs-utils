@@ -1,9 +1,9 @@
 'use strict'
 
 const {Suite} = require('benchmark')
-const parseDate = require('./parse-date')
-const datesBetween = require('./lib/dates-between')
-const resolveTime = require('./lib/resolve-time')
+const parseDate = require('../parse-date')
+const datesBetween = require('../lib/dates-between')
+const resolveTime = require('../lib/resolve-time')
 
 const T0 = 1548975600000 // 2019-02-01T00:00+01:00
 
