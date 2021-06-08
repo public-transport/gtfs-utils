@@ -7,6 +7,7 @@ function sort() {
 	if [ -f "$1" ]; then
 		2>&1 echo "$ mlr --csv sort ${@:2} $1"
 		mlr --csv sort ${@:2} "$1" | sponge "$1"
+	else return 0
 	fi
 }
 
