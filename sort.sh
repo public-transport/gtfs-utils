@@ -6,7 +6,7 @@ set -o pipefail
 function sort() {
 	if [ -f "$1.csv" ]; then local file="$1.csv"
 	elif [ -f "$1.txt" ]; then local file="$1.txt"
-	else return
+	else return 0
 	fi
 	2>&1 echo "$ mlr --csv sort ${@:2} $file"
 	mlr --csv sort ${@:2} "$file" | sponge "$file"
