@@ -76,6 +76,17 @@ test('read-csv: accept a readable stream as input', async (t) => {
 	src.destroy()
 })
 
+test('read-csv: rejects on ENOENT', async (t) => {
+	let rejected = false
+	const p = readCsv(pathJoin(__dirname, '_non-existent_'))
+	await p.catch((err) => {
+		rejected = true
+		t.ok(err, 'err')
+		t.equal(err.code, 'ENOENT', 'err.code')
+	})
+	t.equal(rejected, true, 'did not reject')
+})
+
 test('format-date', (t) => {
 	t.plan(3)
 	t.equal(formatDate(1551571200, utc), '20190303')
