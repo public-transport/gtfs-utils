@@ -5,6 +5,7 @@ const parseDate = require('../parse-date')
 const datesBetween = require('../lib/dates-between')
 const resolveTime = require('../lib/resolve-time')
 const benchmarkBuildTrajectory = require('./build-trajectory')
+const benchmarkReadServicesAndExceptions = require('./read-services-and-exceptions')
 
 const T0 = 1548975600000 // 2019-02-01T00:00+01:00
 
@@ -54,6 +55,7 @@ s.add('resolveTime: random time', () => {
 // todo: resolveTime: random date & time
 
 benchmarkBuildTrajectory(s)
+benchmarkReadServicesAndExceptions(s)
 
 s.on('error', (err) => {
 	console.error(err)
