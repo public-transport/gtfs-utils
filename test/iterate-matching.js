@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 'use strict'
 
 const test = require('tape')
@@ -38,5 +39,32 @@ test('iterate-matching: works with an empty matching set', async (t) => {
 			t.fail('matching emitted even though the model set is empty')
 		}
 	}
+	t.end()
+})
+
+test('iterate-matching: exposes skipped items', async (t) => {
+	let skipped = [], it
+
+	const B = asyncIterableFrom(0, .1, 1, 2, 2, 3, 3.1, 4, 5, 6)
+	const cmp = (a, b) => a - b
+	const matching = createIterateMatching(cmp, B, val => skipped.push(val))
+
+	t.deepEqual(skipped, [])
+	it = matching(1)
+	await it.next()
+	t.deepEqual(skipped, [0, .1])
+	for await (const _ of it) {}
+
+	it = matching(2)
+	await it.next()
+	t.deepEqual(skipped, [0, .1])
+	for await (const _ of it) {}
+	for await (const _ of matching(2)) {}
+
+	it = matching(4)
+	await it.next()
+	t.deepEqual(skipped, [0, .1, 3, 3.1])
+	for await (const _ of it) {}
+
 	t.end()
 })
