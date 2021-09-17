@@ -53,6 +53,8 @@ testWithFixtures(
 	'resolve-time',
 )
 
+require('./iterate-matching')
+
 // const data = {
 // 	services: require('sample-gtfs-feed/json/calendar.json'),
 // 	exceptions: require('sample-gtfs-feed/json/calendar_dates.json'),
