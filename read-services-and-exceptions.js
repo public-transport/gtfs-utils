@@ -2,7 +2,8 @@
 
 const {eq: arrEq, has: arrHas, add: arrInsert} = require('sorted-array-functions')
 const expectSorting = require('./lib/expect-sorting')
-const iterateMatching = require('./lib/iterate-matching')
+const joinIteratively = require('./lib/join-iteratively')
+const isNotFoundError = require('./lib/is-not-found-error')
 const datesBetween = require('./lib/dates-between')
 const parseDate = require('./lib/parse-date')
 
@@ -33,18 +34,39 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		throw new TypeError('filters.serviceException must be a function')
 	}
 
-	const services = await readFile('calendar')
+	await new Promise(r => setTimeout(r, 0))
+
+	let servicesFileExists = true
+	let services = (async function* () {})()
+	try {
+		services = await readFile('calendar')
+	} catch (err) {
+		if (err) { // wtf
+			if (isNotFoundError(err)) servicesFileExists = false
+			else throw err
+		}
+	}
+
+	let exceptionsFileExists = true
+	let exceptions = (async function* () {})()
+	try {
+		exceptions = await readFile('calendar_dates')
+	} catch (err) {
+		if (err) { // wtf
+			if (isNotFoundError(err)) exceptionsFileExists = false
+			else throw err
+		}
+	}
+
+	if (!servicesFileExists && !exceptionsFileExists) {
+		// todo: throw proper error
+		throw new Error('Both calendar & calendar_dates are missing, at least one is required.')
+	}
+
 	const checkServicesSorting = expectSorting('calendar', (a, b) => {
 		if (a.service_id === b.service_id) return 0
 		return a.service_id < b.service_id ? -1 : 1
 	})
-
-	const exceptions = await readFile('calendar_dates')
-	const compareException = (svc, ex) => {
-		if (svc.service_id === ex.service_id) return 0
-		return svc.service_id < ex.service_id ? -1 : 1
-	}
-	const matchingExceptions = iterateMatching(compareException, exceptions)
 	const checkExceptionsSorting = expectSorting('calendar_dates', (a, b) => {
 		if (a.service_id < b.service_id) return -1
 		if (a.service_id > b.service_id) return 1
@@ -52,23 +74,49 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		return a.date < b.date ? -1 : 1
 	})
 
-	for await (const s of services) {
-		if (!serviceFilter(s)) continue
-		checkServicesSorting(s)
+	const matchException = (svc, ex) => {
+		if (svc.service_id === ex.service_id) return 0
+		return svc.service_id < ex.service_id ? -1 : 1
+	}
+	const pairs = joinIteratively(matchException, services, exceptions, {
+		filterA: serviceFilter,
+		filterB: serviceExceptionFilter,
+	})
 
-		const dates = datesBetween(s.start_date, s.end_date, {
-			monday: s.monday === '1',
-			tuesday: s.tuesday === '1',
-			wednesday: s.wednesday === '1',
-			thursday: s.thursday === '1',
-			friday: s.friday === '1',
-			saturday: s.saturday === '1',
-			sunday: s.sunday === '1',
-		}, timezone)
-
-		for await (const ex of matchingExceptions(s)) {
-			if (!serviceExceptionFilter(ex)) continue
+	const {NONE} = joinIteratively
+	let serviceId = NaN, dates = []
+	for await (const [s, ex] of pairs) {
+		let _serviceId = NaN
+		if (s !== NONE) {
+			checkServicesSorting(s)
+			_serviceId = s.service_id
+		}
+		if (ex !== NONE) {
 			checkExceptionsSorting(ex)
+			_serviceId = ex.service_id
+		}
+
+		if (_serviceId !== serviceId) {
+			if (dates.length > 0) yield [serviceId, dates]
+
+			serviceId = _serviceId
+			if (s !== NONE) {
+				dates = datesBetween(s.start_date, s.end_date, {
+					monday: s.monday === '1',
+					tuesday: s.tuesday === '1',
+					wednesday: s.wednesday === '1',
+					thursday: s.thursday === '1',
+					friday: s.friday === '1',
+					saturday: s.saturday === '1',
+					sunday: s.sunday === '1',
+				}, timezone)
+			} else {
+				dates = []
+			}
+		}
+
+		if (ex !== NONE) {
+			checkServicesSorting(ex)
 
 			const date = parseDate(ex.date)
 			if (ex.exception_type === REMOVED) {
@@ -78,9 +126,8 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 				if (!arrHas(dates, date)) arrInsert(dates, date)
 			} // todo: else emit error
 		}
-
-		yield [s.service_id, dates]
 	}
+	if (dates.length > 0) yield [serviceId, dates]
 }
 
 module.exports = readServicesAndExceptions
