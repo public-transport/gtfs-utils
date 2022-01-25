@@ -1,6 +1,7 @@
 'use strict'
 
 // https://developers.google.com/transit/gtfs/reference#routestxt
+// todo: add descriptions/examples as strings
 const basicRouteTypes = [
 	// Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
 	{gtfs: 0, fptf: 'train'},
@@ -25,6 +26,8 @@ const basicRouteTypes = [
 ]
 
 // https://developers.google.com/transit/gtfs/reference/extended-route-types
+// see also https://github.com/google/transit/pull/279
+// see also https://bit.ly/gtfs-modes-and-networks
 const extendedRouteTypes = [
 	// Railway Service
 	{gtfs: 100, fptf: 'train'},
