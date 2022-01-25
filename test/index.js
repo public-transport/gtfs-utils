@@ -168,6 +168,75 @@ test('read-services-and-exceptions: works', async (t) => {
 	t.deepEqual(res, servicesFixtures)
 })
 
+test('read-services-and-exceptions: works with calendar only', async (t) => {
+	const readFile = readFilesFromFixture('calendar-only')
+
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+	for await (const [id, dates] of services) res[id] = dates
+
+	t.deepEqual(res, {
+		a: [
+			'2021-05-01', '2021-05-02', '2021-05-03', '2021-05-04',
+			'2021-05-05', '2021-05-06', '2021-05-07', '2021-05-08',
+			'2021-05-09', '2021-05-10',
+		],
+		b: ['2021-06-06'],
+		c: ['2021-05-04', '2021-05-11'],
+	})
+})
+
+// todo: what if readFile throws ENOENT synchronously?
+test('read-services-and-exceptions: works with calendar_dates only', async (t) => {
+	const readFile = readFilesFromFixture('calendar-dates-only')
+
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+	for await (const [id, dates] of services) res[id] = dates
+
+	t.deepEqual(res, {
+		a: ['2021-05-31', '2021-06-01', '2021-06-11', '2021-07-19'],
+		b: [
+			'2021-05-31', '2021-06-01', '2021-06-22', '2021-06-28',
+			'2021-06-29', '2021-07-16', '2021-08-02',
+		],
+	})
+})
+
+test('read-services-and-exceptions: works with calendar_dates rows "before" first calendar row', async (t) => {
+	const readFile = readFilesFromFixture('leading-exceptions')
+
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+	for await (const [id, dates] of services) res[id] = dates
+
+	t.deepEqual(res, {
+		// leading exceptions
+		a: ['2021-06-06'],
+		b: ['2021-06-08'],
+		c: [
+			'2021-06-05', '2021-06-06', '2021-06-07',
+		],
+	})
+})
+
+test('read-services-and-exceptions: works with calendar_dates rows "after" last calendar row', async (t) => {
+	const readFile = readFilesFromFixture('trailing-exceptions')
+
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+	for await (const [id, dates] of services) res[id] = dates
+
+	t.deepEqual(res, {
+		c: [
+			'2021-06-05', '2021-06-06', '2021-06-07',
+		],
+		// trailing exceptions
+		d: ['2021-06-06'],
+		e: ['2021-06-08'],
+	})
+})
+
 test('lib/dates-between mutation bug', async (t) => {
 	const readFile = (file) => {
 		return readCsv(pathJoin(__dirname, 'fixtures', 'services-and-exceptions', file + '.txt'))
