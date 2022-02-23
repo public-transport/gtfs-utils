@@ -19,7 +19,7 @@
 
 As [public transportation systems will hopefully become more integrated](https://github.com/public-transport/why-linked-open-transit-data#why-linked-open-transit-data) over time, GTFS datasets will often be multiple GBs large. GTFS processing should work in memory-constrained Raspberry Pis or [FaaS](https://en.wikipedia.org/wiki/Function_as_a_service) environments as well.
 
-Whenever possible, all `gtfs-utils` tools will only read as little data into memory as possible. For this, the individual files in a GTFS dataset need to be sorted in a way that allows iterative processing (see below).
+Whenever possible, all `gtfs-utils` tools will only read as little data into memory as possible. For this, the individual files in a GTFS dataset need to be [sorted in a way](#sorted-gtfs-files) that allows iterative processing.
 
 Read more in the [*performance* section](#performance).
 
@@ -49,7 +49,7 @@ npm install gtfs-utils
 
 ### sorted GTFS files
 
-**`gtfs-utils` assumes that the files in your GTFS dataset are [sorted in a particular way](#sorted-gtfs-files)**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read each file incrementally, only rows for *one* `trip_id` at a time.
+**`gtfs-utils` assumes that the files in your GTFS dataset are sorted in a particular way**; This allows it to compute some data aggregations more memory-efficiently, which means that you can use it to process [very large](#performance) datasets. For example, if [`trips.txt`](https://gtfs.org/reference/static/#tripstxt) and [`stop_times.txt`](https://gtfs.org/reference/static/#stop_timestxt) are both sorted by `trip_id`, `computeStopovers()` can read each file incrementally, only rows for *one* `trip_id` at a time.
 
 [Miller](https://miller.readthedocs.io/) and [`sponge`](https://linux.die.net/man/1/sponge) work very well for this:
 
@@ -152,7 +152,7 @@ By default, `gtfs-utils` verifies that the input files are sorted correctly. You
 - is written in JavaScript, so it cannot optimise the memory layout of its data structures.
 - parses all columns of a file it needs information from, into a JavaScript object.
 
-On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dataset](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-februar-2021-bis-dezember-2021) (25k `stops.txt` rows, 90k `trips.txt` rows, 1.9m `stop_times.txt` rows, ~500m stopovers) finishes in several hours.
+On my [M1 Macbook Air](https://everymac.com/systems/apple/macbook-air/specs/macbook-air-m1-8-core-7-core-gpu-13-retina-display-2020-specs.html), with the [180mb `2022-02-03` *HVV* GTFS dataset](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-februar-2022-bis-dezember-2022) (17k `stops.txt` rows, 91k `trips.txt` rows, 2m `stop_times.txt` rows, ~500m stopovers), `computeStopovers` computes 18k stopovers per second, and finishes in several hours.
 
 *Note:* If you want a faster way to query and transform GTFS datasets, I suggest you to use [`gtfs-via-postgres`](https://github.com/derhuerst/gtfs-via-postgres) to leverage PostgreSQL's query optimizer. Once you have imported the data, it is usually orders of magnitude faster.
 
@@ -165,6 +165,7 @@ On my laptop, using `computeStopovers` on the [180mb `2021-02-04` *HVV* GTFS dat
 - [gtfspy](https://github.com/CxAalto/gtfspy) – Public transport network analysis using Python
 - [extract-gtfs-shapes](https://github.com/derhuerst/extract-gtfs-shapes) – Command-line tool to extract shapes from a GTFS dataset.
 - [extract-gtfs-pathways](https://github.com/derhuerst/extract-gtfs-pathways) – Command-line tool to extract pathways from a GTFS dataset.
+- [Awesome GTFS: Frameworks and Libraries](https://github.com/andredarcie/awesome-gtfs#frameworks-and-libraries) – A collection of libraries for working with GTFS.
 
 ## Contributing
 
