@@ -84,7 +84,9 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 	})
 
 	const {NONE} = joinIteratively
-	let serviceId = NaN, dates = []
+	let serviceId = NaN
+	let dates = []
+
 	for await (const [s, ex] of pairs) {
 		let _serviceId = NaN
 		if (s !== NONE) {
@@ -100,16 +102,21 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			if (dates.length > 0) yield [serviceId, dates]
 
 			serviceId = _serviceId
+
 			if (s !== NONE) {
-				dates = datesBetween(s.start_date, s.end_date, {
-					monday: s.monday === '1',
-					tuesday: s.tuesday === '1',
-					wednesday: s.wednesday === '1',
-					thursday: s.thursday === '1',
-					friday: s.friday === '1',
-					saturday: s.saturday === '1',
-					sunday: s.sunday === '1',
-				}, timezone)
+				dates = datesBetween(
+					s.start_date, s.end_date,
+					{
+						monday: s.monday === '1',
+						tuesday: s.tuesday === '1',
+						wednesday: s.wednesday === '1',
+						thursday: s.thursday === '1',
+						friday: s.friday === '1',
+						saturday: s.saturday === '1',
+						sunday: s.sunday === '1',
+					},
+					timezone,
+				)
 			} else {
 				dates = []
 			}
@@ -121,9 +128,13 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			const date = parseDate(ex.date)
 			if (ex.exception_type === REMOVED) {
 				const i = arrEq(dates, date)
-				if (i >= 0) dates.splice(i, 1) // delete
+				if (i >= 0) {
+					dates.splice(i, 1) // delete
+				}
 			} else if (ex.exception_type === ADDED) {
-				if (!arrHas(dates, date)) arrInsert(dates, date)
+				if (!arrHas(dates, date)) {
+					arrInsert(dates, date)
+				}
 			} // todo: else emit error
 		}
 	}
