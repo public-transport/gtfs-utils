@@ -84,24 +84,39 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 	})
 
 	const {NONE} = joinIteratively
-	let serviceId = NaN
 	let dates = []
+	let svc = {service_id: NaN}
 
 	for await (const [s, ex] of pairs) {
-		let _serviceId = NaN
-		if (s !== NONE) {
-			checkServicesSorting(s)
-			_serviceId = s.service_id
-		}
+		let _svc = {service_id: NaN}
 		if (ex !== NONE) {
 			checkExceptionsSorting(ex)
-			_serviceId = ex.service_id
+			_svc = {
+				service_id: ex.service_id,
+				monday: '0',
+				tuesday: '0',
+				wednesday: '0',
+				thursday: '0',
+				friday: '0',
+				saturday: '0',
+				sunday: '0',
+				start_date: null, end_date: null,
+			}
+		}
+		if (s !== NONE) {
+			checkServicesSorting(s)
+			_svc = s
 		}
 
-		if (_serviceId !== serviceId) {
-			if (dates.length > 0) yield [serviceId, dates]
+		if (_svc.service_id !== svc.service_id) {
+			// todo [breaking]: remove serviceId (idx 0), move svc first
+			if (dates.length > 0) {
+				if (svc.start_date === null) svc.start_date = dates[0]
+				if (svc.end_date === null) svc.end_date = dates[dates.length - 1]
+				yield [svc.service_id, dates, svc]
+			}
 
-			serviceId = _serviceId
+			svc = _svc
 
 			if (s !== NONE) {
 				dates = datesBetween(
@@ -138,7 +153,12 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			} // todo: else emit error
 		}
 	}
-	if (dates.length > 0) yield [serviceId, dates]
+	// todo [breaking]: remove serviceId (idx 0), move svc first
+	if (dates.length > 0) {
+		if (svc.start_date === null) svc.start_date = dates[0]
+		if (svc.end_date === null) svc.end_date = dates[dates.length - 1]
+		yield [svc.service_id, dates, svc]
+	}
 }
 
 module.exports = readServicesAndExceptions

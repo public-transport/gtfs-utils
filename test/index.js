@@ -237,6 +237,46 @@ test('read-services-and-exceptions: works with calendar_dates rows "after" last 
 	})
 })
 
+test('read-services-and-exceptions: exposes service correctly', async (t) => {
+	const readFile = readFilesFromFixture('optimise-services-and-exceptions')
+
+	const services = readServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+
+	const baseSvc = {
+		monday: '0',
+		tuesday: '0',
+		wednesday: '0',
+		thursday: '0',
+		friday: '0',
+		saturday: '0',
+		sunday: '0',
+		start_date: '20220301', end_date: '20220410',
+	}
+	const expected = {
+		'more-exceptions-than-regular': {
+			...baseSvc,
+			service_id: 'more-exceptions-than-regular',
+			wednesday: '1',
+			thursday: '1',
+		},
+		'more-regular-than-exceptions': {
+			...baseSvc,
+			service_id: 'more-regular-than-exceptions',
+			friday: '1',
+		},
+		'should-stay-unchanged': {
+			...baseSvc,
+			service_id: 'should-stay-unchanged',
+			tuesday: '1',
+			saturday: '1',
+		},
+	}
+	for await (const [id, _, svc] of services) {
+		t.deepEqual(svc, expected[id], id)
+	}
+})
+
 test('lib/dates-between mutation bug', async (t) => {
 	const readFile = (file) => {
 		return readCsv(pathJoin(__dirname, 'fixtures', 'services-and-exceptions', file + '.txt'))

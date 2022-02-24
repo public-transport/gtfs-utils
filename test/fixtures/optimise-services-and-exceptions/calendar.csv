@@ -1,0 +1,4 @@
+service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+more-exceptions-than-regular,0,0,1,1,0,0,0,20220301,20220410
+more-regular-than-exceptions,0,0,0,0,1,0,0,20220301,20220410
+should-stay-unchanged,0,1,0,0,0,1,0,20220301,20220410

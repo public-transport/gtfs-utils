@@ -1,0 +1,15 @@
+service_id,date,exception_type
+more-exceptions-than-regular,20220303,2
+more-exceptions-than-regular,20220309,2
+more-exceptions-than-regular,20220310,2
+more-exceptions-than-regular,20220316,2
+more-exceptions-than-regular,20220317,2
+more-exceptions-than-regular,20220323,2
+more-exceptions-than-regular,20220406,2
+more-exceptions-than-regular,20220407,2
+more-regular-than-exceptions,20220307,1
+more-regular-than-exceptions,20220314,1
+more-regular-than-exceptions,20220328,1
+more-regular-than-exceptions,20220404,1
+should-stay-unchanged,20220314,1
+should-stay-unchanged,20220315,1

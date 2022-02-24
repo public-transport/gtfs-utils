@@ -213,7 +213,7 @@ const filters = {
 }
 
 const services = readServices(readFile, 'Europe/Berlin', filters)
-for await (const [id, days] of services) console.log(id, days)
+for await (const [id, days, svc] of services) console.log(id, days, svc)
 ```
 
 `readServicesAndExceptions(readFile, timezone, filters = {})` reads `calendar.txt` and `calendar_dates.txt` and condenses each service into the a list of days it is valid for. Returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[serviceId, daysOfOperation]` entries.
@@ -227,12 +227,29 @@ service-1 [
 	1551567600,
 	1551654000,
 	// …
-]
+] {
+	service_id: 'service-1',
+	start_date: '20190301',
+	end_date: '20190531',
+	monday: '1',
+	tuesday: '1',
+	wednesday: '0',
+	thursday: '0',
+	friday: '1',
+	saturday: '1',
+	sunday: '1',
+}
 service-2 [
 	1551567600,
 	1552690800,
 	1555797600
-]
+] {
+	service_id: 'service-1',
+	start_date: '20190227',
+	end_date: '20190510',
+	monday: '0',
+	// …
+}
 // …
 ```
 
