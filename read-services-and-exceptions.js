@@ -34,6 +34,15 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		throw new TypeError('filters.serviceException must be a function')
 	}
 
+	const {
+		exposeStats,
+		weekdaysMap,
+	} = {
+		exposeStats: false,
+		weekdaysMap: new Map(),
+		...opt,
+	}
+
 	await new Promise(r => setTimeout(r, 0))
 
 	let servicesFileExists = true
@@ -83,9 +92,19 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 		filterB: serviceExceptionFilter,
 	})
 
+	const weekdayOf = (date) => {
+		if (weekdaysMap.has(date)) return weekdaysMap.get(date)
+		const weekday = new Date(date + 'T00:00Z').getDay()
+		weekdaysMap.set(date, weekday)
+		return weekday
+	}
+
 	const {NONE} = joinIteratively
 	let dates = []
 	let svc = {service_id: NaN}
+	// todo: default to null? perf?
+	let nrOfDates = new Array(7).fill(0)
+	let removedDates = []
 
 	for await (const [s, ex] of pairs) {
 		let _svc = {service_id: NaN}
@@ -113,12 +132,13 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 			if (dates.length > 0) {
 				if (svc.start_date === null) svc.start_date = dates[0]
 				if (svc.end_date === null) svc.end_date = dates[dates.length - 1]
-				yield [svc.service_id, dates, svc]
+				yield [svc.service_id, dates, svc, nrOfDates, removedDates]
 			}
 
 			svc = _svc
 
 			if (s !== NONE) {
+				const wdm = exposeStats ? weekdaysMap : null
 				dates = datesBetween(
 					s.start_date, s.end_date,
 					{
@@ -131,9 +151,18 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 						sunday: s.sunday === '1',
 					},
 					timezone,
+					wdm,
 				)
 			} else {
 				dates = []
+			}
+
+			if (exposeStats) {
+				nrOfDates = new Array(7).fill(0)
+				for (const date of dates) {
+					nrOfDates[weekdayOf(date)]++
+				}
+				removedDates = []
 			}
 		}
 
@@ -145,10 +174,17 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 				const i = arrEq(dates, date)
 				if (i >= 0) {
 					dates.splice(i, 1) // delete
+					if (exposeStats) {
+						nrOfDates[weekdayOf(date)]--
+						removedDates.push(date)
+					}
 				}
 			} else if (ex.exception_type === ADDED) {
 				if (!arrHas(dates, date)) {
 					arrInsert(dates, date)
+					if (exposeStats) {
+						nrOfDates[weekdayOf(date)]++
+					}
 				}
 			} // todo: else emit error
 		}
@@ -157,7 +193,7 @@ const readServicesAndExceptions = async function* (readFile, timezone, filters =
 	if (dates.length > 0) {
 		if (svc.start_date === null) svc.start_date = dates[0]
 		if (svc.end_date === null) svc.end_date = dates[dates.length - 1]
-		yield [svc.service_id, dates, svc]
+		yield [svc.service_id, dates, svc, nrOfDates, removedDates]
 	}
 }
 

@@ -17,6 +17,7 @@ const computeStopovers = require('../compute-stopovers')
 const computeSortedConnections = require('../compute-sorted-connections')
 const computeServiceBreaks = require('../compute-service-breaks')
 const {extendedToBasic} = require('../route-types')
+const optimiseServicesAndExceptions = require('../optimise-services-and-exceptions')
 
 const testWithFixtures = (fn, fixtures, prefix = '') => {
 	fixtures.forEach((f) => {
@@ -603,3 +604,77 @@ require('./read-pathways')
 require('./read-shapes')
 require('./build-trajectory')
 require('./compute-trajectories')
+
+test('optimise-services-and-exceptions: works', async (t) => {
+	const readFile = readFilesFromFixture('optimise-services-and-exceptions')
+
+	const optimisedServices = optimiseServicesAndExceptions(readFile, 'Europe/Berlin')
+	const res = {}
+
+	const baseSvc = {
+		monday: '0',
+		tuesday: '0',
+		wednesday: '0',
+		thursday: '0',
+		friday: '0',
+		saturday: '0',
+		sunday: '0',
+		start_date: '20220301', end_date: '20220410',
+	}
+	const expected = {
+		'more-exceptions-than-regular': {
+			changed: true,
+			svc: {
+				...baseSvc,
+				service_id: 'more-exceptions-than-regular',
+			},
+			exceptions: [{
+				service_id: 'more-exceptions-than-regular',
+				date: '20220302',
+				exception_type: '1',
+			}, {
+				service_id: 'more-exceptions-than-regular',
+				date: '20220324',
+				exception_type: '1',
+			}, {
+				service_id: 'more-exceptions-than-regular',
+				date: '20220330',
+				exception_type: '1',
+			}, {
+				service_id: 'more-exceptions-than-regular',
+				date: '20220331',
+				exception_type: '1',
+			}],
+		},
+		'more-regular-than-exceptions': {
+			changed: true,
+			svc: {
+				...baseSvc,
+				service_id: 'more-regular-than-exceptions',
+				monday: '1',
+				friday: '1',
+			},
+			exceptions: [],
+		},
+		'should-stay-unchanged': {
+			changed: false,
+			svc: {
+				...baseSvc,
+				service_id: 'should-stay-unchanged',
+				tuesday: '1',
+				saturday: '1',
+			},
+			exceptions: [{
+				service_id: 'should-stay-unchanged',
+				date: '20220314',
+				exception_type: '1',
+			}],
+		},
+	}
+
+	for await (const [id, changed, svc, exceptions] of optimisedServices) {
+		t.deepEqual(expected[id].changed, changed, id + ': changed')
+		t.deepEqual(expected[id].svc, svc, id + ': svc')
+		t.deepEqual(expected[id].exceptions, exceptions, id + ': exceptions')
+	}
+})

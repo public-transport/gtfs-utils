@@ -18,6 +18,7 @@
 - [`readPathways(readFile, filters)`](#readpathways)
 - [`readShapes(readFile, filters)`](#readshapes)
 - [`computeTrajectories(readFile, filters)`](#computetrajectories)
+- [`optimiseServicesAndExceptions(readFile, timezone, filters)`](#optimiseservicesandexceptions)
 
 
 ## `readCsv`
@@ -764,3 +765,94 @@ for await (const trajectory of computeTrajectories(readFile, filters)) {
 ```
 
 *Note:* In order to work, `computeTrajectories` must load reduced forms of `trips.txt`, `stop_times.txt`, `frequencies.txt` and `shapes.txt` into memory. See [*store API*](#store-api) for more details.
+
+
+## `optimiseServicesAndExceptions`
+
+A GTFS feed may have a set of `calendar.txt` and/or `calendar_dates.txt` rows that express service days in an overly verbose way. Some examples:
+
+- feeds without `calendar.txt`, where every service day is expressed as a `exception_type=1` (added) exception – In many of such cases, we can reduce the number of exceptions by adding a row in `calendar.txt` with the respective day(s) turned on (e.g. `tuesday=1`).
+- feeds with `calendar.txt`, where some services have more `exception_type=2` (removed) exceptions than "regular" day-of-the-week-based service dates (e.g. `thursday=1`) – In this case, we can turn off the "regular" service dates (`thursday=0`) and use `exception_type=1` (added) exceptions.
+
+For each service, **`optimiseServicesAndExceptions` computes the optimal combination of day of the week flags (e.g. `monday=1`) and exceptions, minimalising the number of exceptions necessary to express the set of service dates**.
+
+```js
+const readCsv = require('gtfs-utils/read-csv')
+const optimiseServices = require('gtfs-utils/optimise-services-and-exceptions')
+
+const readFile = name => readCsv('path/to/gtfs/' + name + '.txt')
+
+const services = readServices(readFile, 'Europe/Berlin')
+for await (const [id, changed, service, exceptions] of services) {
+	if (changed) {
+		console.log(id, 'changed!')
+		console.log('service:', service)
+		console.log('exceptions:', exceptions)
+	} else {
+		console.log(id, 'unchanged!', id)
+	}
+}
+```
+
+`optimiseServicesAndExceptions(readFile, timezone, filters = {})` reads `calendar.txt` and `calendar_dates.txt`. It returns an [async iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator) of `[serviceId, changed, service, exceptions]` entries.
+
+- If `changed` is `true`,
+	- the service's `calendar.txt` row or `calendar_dates.txt` rows (or both) have been optimised,
+	- `service` contains the optimised service,
+	- `exceptions` contains all `calendar_dates.txt` rows applying to the *optimised* service.
+- If `changed` is `false`,
+	- the service cannot be optimised,
+	- `service` contains the `calendar.txt` as it was before, or a mock service if there was none before,
+	- `exceptions` contains the `calendar_dates.txt` rows as they were before.
+
+The [test fixture](../test/fixtures/optimise-services-and-exceptions) contains three services (`more-exceptions-than-regular`, `more-regular-than-exceptions`, should-stay-unchanged), of which the first two can be optimised. With its files as input, the code above will print the following:
+
+```
+more-exceptions-than-regular changed!
+service: {
+	service_id: 'more-exceptions-than-regular',
+	start_date: '20220301',
+	end_date: '20220410',
+	monday: '0',
+	tuesday: '0',
+	wednesday: '0',
+	thursday: '0',
+	friday: '0',
+	saturday: '0',
+	sunday: '0',
+}
+exceptions: [{
+	service_id: 'more-exceptions-than-regular',
+	date: '20220302',
+	exception_type: '1',
+}, {
+	service_id: 'more-exceptions-than-regular',
+	date: '20220324',
+	exception_type: '1',
+}, {
+	service_id: 'more-exceptions-than-regular',
+	date: '20220330',
+	exception_type: '1',
+}, {
+	service_id: 'more-exceptions-than-regular',
+	date: '20220331',
+	exception_type: '1',
+}]
+
+more-regular-than-exceptions changed!
+service: {
+	service_id: 'more-regular-than-exceptions',
+	monday: '1',
+	tuesday: '0',
+	wednesday: '0',
+	thursday: '0',
+	friday: '1',
+	saturday: '0',
+	sunday: '0',
+	start_date: '20220301',
+	end_date: '20220410',
+}
+exceptions: []
+
+should-stay-unchanged unchanged! should-stay-unchanged
+```
