@@ -6,6 +6,7 @@ const datesBetween = require('../lib/dates-between')
 const resolveTime = require('../lib/resolve-time')
 const benchmarkBuildTrajectory = require('./build-trajectory')
 const benchmarkReadServicesAndExceptions = require('./read-services-and-exceptions')
+const benchmarkOptimiseServicesAndExceptions = require('./optimise-services-and-exceptions')
 
 const T0 = 1548975600000 // 2019-02-01T00:00+01:00
 
@@ -41,6 +42,13 @@ s.add('datesBetween: random start date', () => {
 	const startDate = randomStartDates[Math.random() * randomStartDates.length | 0]
 	datesBetween(startDate, '20200606', allWeekdays, 'Europe/Berlin')
 })
+s.add('datesBetween with weekday map: static arguments', () => {
+	datesBetween('20200202', '20200606', allWeekdays, 'Europe/Berlin', new Map())
+})
+s.add('datesBetween with weekday map: random start date', () => {
+	const startDate = randomStartDates[Math.random() * randomStartDates.length | 0]
+	datesBetween(startDate, '20200606', allWeekdays, 'Europe/Berlin', new Map())
+})
 
 const randomTimes = new Array(50).fill(null)
 .map(() => (Math.random() * 27 * 3600) | 0) // GTFS Time values can be >24h
@@ -56,6 +64,7 @@ s.add('resolveTime: random time', () => {
 
 benchmarkBuildTrajectory(s)
 benchmarkReadServicesAndExceptions(s)
+benchmarkOptimiseServicesAndExceptions(s)
 
 s.on('error', (err) => {
 	console.error(err)
