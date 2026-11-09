@@ -150,3 +150,98 @@ test('read-pathways', async (t) => {
 	t.deepEqual(byStation.museum, expectedMuseum)
 	t.ok(byStation.museum.museum === byStation.museum['airport-entrance'].connectedTo.museum['5'][1])
 })
+
+const stationStops = [
+	{stop_id: 'station', parent_station: '', location_type: '1'},
+	{stop_id: 'a', parent_station: 'station', location_type: '0'},
+	{stop_id: 'b', parent_station: 'station', location_type: '0'},
+	{stop_id: 'c', parent_station: 'station', location_type: '0'},
+]
+const readStation = (pathways, stops = stationStops) => async (file) => {
+	if (file === 'stops') return stops
+	if (file === 'pathways') return pathways
+	throw new Error('unexpected file: ' + file)
+}
+const collectPathways = async (readFile, filters = {}) => {
+	const triples = []
+	for await (const triple of readPathways(readFile, filters)) triples.push(triple)
+	return triples
+}
+
+test('read-pathways emits one station triple with shared directional nodes', async (t) => {
+	const both = pw('two-way', 'a', 'b', {pathway_mode: '1', is_bidirectional: '1'})
+	const exit = pw('exit', 'b', 'c', {pathway_mode: '1', is_bidirectional: '0'})
+	const triples = await collectPathways(readStation([both, exit]))
+	t.equal(triples.length, 1, 'multiple pathways in a station emit only one triple')
+	const [station, node, nodes] = triples[0]
+	t.equal(station, 'station')
+	t.equal(node, nodes.a, 'entry node is the first pathway endpoint in the node map')
+	t.deepEqual(Object.keys(nodes).sort(), ['a', 'b', 'c'])
+	t.equal(nodes.a.connectedTo.b['two-way'][1], nodes.b)
+	t.equal(nodes.b.connectedTo.a['two-way'][1], nodes.a, 'reverse edge reuses the same node')
+	t.equal(nodes.b.connectedTo.c.exit[1], nodes.c)
+	t.deepEqual(Object.keys(nodes.c.connectedTo), [], 'one-way pathway has no reverse edge')
+})
+
+test('read-pathways filters pathways before building the graph', async (t) => {
+	const keep = pw('keep', 'a', 'b', {pathway_mode: '1', is_bidirectional: '0'})
+	const drop = pw('drop', 'b', 'c', {pathway_mode: '1', is_bidirectional: '1'})
+	const seen = []
+	const triples = await collectPathways(readStation([keep, drop]), {
+		pathway: (pathway) => {
+			seen.push(pathway.pathway_id)
+			return pathway.pathway_id === 'keep'
+		},
+	})
+	t.deepEqual(seen, ['keep', 'drop'], 'filter sees both original pathway rows')
+	t.equal(triples.length, 1)
+	const [station, node, nodes] = triples[0]
+	t.equal(station, 'station')
+	t.equal(node, nodes.a)
+	t.deepEqual(Object.keys(nodes).sort(), ['a', 'b'], 'excluded pathway adds no node')
+	t.deepEqual(Object.keys(nodes.a.connectedTo.b), ['keep'])
+	t.deepEqual(Object.keys(nodes.b.connectedTo), [], 'excluded bidirectional edge adds no connection')
+})
+
+test('read-pathways emits nothing when all pathways are filtered out', async (t) => {
+	const triples = await collectPathways(readStation([pw('drop', 'a', 'b', {pathway_mode: '1'})]), {
+		pathway: () => false,
+	})
+	t.deepEqual(triples, [])
+})
+
+test('read-pathways applies stop and pathway filters to independent stations', async (t) => {
+	const stops = [
+		...stationStops,
+		{stop_id: 'other', parent_station: '', location_type: '1'},
+		{stop_id: 'x', parent_station: 'other', location_type: '0'},
+		{stop_id: 'y', parent_station: 'other', location_type: '0'},
+	]
+	const keep = pw('keep', 'a', 'b', {pathway_mode: '1', is_bidirectional: '1'})
+	const drop = pw('drop', 'x', 'y', {pathway_mode: '1', is_bidirectional: '1'})
+	const seenStops = []
+	const triples = await collectPathways(readStation([keep, drop], stops), {
+		stop: (stop) => {
+			seenStops.push(stop)
+			return stop.stop_id !== 'other' && stop.parent_station !== 'other'
+		},
+		pathway: pathway => pathway.pathway_id === 'keep',
+	})
+	t.deepEqual(seenStops, stops, 'stop predicate receives every original stop row')
+	t.equal(triples.length, 1, 'excluded station and pathway produce no extra triple')
+	const [station, node, nodes] = triples[0]
+	t.equal(station, 'station')
+	t.equal(node, nodes.a)
+	t.deepEqual(Object.keys(nodes).sort(), ['a', 'b'])
+	t.equal(nodes.a.connectedTo.b.keep[0], keep)
+	t.equal(nodes.a.connectedTo.b.keep[1], nodes.b)
+	t.equal(nodes.b.connectedTo.a.keep[1], nodes.a)
+})
+
+test('read-pathways emits nothing for stops without pathways', async (t) => {
+	t.deepEqual(await collectPathways(readStation([])), [])
+})
+
+test('read-pathways emits nothing for an empty feed', async (t) => {
+	t.deepEqual(await collectPathways(readStation([], [])), [])
+})
